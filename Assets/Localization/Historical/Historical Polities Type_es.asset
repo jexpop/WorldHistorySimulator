@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Historical Polities Type_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 3e7a730b420ba7a489204ee755858ce7, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 124000452608
+    m_Localized: Reino
+    m_Metadata:
+      m_Items: []
+  - m_Id: 398807056384
+    m_Localized: "Confederaci\xF3n de reinos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61602208805113856
+    m_Localized: Tribu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61677243246923776
+    m_Localized: Clan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61685834485944320
+    m_Localized: Condado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61887004487798784
+    m_Localized: Reino unido
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61892416771543040
+    m_Localized: Estado libre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61898843493847040
+    m_Localized: "Rep\xFAblica parlamentaria"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61900179610357760
+    m_Localized: Imperio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61902017256574976
+    m_Localized: "Uni\xF3n econ\xF3mica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61932786523918336
+    m_Localized: "Uni\xF3n econ\xF3mica y pol\xEDtica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61938949797793792
+    m_Localized: "Monarqu\xEDa electiva"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62038457550458880
+    m_Localized: Vireinato
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62057641428733952
+    m_Localized: "Pa\xEDs constituyente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62262980795256832
+    m_Localized: "Monarqu\xEDa constitucional"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62330261650886656
+    m_Localized: "Se\xF1or\xEDo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68586861621497856
+    m_Localized: "Confederaci\xF3n tribal"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70562157874728960
+    m_Localized: Provincia imperial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70565024249499648
+    m_Localized: Provincia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70565391972519936
+    m_Localized: "Di\xF3cesis"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70566322776657920
+    m_Localized: Prefecto del pretorio
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

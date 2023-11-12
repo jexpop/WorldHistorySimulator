@@ -1,0 +1,376 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Historical Polities Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Historical Polities
+  m_TableCollectionNameGuidString: 0b58908a6c6b4b346bad8091be947c3f
+  m_Entries:
+  - m_Id: 15623831552
+    m_Key: "Cen\xE9l Conaill"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 121936855040
+    m_Key: Ulaid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289704820736
+    m_Key: "D\xE1l nAraidi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 331807244288
+    m_Key: "U\xED Echach Cobo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 377231556608
+    m_Key: "D\xE1l Fiatach"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 419233316864
+    m_Key: "Airg\xEDalla"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 644131897344
+    m_Key: "Cen\xE9l nE\xF3gain"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 681536700416
+    m_Key: Ailech
+    m_Metadata:
+      m_Items: []
+  - m_Id: 712717156352
+    m_Key: "Br\xE9ifne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60274572719902720
+    m_Key: Vennicnii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60322663355469824
+    m_Key: "T\xEDr Chonaill"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60331676679884800
+    m_Key: Ireland
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60514559059120128
+    m_Key: England
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60528592604712960
+    m_Key: Great Britain and Ireland
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60539939782479872
+    m_Key: Great Britain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60544214025719808
+    m_Key: European Economic Community
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60576120972857344
+    m_Key: European Union
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60610777235935232
+    m_Key: Voluntii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60630200084680704
+    m_Key: Fir Manach
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60634767492993024
+    m_Key: "T\xEDr Eoghain"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60697690760368128
+    m_Key: Northern Ireland
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60698146693795840
+    m_Key: Great Britain and Northern Ireland
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60920854572519424
+    m_Key: Robogdii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60925790169419776
+    m_Key: Darini
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60958713992007680
+    m_Key: Oriel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61416857562075136
+    m_Key: Uaithni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61421000829784064
+    m_Key: Nagnatae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61421919160061952
+    m_Key: Eblani
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61422772172443648
+    m_Key: Cauci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61423407605305344
+    m_Key: Manapii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61424073878884352
+    m_Key: Coriondi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61424725426262016
+    m_Key: Gangani
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61430550219804672
+    m_Key: Brigantes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61431357958868992
+    m_Key: Velabri
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61432062350282752
+    m_Key: Vodiae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61432560621015040
+    m_Key: Iverni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61458160538701824
+    m_Key: Connacht
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61698723674411008
+    m_Key: East Breifne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61698800019132416
+    m_Key: West Breifne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61705154611990528
+    m_Key: Ciannachta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61709810813718528
+    m_Key: Brega
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61712633244766208
+    m_Key: Meath
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61717202116890624
+    m_Key: Osraige
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61718009927258112
+    m_Key: Munster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61721630324641792
+    m_Key: Dublin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61723338266202112
+    m_Key: Leinster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66480726126972928
+    m_Key: Cruithin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67225580842864640
+    m_Key: Dumnonii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67229707211722752
+    m_Key: Durotriges
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67537679829782528
+    m_Key: Belgae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67539116152410112
+    m_Key: Regni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67540550285611008
+    m_Key: Cantiaci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67542078736125952
+    m_Key: Atrebates
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67882634913861632
+    m_Key: Iceni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67885286271832064
+    m_Key: Trinovantes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67886497184174080
+    m_Key: Catuvellani
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67891111774212096
+    m_Key: Corieltauvi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68868405158301696
+    m_Key: Dobunni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68871973370155008
+    m_Key: Silures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68872902744035328
+    m_Key: Demetae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68898509330665472
+    m_Key: Ordovices
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68900836703817728
+    m_Key: Parisi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68901970239639552
+    m_Key: Deceangli
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68902607249559552
+    m_Key: Carvetii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68906749040873472
+    m_Key: Novantae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68909320111476736
+    m_Key: Selgovae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68918149540827136
+    m_Key: Votadini
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68920899813068800
+    m_Key: Damnonii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68922214622515200
+    m_Key: Venicones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68925548951588864
+    m_Key: Epidii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68929236160040960
+    m_Key: Taexali
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68931029313081344
+    m_Key: Vacomagi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68932077226381312
+    m_Key: Creones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68933339145654272
+    m_Key: Caledonian
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68935807405477888
+    m_Key: Carnonacae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68936713702297600
+    m_Key: Decantae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68937038920241152
+    m_Key: Caereni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68938417688629248
+    m_Key: Cornovii
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68938963669569536
+    m_Key: Smertae
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69204131242659840
+    m_Key: Rome
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69206139227951104
+    m_Key: Britain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69209761701515264
+    m_Key: Maxima Caesariensis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69210034184474624
+    m_Key: Britanniarum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69210302930309120
+    m_Key: Gaul
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71777543618121728
+    m_Key: Britannia Superior
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71781458766024704
+    m_Key: Britannia Prima
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76822737522610176
+    m_Key: Caer Colun
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 2075208697971212290
+  references:
+    version: 2
+    RefIds:
+    - rid: 2075208697971212290
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1657879270431

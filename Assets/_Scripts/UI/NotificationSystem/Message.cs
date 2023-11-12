@@ -1,0 +1,28 @@
+using UnityEngine;
+
+public enum LocationTables
+{
+    LOC_TABLE_EDITOR_EDIT_PANEL,
+    LOC_TABLE_HIST_POLITIES_TYPE,
+    LOC_TABLE_HIST_POLITIES,
+    LOC_TABLE_HIST_SETTLEMENTS
+}
+
+public enum LocationKeys
+{
+    LOC_KEY_NEW_STATUS,
+    LOC_KEY_EDITING_STATUS,
+    LOC_KEY_OK_FIELD,
+    LOC_KEY_EMPTY_FIELD,
+    LOC_KEY_EMPTY_DATES,
+    LOC_KEY_DUPLICATE_FIELD,
+    LOC_KEY_DUPLICATE_DATES,
+    LOC_KEY_KO_RANGE_DATES,
+    LOC_KEY_NO_DATA_REMOVE,
+    LOC_KEY_DATA_RELATED
+}
+
+public class Message : ScriptableObject
+{
+
+}

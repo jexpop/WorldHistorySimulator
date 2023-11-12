@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Editor Top Menu_ca
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ca
+  m_SharedData: {fileID: 11400000, guid: 0002240872ce1c7478f10237b2e1262d, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 246658678784
+    m_Localized: Sistema de govern
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4557597884416
+    m_Localized: Editar tipus de sistema de govern
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5048704745472
+    m_Localized: Editar sistema de govern
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55437012578639872
+    m_Localized: Dia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55437029053865984
+    m_Localized: Mes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55437047441694720
+    m_Localized: Any
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55458162444640256
+    m_Localized: Era
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55461903633784832
+    m_Localized: e.c.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55462160383909888
+    m_Localized: a.e.c.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64861583430733824
+    m_Localized: Editar assentament
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67134716355366912
+    m_Localized: Capa global
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67136368848228352
+    m_Localized: Capa administrativa 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67137912893165568
+    m_Localized: Capa administrativa 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67138065456779264
+    m_Localized: Capa administrativa 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67138219605839872
+    m_Localized: Capa administrativa 4
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Catalan (ca)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Catalan (ca)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 45c7bd0c3283a994aa94c56547009a31
+  m_SerializeEntries:
+  - m_GUID: 4bd60d2e35677f940a02ea6492ce01d0
+    m_Address: Editor Top Menu_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0ff927455f47e0f4a802fec98718a38e
+    m_Address: Editor Edit Panel_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 87908018a9c442a43a2a7caae4b3fde4
+    m_Address: Historical Polities Type_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b48a7ff8ff956f4eb7b2cb118cc599b
+    m_Address: Historical Polities_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59aaa61dcc875334b90ff7d4d7846c4d
+    m_Address: Historical Policies_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68f8d601a7a8737488fafae3bb5237c5
+    m_Address: Editor Floating Panels_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5071cffffe2c0d54bb5729ace4a6304e
+    m_Address: Global_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cb68872b1fd96e4285b628969b19362
+    m_Address: Historical Settlements_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: ee5959f594d47bb4c9179665bdeab644, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ef2ad9ab746795d47ac64527d905126a, type: 2}
+    - {fileID: 11400000, guid: e744188b880ae064facaf4578fe92d59, type: 2}

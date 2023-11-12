@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Editor Edit Panel Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Editor Edit Panel
+  m_TableCollectionNameGuidString: 38f7df503fa50934884e6fa36abaf92a
+  m_Entries:
+  - m_Id: 2248809693184
+    m_Key: PolitiesTypeList
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2528934674432
+    m_Key: PolitiesList
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1739822804811776
+    m_Key: Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2795714874753024
+    m_Key: ClearConfirmationDialog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2807068541108224
+    m_Key: SaveConfirmationDialog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2807439695069184
+    m_Key: DeleteConfirmationDialog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2813028181524480
+    m_Key: NewDataStatusPanel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2813137011130368
+    m_Key: EditDataStatusPanel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7877589800632320
+    m_Key: FieldIsEmpty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52794660101857280
+    m_Key: FieldIsOk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52957870096424960
+    m_Key: DuplicatedField
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55042399065907200
+    m_Key: PolitiesType
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61228708567273472
+    m_Key: DatesEmpty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61236886231142400
+    m_Key: DuplicatedDates
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61239391715414016
+    m_Key: ErrorRangeDates
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61581630576611328
+    m_Key: NoDataDelete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61584830272720896
+    m_Key: DataRelated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64836921707548672
+    m_Key: SettlementList
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 2075208613896126501
+  references:
+    version: 2
+    RefIds:
+    - rid: 2075208613896126501
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1657553947135

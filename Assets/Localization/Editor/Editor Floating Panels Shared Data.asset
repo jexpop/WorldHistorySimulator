@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Editor Floating Panels Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Editor Floating Panels
+  m_TableCollectionNameGuidString: c9d38d289f455b447b9cadab4c01711e
+  m_Entries:
+  - m_Id: 187945185230848
+    m_Key: Owner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281968688283648
+    m_Key: Stages of History
+    m_Metadata:
+      m_Items: []
+  - m_Id: 286529503150080
+    m_Key: Unknown
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337104076849152
+    m_Key: Close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1048662733307904
+    m_Key: To
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1370175273517056
+    m_Key: PolityType
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1690021014097920
+    m_Key: Owner From
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1696967817515008
+    m_Key: IsPartOf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1700196349464576
+    m_Key: IsMemberOf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1735491056914432
+    m_Key: NoSelectOption
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3522215667912704
+    m_Key: Of
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8208540635582464
+    m_Key: SettlementName
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8629481223334395952
+  references:
+    version: 2
+    RefIds:
+    - rid: 8629481223334395952
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1671666239484

@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Editor Edit Panel_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 38f7df503fa50934884e6fa36abaf92a, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2248809693184
+    m_Localized: Lista de tipos de sistemas de gobierno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2528934674432
+    m_Localized: Lista de sistemas de gobierno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1739822804811776
+    m_Localized: Nombre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2795714874753024
+    m_Localized: "\xBF Est\xE1s seguro de limpiar los datos ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2807068541108224
+    m_Localized: "\xBF Est\xE1s seguro de guardar los datos ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2807439695069184
+    m_Localized: "\xBF Est\xE1s seguro de borrar los datos ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2813028181524480
+    m_Localized: Nuevos datos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2813137011130368
+    m_Localized: 'Modificando '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7877589800632320
+    m_Localized: "Este campo no puede estar vac\xEDo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52794660101857280
+    m_Localized: ' '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52957870096424960
+    m_Localized: Este nombre ya existe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55042399065907200
+    m_Localized: Sistemas de gobierno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61228708567273472
+    m_Localized: "Las fechas no pueden estar vac\xEDas"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61236886231142400
+    m_Localized: Las fechas ya existen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61239391715414016
+    m_Localized: El rango de fechas es incorrecto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61581630576611328
+    m_Localized: No hay datos para eliminar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61584830272720896
+    m_Localized: Existen datos relacionados
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64836921707548672
+    m_Localized: Lista de asentamientos
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Editor Top Menu Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Editor Top Menu
+  m_TableCollectionNameGuidString: 0002240872ce1c7478f10237b2e1262d
+  m_Entries:
+  - m_Id: 246658678784
+    m_Key: PolitiesTopMenu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4557597884416
+    m_Key: PolitiesTypeEdit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5048704745472
+    m_Key: PolitiesEdit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55437012578639872
+    m_Key: Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55437029053865984
+    m_Key: Month
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55437047441694720
+    m_Key: Year
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55458162444640256
+    m_Key: Era
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55461903633784832
+    m_Key: CE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55462160383909888
+    m_Key: BCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64861583430733824
+    m_Key: Settlement Edit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67134716355366912
+    m_Key: Global Layer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67136368848228352
+    m_Key: First Administrative Layer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67137912893165568
+    m_Key: Second Administrative Layer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67138065456779264
+    m_Key: Third Administrative Layer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67138219605839872
+    m_Key: Fourth Administrative Layer
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 2075208613896126488
+  references:
+    version: 2
+    RefIds:
+    - rid: 2075208613896126488
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1657551929139
