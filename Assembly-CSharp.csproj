@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B5846B70-184D-864B-8760-C8D76C10915A}</ProjectGuid>
+    <ProjectGuid>{F02C1484-9C69-D723-52D3-B6FC845E3688}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -58,6 +58,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.6f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_Scripts\Config\ParamUI.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\HistoryStage.cs" />
     <Compile Include="Assets\_Scripts\UI\Controls\LocaleDropdown.cs" />
     <Compile Include="Assets\_Scripts\Map\MapManager.cs" />
@@ -65,17 +66,21 @@
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\HistoryFloatingPanel.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\StageConfirmDialog.cs" />
     <Compile Include="Assets\_Scripts\Common\MultiKeyDictionary.cs" />
-    <Compile Include="Assets\_Scripts\Common\GlobalEnum.cs" />
+    <Compile Include="Assets\_Scripts\Map\MapBox.cs" />
+    <Compile Include="Assets\_Scripts\Config\ParamMap.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\PostItNote.cs" />
-    <Compile Include="Assets\_Scripts\Common\GameConst.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\Settlement.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\PolityType.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\StageFloatingPanel.cs" />
     <Compile Include="Assets\_Scripts\UI\NotificationSystem\Message.cs" />
+    <Compile Include="Assets\_Scripts\Config\ParamColor.cs" />
+    <Compile Include="Assets\_Scripts\Config\ParamResources.cs" />
     <Compile Include="Assets\_Scripts\GameManager.cs" />
     <Compile Include="Assets\_Scripts\UI\NotificationSystem\SimpleMessage.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\Polity.cs" />
     <Compile Include="Assets\_Scripts\Camera\FullMapCameraController.cs" />
+    <Compile Include="Assets\_Scripts\Config\GlobalEnum.cs" />
+    <Compile Include="Assets\_Scripts\Config\LocalizeDictionaries.cs" />
     <Compile Include="Assets\_Scripts\Camera\MapCameraController.cs" />
     <Compile Include="Assets\_Scripts\Common\Utilities.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\Region.cs" />

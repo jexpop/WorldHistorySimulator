@@ -29,8 +29,8 @@ public class Region
         get 
         {
 
-            float centerX = (_xMinCoordinates + ((_xMaxCoordinates - _xMinCoordinates) / 2)) - (GameConst.MAP_SIZE_WIDTH / 2);
-            float centerY = (_yMinCoordinates + (_yMaxCoordinates - _yMinCoordinates) / 2) - (GameConst.MAP_SIZE_HIGHT / 2);
+            float centerX = (_xMinCoordinates + ((_xMaxCoordinates - _xMinCoordinates) / 2)) - (ParamMap.MAP_SIZE_WIDTH / 2);
+            float centerY = (_yMinCoordinates + (_yMaxCoordinates - _yMinCoordinates) / 2) - (ParamMap.MAP_SIZE_HIGHT / 2);
             this._coordinatesCenter = new Vector2(centerX, centerY);
             return _coordinatesCenter; 
         } 
@@ -60,8 +60,8 @@ public class Region
         this._rgb32 = RegionColorSelect();
 
         // Initial coordinates
-        this._xMinCoordinates = GameConst.MAP_SIZE_WIDTH;
-        this._yMinCoordinates = GameConst.MAP_SIZE_HIGHT;
+        this._xMinCoordinates = ParamMap.MAP_SIZE_WIDTH;
+        this._yMinCoordinates = ParamMap.MAP_SIZE_HIGHT;
         this._xMaxCoordinates = 0;
         this._yMaxCoordinates = 0;
 
@@ -71,7 +71,7 @@ public class Region
 
     public void ColorRecalculate()
     {
-        this._rgb32 = _owner == null ? GameConst.MAP_REGION_COLOR_LAND : _owner.Rgb32;
+        this._rgb32 = _owner == null ? ParamColor.COLOR_REGION_LAND : _owner.Rgb32;
     }
 
     /// <summary>
@@ -80,13 +80,13 @@ public class Region
     /// <returns>new region color</returns>
     private Color32 RegionColorSelect()
     {
-        Color32 color32 = GameConst.MAP_REGION_COLOR_LAND;
+        Color32 color32 = ParamColor.COLOR_REGION_LAND;
         if (_owner == null)
         {
             switch (this._type)
             {
-                case "sea": color32 = GameConst.MAP_REGION_COLOR_SEA; break;
-                case "lake": color32 = GameConst.MAP_REGION_COLOR_LAKE; break;
+                case "sea": color32 = ParamColor.COLOR_REGION_SEA; break;
+                case "lake": color32 = ParamColor.COLOR_REGION_LAKE; break;
             }
         }
         else

@@ -64,7 +64,7 @@ public class MapManager : Singleton<MapManager>
 
             // Avoid out of range error
             int marginBox = x + y * width;
-            if (marginBox >= GameConst.MAP_MARGIN_BOX_MIN && marginBox <= GameConst.MAP_MARGIN_BOX_MAX)
+            if (marginBox >= ParamMap.MAP_MARGIN_BOX_MIN && marginBox <= ParamMap.MAP_MARGIN_BOX_MAX)
             {
                 Color32 remapColor = remapArr[x + y * width];
 
@@ -73,7 +73,7 @@ public class MapManager : Singleton<MapManager>
                 // Show a post it note with information of the polity
                 if (EditorUICanvasManager.Instance.uiStatus == UIStatus.Nothing || EditorUICanvasManager.Instance.uiStatus == UIStatus.PostItNote)
                 {
-                    if (region.Type == GameConst.UI_REGION_NAME_LAND && region.Owner != null)
+                    if (region.Type == ParamUI.REGION_NAME_LAND && region.Owner != null)
                     {
                         EditorUICanvasManager.Instance.uiStatus = UIStatus.PostItNote;
                         EditorUICanvasManager.Instance.PostItPolityVisibility(mousePos, true, region);
@@ -94,7 +94,7 @@ public class MapManager : Singleton<MapManager>
 
                     // Change UI status if you touch land
                     // PostIt Note is deactivated
-                    if (region.Type == GameConst.UI_REGION_NAME_LAND)
+                    if (region.Type == ParamUI.REGION_NAME_LAND)
                     {
                         EditorUICanvasManager.Instance.uiStatus = UIStatus.InfoRegion;
                         EditorUICanvasManager.Instance.PostItPolityVisibility(mousePos, false);
@@ -109,9 +109,9 @@ public class MapManager : Singleton<MapManager>
 
                     // Activate Region Panel and move Region Panel in your correct position
                     Vector2 panelPositionNew = EditorUICanvasManager.Instance.CalculateNewPositionPanel(mousePos);
-                    if (region.Type == GameConst.UI_REGION_NAME_LAKE || region.Type == GameConst.UI_REGION_NAME_SEA) { EditorUICanvasManager.Instance.DeactivateRegionPanel(); } else { EditorUICanvasManager.Instance.ActivateRegionPanel(panelPositionNew.x, panelPositionNew.y); }
+                    if (region.Type == ParamUI.REGION_NAME_LAKE || region.Type == ParamUI.REGION_NAME_SEA) { EditorUICanvasManager.Instance.DeactivateRegionPanel(); } else { EditorUICanvasManager.Instance.ActivateRegionPanel(panelPositionNew.x, panelPositionNew.y); }
 
-                    if (region.Type == GameConst.UI_REGION_NAME_LAND)
+                    if (region.Type == ParamUI.REGION_NAME_LAND)
                     {
 
                         // Name Panel, only lands
@@ -155,9 +155,9 @@ public class MapManager : Singleton<MapManager>
 
                     // Define the color to the highlight to the land regions
                     Region regionHighlight = regions[OnlyRGBColorByPosition(x, y)];
-                    if (regionHighlight.Type == GameConst.UI_REGION_NAME_LAND)
+                    if (regionHighlight.Type == ParamUI.REGION_NAME_LAND)
                     {
-                        ChangeColor(remapColor, new Color32(0, 255, 255, 255));
+                        ChangeColor(remapColor, ParamColor.COLOR_REGION_HIGHLIGHT);
                     }
 
                     paletteTex.Apply(false);
@@ -187,9 +187,9 @@ public class MapManager : Singleton<MapManager>
             var mainColor = mainArr[i];
             if (!main2remap.ContainsKey(mainColor))
             {
-                var low = (byte)(idx % 256);
-                var high = (byte)(idx / 256);
-                main2remap[mainColor] = new Color32(low, high, 0, 255);
+                var low = (byte)(idx % (ParamColor.COLOR32_MAX + 1));
+                var high = (byte)(idx / (ParamColor.COLOR32_MAX + 1));
+                main2remap[mainColor] = new Color32(low, high, 0, (byte)ParamColor.COLOR32_MAX);
                 idx++;
             }
             var remapColor = main2remap[mainColor];
@@ -199,7 +199,7 @@ public class MapManager : Singleton<MapManager>
         var paletteArr = new Color32[256 * 256];
         for (int i = 0; i < paletteArr.Length; i++)
         {
-            paletteArr[i] = new Color32(255, 255, 255, 255);
+            paletteArr[i] = ParamColor.COLOR_WHITE;
         }
         
         // Rempa texture update
@@ -239,9 +239,9 @@ public class MapManager : Singleton<MapManager>
     Vector3Int OnlyRGBColorByPosition(int x, int y)
     {
         Color color = mainTex.GetPixel(x, y);
-        int redColor = (int)Mathf.Round(color.r * 255);
-        int greenColor = (int)Mathf.Round(color.g * 255);
-        int bluecolor = (int)Mathf.Round(color.b * 255);
+        int redColor = (int)Mathf.Round(color.r * ParamColor.COLOR32_MAX);
+        int greenColor = (int)Mathf.Round(color.g * ParamColor.COLOR32_MAX);
+        int bluecolor = (int)Mathf.Round(color.b * ParamColor.COLOR32_MAX);
         return new Vector3Int(redColor, greenColor, bluecolor);
     }
 
@@ -252,9 +252,9 @@ public class MapManager : Singleton<MapManager>
     /// <returns>RGB color</returns>
     Vector3Int OnlyRGBColorByRGBA(Color color)
     {
-        int redColor = (int)Mathf.Round(color.r * 255);
-        int greenColor = (int)Mathf.Round(color.g * 255);
-        int bluecolor = (int)Mathf.Round(color.b * 255);
+        int redColor = (int)Mathf.Round(color.r * ParamColor.COLOR32_MAX);
+        int greenColor = (int)Mathf.Round(color.g * ParamColor.COLOR32_MAX);
+        int bluecolor = (int)Mathf.Round(color.b * ParamColor.COLOR32_MAX);
         return new Vector3Int(redColor, greenColor, bluecolor);
     }
 
@@ -316,13 +316,13 @@ public class MapManager : Singleton<MapManager>
                     regionColor = region.Rgb32;
 
                     // Indicator water terrain white-water, black-land
-                    if (region.Type == GameConst.UI_REGION_NAME_LAND)
+                    if (region.Type == ParamUI.REGION_NAME_LAND)
                     {
-                        waterArr[x + y * width] = new Color32(255, 255, 255, 255);
+                        waterArr[x + y * width] = ParamColor.COLOR_WHITE;
                     }
                     else
                     {
-                        waterArr[x + y * width] =  new Color32(0, 0, 0, 255);
+                        waterArr[x + y * width] =  ParamColor.COLOR_BLACK;
                     }
                 }
                 else
@@ -332,13 +332,13 @@ public class MapManager : Singleton<MapManager>
                     regionColor = singleRegion.Rgb32;
 
                     // Indicator water terrain white-water, black-land
-                    if (singleRegion.Type == GameConst.UI_REGION_NAME_LAND)
+                    if (singleRegion.Type == ParamUI.REGION_NAME_LAND)
                     {
-                        waterArr[x + y * width] = new Color32(255, 255, 255, 255);
+                        waterArr[x + y * width] = ParamColor.COLOR_WHITE;
                     }
                     else
                     {
-                        waterArr[x + y * width] = new Color32(0, 0, 0, 255);
+                        waterArr[x + y * width] = ParamColor.COLOR_BLACK;
                     }
                 }
 
@@ -445,7 +445,7 @@ public class MapManager : Singleton<MapManager>
 
     void RemoveFlagMarkers()
     {
-        GameObject[] flags = GameObject.FindGameObjectsWithTag(GameConst.TAG_FLAG_MARKER);
+        GameObject[] flags = GameObject.FindGameObjectsWithTag(ParamUI.TAG_FLAG_MARKER);
         for (int i = 0; i < flags.Length; i++)
         {
             Destroy(flags[i].transform.parent.gameObject);
@@ -480,8 +480,6 @@ public class MapManager : Singleton<MapManager>
             List<HistoryRegionRelation> history = region.Value.History;
             foreach (HistoryRegionRelation stage in history)
             {
-                //if (stage.PolityId == polityId) { result = true; } NO NECESARIO ??
-                //if (stage.Stage.PolityParentId == polityId) { result = true; } ERROR
                 if (stage.Stage.PolicyId == polityId) { result = true; }
             }
         }
@@ -497,8 +495,6 @@ public class MapManager : Singleton<MapManager>
             List<HistoryRegionRelation> history = region.Value.History;
             foreach (HistoryRegionRelation stage in history)
             {
-                //if (stage.Stage.PolityTypeId == polityTypeId) { result = true; } ERROR
-                //if (stage.Stage.PolityTypeIdParent == polityTypeId) { result = true; } ERROR
                 if (stage.Stage.PolicyTypeId == polityTypeId) { result = true; }
             }
         }

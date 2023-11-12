@@ -123,7 +123,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         {
 
             // Polity Type Edit Menu
-            case GameConst.UI_EDITMENU_SCROLLBUTTONS_POLITY_TYPE:
+            case ParamUI.EDITMENU_SCROLLBUTTONS_POLITY_TYPE:
 
                 // Building list of polities type
                 List<GameObject> polityTypeButtons = new List<GameObject>();
@@ -163,7 +163,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 break;
 
             // Polity Edit Menu
-            case GameConst.UI_EDITMENU_SCROLLBUTTONS_POLITY:
+            case ParamUI.EDITMENU_SCROLLBUTTONS_POLITY:
 
                 // Building list of polities
                 List<GameObject> polityButtons= new List<GameObject>();
@@ -203,7 +203,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 break;
 
             // Settlement Edit Menu
-            case GameConst.UI_EDITMENU_SCROLLBUTTONS_SETTLEMENT:
+            case ParamUI.EDITMENU_SCROLLBUTTONS_SETTLEMENT:
 
                 // Building list of settlements
                 List<GameObject> settlementButtons = new List<GameObject>();
@@ -299,7 +299,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     {
         if (setllement == null)
         {
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetSettlementValue("LOC_TABLE_EDITOR_FLOATING", GameConst.UI_GENERIC_UNKNOWN);
+            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetSettlementValue("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_UNKNOWN);
         }
         else
         {
@@ -308,7 +308,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
         if (button)
         {
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", GameConst.UI_REGION_HISTORY_BUTTON);
+            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
             tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetButtonClick();
         }
     }
@@ -328,7 +328,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
             // Set status
             uiStatus = UIStatus.OwnerSelection;
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", GameConst.UI_GENERIC_CLOSE);
+            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_CLOSE);
                         
             // Get/Set size of the panels       
             float xPanel = tmpEditorRegionPanel.transform.position.x;
@@ -373,7 +373,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             // Set status
             uiStatus = UIStatus.InfoRegion;
             // The text of the button
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", GameConst.UI_REGION_HISTORY_BUTTON);
+            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
         }
     }
     public void RefleshingHistory(int currentRegionId, bool delete, int settlementId = 0)
@@ -382,7 +382,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         MapManager.Instance.LoadHistoryRegionDictionaryFromDB(currentRegionId);
 
         // Clean old stages
-        GameObject[] editorStages = GameObject.FindGameObjectsWithTag(GameConst.TAG_UI_EDITOR_STAGES);
+        GameObject[] editorStages = GameObject.FindGameObjectsWithTag(ParamUI.TAG_EDITOR_STAGES);
         foreach(GameObject stage in editorStages)
         {
             Destroy(stage);
@@ -757,7 +757,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         //  Global Checks for every input (Region input is a exception. For this case, the value 0 or empty is all regions) ...
         foreach (TMP_InputField input in inputs)
         {
-            if (input.name!= GameConst.UI_EDITMENU_SETTLEMENT_REGION_INPUT && MessageHelper.IsFieldEmpty(input.text) == true)
+            if (input.name!= ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && MessageHelper.IsFieldEmpty(input.text) == true)
             {
                 LocalizationManager.Instance.AddLocalizeString(emptyNameMessage);
                 fChkGlobalIsOk = false;
@@ -772,12 +772,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 {
                     foreach (TMP_InputField input in inputs)
                     {
-                        if (input.name != GameConst.UI_EDITMENU_SETTLEMENT_REGION_INPUT && LocalizationManager.Instance.KeyExist(loc_table, input.text))
+                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && LocalizationManager.Instance.KeyExist(loc_table, input.text))
                         {// Check duplicate key
                             LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
                             fChkLocalIsOk = false;
                         }
-                        if (input.name != GameConst.UI_EDITMENU_SETTLEMENT_REGION_INPUT && LocalizationManager.Instance.ValueExist(loc_table, input.text, input.text))
+                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && LocalizationManager.Instance.ValueExist(loc_table, input.text, input.text))
                         {// Check duplicate locate value (current language)
                             LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
                             fChkLocalIsOk = false;
@@ -791,7 +791,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         // Insert new locale data (All languanges)
                         foreach (TMP_InputField input in inputs)
                         {
-                            if (input.name != GameConst.UI_EDITMENU_SETTLEMENT_REGION_INPUT)
+                            if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)
                             {
                                 LocalizationManager.Instance.InsertNewEntry(loc_table, input.text, input.text);
                             }
@@ -801,7 +801,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         if (dataType == EditorDataType.PolityType)
                         {
                             // Insert new data
-                            string polityTypeName = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_POLITYTYPE_NAME_INPUT)).text;                            
+                            string polityTypeName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITYTYPE_NAME_INPUT)).text;                            
                             MapSqlConnection.Instance.AddPolityType(polityTypeName);
 
                             // Status name
@@ -814,7 +814,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         else if (dataType == EditorDataType.Polity)
                         {
                             // Insert new data
-                            string polityName = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_POLITY_NAME_INPUT)).text;
+                            string polityName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITY_NAME_INPUT)).text;
                             MapSqlConnection.Instance.AddPolity(polityName, check.isOn);
 
                             // Status name
@@ -827,8 +827,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         else if (dataType == EditorDataType.Settlement)
                         {
                             // Insert new data
-                            string settlementName = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_SETTLEMENT_NAME_INPUT)).text;
-                            string settlementRegion = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_SETTLEMENT_REGION_INPUT)).text;
+                            string settlementName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_NAME_INPUT)).text;
+                            string settlementRegion = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)).text;
                             settlementRegion = int.TryParse(settlementRegion, out int n) == true ? settlementRegion : "0";
                             MapSqlConnection.Instance.AddSettlement(settlementName, Int32.Parse(settlementRegion));
 
@@ -855,7 +855,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     if (dataType == EditorDataType.PolityType)
                     {
                         string polityTypeLocaleId = MapManager.Instance.GetPolitiesTypeLocaleKeyById(Int32.Parse(idLabel));
-                        string polityTypeName = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_POLITYTYPE_NAME_INPUT)).text;
+                        string polityTypeName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITYTYPE_NAME_INPUT)).text;
                         if (LocalizationManager.Instance.ValueExist(loc_table, polityTypeLocaleId, polityTypeName))
                         {// Check duplicate locate value (current language)
                             LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
@@ -871,7 +871,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     else if (dataType == EditorDataType.Polity)
                     {
                         string polityLocaleId = MapManager.Instance.GetPolitiesLocaleKeyById(Int32.Parse(idLabel));
-                        string polityName = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_POLITY_NAME_INPUT)).text;
+                        string polityName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITY_NAME_INPUT)).text;
                         if (LocalizationManager.Instance.ValueExist(loc_table, polityLocaleId, polityName))
                         {// Check duplicate locate value (current language)
                             LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
@@ -890,7 +890,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     else if (dataType == EditorDataType.Settlement)
                     {
                         string settlementLocaleId = MapManager.Instance.GetSettlementsLocaleKeyById(Int32.Parse(idLabel));
-                        string settlementName = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_SETTLEMENT_NAME_INPUT)).text;
+                        string settlementName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_NAME_INPUT)).text;
                         if (LocalizationManager.Instance.ValueExist(loc_table, settlementLocaleId, settlementName))
                         {// Check duplicate locate value (current language)
                             LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
@@ -898,7 +898,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         else
                         {
                             // Update new current locale data
-                            string settlementRegion = inputs.First(x => x.name.Equals(GameConst.UI_EDITMENU_SETTLEMENT_REGION_INPUT)).text;
+                            string settlementRegion = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)).text;
                             LocalizationManager.Instance.UpdateEntry(loc_table, settlementLocaleId, settlementName);
                             // Update not string fields
                             settlementRegion = int.TryParse(settlementRegion, out int n) == true ? settlementRegion : "0";

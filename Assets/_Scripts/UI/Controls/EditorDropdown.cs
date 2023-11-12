@@ -54,7 +54,7 @@ public class EditorDropdown : MonoBehaviour
         {
             optionsIds.Add(c, 0);
             c = 1;
-            AddLocalizedOption("LOC_TABLE_EDITOR_FLOATING", GameConst.UI_GENERIC_NOT_SELECT);
+            AddLocalizedOption("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_NOT_SELECT);
         }
 
         // Get new options
@@ -126,7 +126,7 @@ public class EditorDropdown : MonoBehaviour
     private void AddLocalizedOption(string table, string entry)
     {
         LocalizedString localizedString = new LocalizedString();
-        localizedString.TableReference = GameConst.DIC_LOCATION_TABLES[table];
+        localizedString.TableReference = LocalizeDictionaries.DIC_LOCATION_TABLES[table];
         localizedString.TableEntryReference = entry;
         localizeDropdown.SetOptionsList(localizedString);
     }
@@ -134,7 +134,7 @@ public class EditorDropdown : MonoBehaviour
     private string GetLocalizedOption(string table, string entry)
     {
         LocalizedString localizedString = new LocalizedString();
-        localizedString.TableReference = GameConst.DIC_LOCATION_TABLES[table];
+        localizedString.TableReference = LocalizeDictionaries.DIC_LOCATION_TABLES[table];
         localizedString.TableEntryReference = entry;
         return localizedString.GetLocalizedString();
     }

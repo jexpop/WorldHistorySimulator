@@ -22,13 +22,13 @@ public class MapCameraController : MonoBehaviour
 		{
 
 			Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - mouseOrigin);
-			Vector3 move = new Vector3(pos.x * GameConst.MAP_PAN_SPEED, pos.y * GameConst.MAP_PAN_SPEED, 0);
+			Vector3 move = new Vector3(pos.x * ParamMap.MAP_PAN_SPEED, pos.y * ParamMap.MAP_PAN_SPEED, 0);
 			transform.Translate(move, Space.Self);
 
 			// Movement within bounds (Only Y limits)
 			transform.position = new Vector3(
                   transform.position.x, //Mathf.Clamp(transform.position.x, GameConst.MAP_X_MIN, GameConst.MAP_X_MAX),
-                  Mathf.Clamp(transform.position.y, GameConst.MAP_Y_MIN, GameConst.MAP_Y_MAX),
+                  Mathf.Clamp(transform.position.y, ParamMap.MAP_Y_MIN, ParamMap.MAP_Y_MAX),
 				  transform.position.z
 			);
 

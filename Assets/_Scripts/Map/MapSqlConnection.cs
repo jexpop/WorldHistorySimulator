@@ -12,7 +12,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     IDbConnection dbconn;
     IDbCommand dbcmd;
     IDataReader cursor;
-    readonly string DATABASE_NAME = GameConst.DB_PATH;
+    readonly string DATABASE_NAME = ParamResources.DB_PATH;
 
 
     /// <summary>
@@ -58,7 +58,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     {
 
         // Selection of the layer
-        string layerOption =GameConst.DB_LAYERS_FIELD[option]; 
+        string layerOption = ParamResources.DB_LAYERS_FIELD[option]; 
 
         /*** Main information of the regions ***/
         ConnectionOpen();
@@ -248,7 +248,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     {
         ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
-        sqlQuery = "SELECT p.PolityId, p.PolityName, ifnull(p.RGB,'999.999.999'), CASE WHEN py.PolicyName = '"+GameConst.DB_IS_COLLECTIVE+"' THEN TRUE ELSE FALSE END IsCollective FROM Polity p INNER JOIN Policy py ON py.PolicyId = p.PolicyId ORDER BY p.PolityName";
+        sqlQuery = "SELECT p.PolityId, p.PolityName, ifnull(p.RGB,'999.999.999'), CASE WHEN py.PolicyName = '"+ ParamResources.DB_IS_COLLECTIVE+"' THEN TRUE ELSE FALSE END IsCollective FROM Polity p INNER JOIN Policy py ON py.PolicyId = p.PolicyId ORDER BY p.PolityName";
         dbcmd.CommandText = sqlQuery;
 
         Dictionary<int, Polity> polities = new Dictionary<int, Polity>();
@@ -314,7 +314,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     {
         ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
-        sqlQuery = "SELECT PolicyId FROM Policy WHERE PolicyName='" + GameConst.DB_IS_COLLECTIVE + "' ";
+        sqlQuery = "SELECT PolicyId FROM Policy WHERE PolicyName='" + ParamResources.DB_IS_COLLECTIVE + "' ";
         dbcmd.CommandText = sqlQuery;
 
         int id = 0;
@@ -338,7 +338,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     {
         ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
-        sqlQuery = "SELECT PolicyId FROM Policy WHERE PolicyName='" + GameConst.DB_IS_INDIVIDUAL + "' ";
+        sqlQuery = "SELECT PolicyId FROM Policy WHERE PolicyName='" + ParamResources.DB_IS_INDIVIDUAL + "' ";
         dbcmd.CommandText = sqlQuery;
 
         int id = 0;

@@ -30,7 +30,7 @@ public class MessageHelper : MonoBehaviour
 
         LocalizeStringEvent stringComponent = null;
 
-        GameObject[] messages = GameObject.FindGameObjectsWithTag(GameConst.TAG_UI_MESSAGES);
+        GameObject[] messages = GameObject.FindGameObjectsWithTag(ParamUI.TAG_MESSAGES);
 
         List<string> messageTexts = new List<string>();
         messageTexts.Add(simpleMessage.messageText);
@@ -64,7 +64,7 @@ public class MessageHelper : MonoBehaviour
         LocalizeStringEvent stringButtonComponent = null;
         LocalizeStringEvent[] strings = new LocalizeStringEvent[2];
 
-        GameObject[] messages = GameObject.FindGameObjectsWithTag(GameConst.TAG_UI_MESSAGES);
+        GameObject[] messages = GameObject.FindGameObjectsWithTag(ParamUI.TAG_MESSAGES);
 
         List<string> messageTexts = new List<string>();
         messageTexts.Add(identificatorMessage.statusText);
