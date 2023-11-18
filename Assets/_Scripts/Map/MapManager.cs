@@ -12,7 +12,7 @@ public class MapManager : Singleton<MapManager>
     Color32[] remapArr;
     Color32[] waterArr;
     Texture2D remapTex;
-    Texture2D waterTex;
+    Texture2D seaTex;
     Texture2D paletteTex;
     Texture2D mainTex;
 
@@ -37,7 +37,7 @@ public class MapManager : Singleton<MapManager>
     {
         // Material & texture inicialization
         _material = GetComponent<Renderer>().material;
-        mainTex = _material.GetTexture("_MainTex") as Texture2D;
+        mainTex = _material.GetTexture("_RegionTex") as Texture2D;
 
         // Get Sql data
         LoadPolitiesTypeDictionaryFromDB();
@@ -351,11 +351,11 @@ public class MapManager : Singleton<MapManager>
         }
 
         // Water texture update
-        waterTex = new Texture2D(width, height, TextureFormat.RGBA32, false);
-        waterTex.filterMode = FilterMode.Point;
-        waterTex.SetPixels32(waterArr);
-        waterTex.Apply(false);
-        _material.SetTexture("_WaterTex", waterTex);
+        seaTex = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        seaTex.filterMode = FilterMode.Point;
+        seaTex.SetPixels32(waterArr);
+        seaTex.Apply(false);
+        _material.SetTexture("_SeaTex", seaTex);
 
         // Palette texture update
         paletteTex.Apply(false);

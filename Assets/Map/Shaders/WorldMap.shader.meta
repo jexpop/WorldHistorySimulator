@@ -4,7 +4,8 @@ ShaderImporter:
   externalObjects: {}
   defaultTextures:
   - _MainTex: {instanceID: 0}
-  - _WaterTex: {instanceID: 0}
+  - _SeaTex: {instanceID: 0}
+  - _RiverTex: {instanceID: 0}
   - _RemapTex: {instanceID: 0}
   - _PaletteTex: {instanceID: 0}
   nonModifiableTextures: []
