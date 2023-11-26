@@ -9,6 +9,7 @@ public class RegionFloatingPanel : MonoBehaviour
     public TextMeshProUGUI regionPanelValue;
     public TextMeshProUGUI regionSettlementValue;
     public GameObject regionHistoryButton;
+    public Image terrainImage;
 
 
     public void DeactivatePanel()
@@ -32,6 +33,11 @@ public class RegionFloatingPanel : MonoBehaviour
     public void SetButtonClick()
     {
         regionHistoryButton.GetComponent<Button>().onClick.AddListener(delegate { EditorUICanvasManager.Instance.ToggleChangeOwner(Int32.Parse(regionPanelValue.text)); });
+    }
+
+    public void SetTerrainImage(Sprite sprite)
+    {
+        terrainImage.sprite = sprite;
     }
 
 }

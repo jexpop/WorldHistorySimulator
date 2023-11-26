@@ -6,6 +6,7 @@ public class Region
 
     private string _name;
     private string _type;
+    private string _terrain;
     private Color32 _rgb32;
     private Settlement _settlement;
     private Polity _owner;
@@ -18,6 +19,7 @@ public class Region
 
     public string Name { get{ return _name; }}
     public string Type { get { return _type; } }
+    public string Terrain { get { return _terrain; } }
     public Color32 Rgb32 { get { return _rgb32; } }
     public Settlement Settlement { get { return _settlement; } set { _settlement = value; } }
     public Polity Owner { get { return _owner; } set { _owner = value; } }
@@ -38,11 +40,12 @@ public class Region
     public List<HistoryRegionRelation> History { get { return _history; } set { _history = value; } }
 
 
-    public Region(string name, string type, int settlement, int owner, List<HistoryRegionRelation> history=null)
+    public Region(string name, string type, string _terrain, int settlement, int owner, List<HistoryRegionRelation> history=null)
     {       
 
         this._name = name;
         this._type = type;
+        this._terrain = _terrain;
 
         // If this region has settlement
         if (settlement != 0)

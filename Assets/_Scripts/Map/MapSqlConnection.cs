@@ -63,7 +63,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
         /*** Main information of the regions ***/
         ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
-        sqlQuery = "SELECT r.RegionId, th.SettlementId, r.Name, r.Red, r.Green, r.Blue, tt.TerrainTypeName, ifnull(p.PolityId ,0) FROM Region r INNER JOIN Terrain t ON t.TerrainId=r.TerrainId INNER JOIN TerrainType tt ON tt.TerrainTypeId=t.TerrainTypeId LEFT OUTER JOIN TerritoryHistory th ON th.RegionId=r.RegionId AND th.StartDate <= " + timeline + " AND th.EndDate >= " + timeline + " LEFT OUTER JOIN Polity p ON p.PolityId = " + layerOption;
+        sqlQuery = "SELECT r.RegionId, th.SettlementId, r.Name, r.Red, r.Green, r.Blue, tt.TerrainTypeName, t.TerrainName, ifnull(p.PolityId ,0) FROM Region r INNER JOIN Terrain t ON t.TerrainId=r.TerrainId INNER JOIN TerrainType tt ON tt.TerrainTypeId=t.TerrainTypeId LEFT OUTER JOIN TerritoryHistory th ON th.RegionId=r.RegionId AND th.StartDate <= " + timeline + " AND th.EndDate >= " + timeline + " LEFT OUTER JOIN Polity p ON p.PolityId = " + layerOption;
         dbcmd.CommandText = sqlQuery;
 
         MultiKeyDictionary<Vector3Int, int, Region> regions = new MultiKeyDictionary<Vector3Int, int, Region>();
@@ -79,8 +79,9 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                                 
                 int settlementId = cursor.IsDBNull(1) ? 0 : cursor.GetInt32(1);
                 string regionName = cursor.GetString(2);
-                string regionTerrainType = cursor.GetString(6);
-                int ownerId = cursor.GetInt32(7);
+                string regionTerrainType = cursor.GetString(6); // Land, sea, ...
+                string regionTerrain = cursor.GetString(7);
+                int ownerId = cursor.GetInt32(8);
 
                 regions.Add(
                                     regionKey,
@@ -88,6 +89,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                                     new Region(
                                                         regionName, 
                                                         regionTerrainType,
+                                                        regionTerrain,
                                                         settlementId,
                                                         ownerId, 
                                                         null                                                

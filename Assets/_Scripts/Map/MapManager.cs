@@ -114,8 +114,8 @@ public class MapManager : Singleton<MapManager>
                     if (region.Type == ParamUI.REGION_NAME_LAND)
                     {
 
-                        // Name Panel, only lands
-                        EditorUICanvasManager.Instance.SetNameRegionPanel(region.Name);
+                        // Name and Image Panel, only lands
+                        EditorUICanvasManager.Instance.SetNameAndImageRegionPanel(region.Name, region.Terrain);
 
                         // Info Panel
                         if (region.Settlement == null)

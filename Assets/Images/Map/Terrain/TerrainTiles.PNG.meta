@@ -1,0 +1,532 @@
+fileFormatVersion: 2
+guid: 85aa1a6ab62f5714da8403f0c8eb1fa3
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Lake
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1153
+        width: 80
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78f0236e1fb201346b8518e6a87d2da6
+      internalID: -533377394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sea
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 1153
+        width: 80
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f19607407d895864981b77fee9cabf16
+      internalID: -487380409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plain
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 1054
+        width: 79
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48481a838e31c114180fdbc5314de3fc
+      internalID: -1658428710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mountain
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 1054
+        width: 78
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d38cac4a0029574bb7efb2479357f6f
+      internalID: -998550328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Forest
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 1054
+        width: 79
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 652c9f4fdd1b1ea47b296bfffa5d614e
+      internalID: 1582294015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marsh
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 1154
+        width: 78
+        height: 91
+      alignment: 9
+      pivot: {x: -0.5029915, y: 0.45927605}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d7ad6963c7b6764db9c9c13d0a84e89
+      internalID: 342852473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jungle
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 1154
+        width: 78
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da4f84c2b48cdac4fa4aacf6aeb9f079
+      internalID: 1490948187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Desert
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 954
+        width: 80
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b712b42cab4e5f647959eabee247b18d
+      internalID: 988621936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DesertMountain
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 953
+        width: 80
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0b32845441d88a4596ce03362dbb7f6
+      internalID: -468892939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ice
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 854
+        width: 79
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f4b21affff6cd64d8465364ca647cad
+      internalID: -1132295225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceMountain
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 855
+        width: 79
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fb038b2a0aee4c4a88a5a550170a19d
+      internalID: 1191456477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceForest
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 855
+        width: 78
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbd6383b6c0044a47a36117e450537f4
+      internalID: -1377946614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hills
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 1055
+        width: 78
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52063bc28a93f6943a407f6980faafe9
+      internalID: 296220182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 8140ce512a62540418b0224e3d065d03
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Desert: 988621936
+      DesertMountain: -468892939
+      Forest: 1582294015
+      Hills: 625508766
+      Ice: -1132295225
+      IceForest: -1377946614
+      IceMountain: 1191456477
+      IceRiver: -1831811469
+      Jungle: 1490948187
+      Lake: -533377394
+      Marsh: 342852473
+      Mountain: -998550328
+      Plain: -1658428710
+      River: 1333338415
+      Sea: -487380409
+      TerrainTiles_10: 675363716
+      TerrainTiles_100: 1550694542
+      TerrainTiles_101: -45446439
+      TerrainTiles_102: -1351238275
+      TerrainTiles_103: -286138243
+      TerrainTiles_104: -1765612435
+      TerrainTiles_105: -1781307322
+      TerrainTiles_106: 188019559
+      TerrainTiles_107: 1785156832
+      TerrainTiles_108: 1416619498
+      TerrainTiles_109: 218477
+      TerrainTiles_11: -1236927799
+      TerrainTiles_110: -979766402
+      TerrainTiles_111: -1480018463
+      TerrainTiles_112: -157736733
+      TerrainTiles_113: -1015944472
+      TerrainTiles_114: -12930856
+      TerrainTiles_115: 791689529
+      TerrainTiles_116: 1619977391
+      TerrainTiles_117: -1592063336
+      TerrainTiles_118: -1939576426
+      TerrainTiles_119: 992014385
+      TerrainTiles_120: 1947023714
+      TerrainTiles_121: -217724263
+      TerrainTiles_122: -1256762261
+      TerrainTiles_123: 965250342
+      TerrainTiles_124: -480122157
+      TerrainTiles_125: -754391060
+      TerrainTiles_126: -2055791747
+      TerrainTiles_127: -2129007259
+      TerrainTiles_128: 1180782788
+      TerrainTiles_129: -1227765234
+      TerrainTiles_130: 545786653
+      TerrainTiles_131: -191363681
+      TerrainTiles_132: -7256265
+      TerrainTiles_133: -1981133853
+      TerrainTiles_134: 132595380
+      TerrainTiles_135: 116834860
+      TerrainTiles_136: 753359842
+      TerrainTiles_137: -1208529531
+      TerrainTiles_138: -1790362475
+      TerrainTiles_139: -1394295608
+      TerrainTiles_140: -16729567
+      TerrainTiles_141: 2077569393
+      TerrainTiles_142: -835626136
+      TerrainTiles_143: -898886982
+      TerrainTiles_18: 1961807918
+      TerrainTiles_19: 288858455
+      TerrainTiles_2: 2115179017
+      TerrainTiles_20: -513527438
+      TerrainTiles_21: 436426483
+      TerrainTiles_22: -147483349
+      TerrainTiles_23: 1692317386
+      TerrainTiles_26: 7190715
+      TerrainTiles_27: -1137297049
+      TerrainTiles_28: -964101246
+      TerrainTiles_29: -1062740116
+      TerrainTiles_3: -1544332069
+      TerrainTiles_30: 146800038
+      TerrainTiles_31: -78999157
+      TerrainTiles_32: 1047398363
+      TerrainTiles_33: -902553701
+      TerrainTiles_34: -1212516034
+      TerrainTiles_35: -1576730083
+      TerrainTiles_4: -1767257310
+      TerrainTiles_40: 1347849100
+      TerrainTiles_41: -1388793959
+      TerrainTiles_42: 760744230
+      TerrainTiles_43: -1458828785
+      TerrainTiles_44: 2001142463
+      TerrainTiles_45: -1578533815
+      TerrainTiles_46: 1966411364
+      TerrainTiles_47: -1498229523
+      TerrainTiles_48: -461291103
+      TerrainTiles_49: 518156274
+      TerrainTiles_5: -1806048551
+      TerrainTiles_50: 1045725082
+      TerrainTiles_51: 813430743
+      TerrainTiles_52: 1595446269
+      TerrainTiles_53: -1767219280
+      TerrainTiles_54: 1033642133
+      TerrainTiles_55: 1289557727
+      TerrainTiles_56: 1386754955
+      TerrainTiles_57: -253422203
+      TerrainTiles_58: -1694536439
+      TerrainTiles_59: -819145848
+      TerrainTiles_6: 671697951
+      TerrainTiles_60: -1222672080
+      TerrainTiles_61: 1185922998
+      TerrainTiles_62: 1768684948
+      TerrainTiles_63: 1881006197
+      TerrainTiles_64: -544548457
+      TerrainTiles_65: -814306169
+      TerrainTiles_66: -793465434
+      TerrainTiles_67: 2122285604
+      TerrainTiles_68: -683027466
+      TerrainTiles_69: 850660435
+      TerrainTiles_7: -1619517472
+      TerrainTiles_70: 34248069
+      TerrainTiles_71: -1310926517
+      TerrainTiles_72: -835942669
+      TerrainTiles_73: 150775297
+      TerrainTiles_74: -342306920
+      TerrainTiles_75: 110334826
+      TerrainTiles_76: -1105273352
+      TerrainTiles_77: 592465512
+      TerrainTiles_78: -358514660
+      TerrainTiles_79: 1394839689
+      TerrainTiles_8: 461061201
+      TerrainTiles_80: 234161659
+      TerrainTiles_81: 52979706
+      TerrainTiles_82: -196421230
+      TerrainTiles_83: 1189198564
+      TerrainTiles_84: 823153030
+      TerrainTiles_85: -865495416
+      TerrainTiles_86: 2120213354
+      TerrainTiles_87: 2079987914
+      TerrainTiles_88: -1864123490
+      TerrainTiles_89: -308324694
+      TerrainTiles_9: -465903794
+      TerrainTiles_90: -1165575155
+      TerrainTiles_91: -1268982236
+      TerrainTiles_92: -1826228876
+      TerrainTiles_93: 82759811
+      TerrainTiles_94: -245541128
+      TerrainTiles_95: -774048988
+      TerrainTiles_96: 145498673
+      TerrainTiles_97: 724318164
+      TerrainTiles_98: 2145788759
+      TerrainTiles_99: 2075593906
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

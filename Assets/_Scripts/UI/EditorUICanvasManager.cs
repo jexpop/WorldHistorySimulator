@@ -19,6 +19,9 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     public TMP_Dropdown layersDropdown;
 
 
+    [Header("Terrain Tiles")]
+    public List<Sprite> terrainTiles;
+
     [Header("Floating Panels")]
     public GameObject editorRegionPanel;
     public GameObject editorHistoryPanel;
@@ -283,12 +286,17 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         Destroy(tmpEditorRegionPanel);
     }
     /// <summary>
-    /// Set the name of the region (ID)
+    /// Set the name and terrain's sprite of the region (ID)
     /// </summary>
     /// <param name="name">region name parameter</param>
-    public void SetNameRegionPanel(string name)
+    public void SetNameAndImageRegionPanel(string name, string terrain)
     {
+        // Name
         tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetRegionValue(name);
+
+        // Sprite
+        Sprite terrainTile = terrainTiles.FirstOrDefault(o => o.name.Equals(terrain));
+        tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetTerrainImage(terrainTile);
     }
     /// <summary>
     /// Show the setllements of the region and button 'Stages of History'
