@@ -35,9 +35,10 @@ public class MapManager : Singleton<MapManager>
 
     void Start()
     {
-        // Material & texture inicialization
+        // Material, texture & properties inicialization
         _material = GetComponent<Renderer>().material;
-        mainTex = _material.GetTexture("_RegionTex") as Texture2D;
+        mainTex = _material.GetTexture("_RegionTex") as Texture2D;        
+        _material.SetFloat("_DrawRiver", 0f);
 
         // Get Sql data
         LoadPolitiesTypeDictionaryFromDB();
@@ -262,7 +263,7 @@ public class MapManager : Singleton<MapManager>
     /// Get information from database to colorize the regions
     /// </summary>
     /// <param name="timeTravelbutton">Event button</param>
-    public void CreateRegions(int optionLayer, bool timeTravelbutton = false)
+    public void CreateRegions(int optionLayer, bool timeTravelbutton = false, float drawRiver = 0f)
     {
 
         // Get current timeline
@@ -270,6 +271,9 @@ public class MapManager : Singleton<MapManager>
 
         // Create the list of regions with your information
         regions = MapSqlConnection.Instance.GetInfoRegions(timeline, optionLayer);
+
+        // rivers ?
+        _material.SetFloat("_DrawRiver", drawRiver);
 
         // Colorize all regions of the worldmap
         ColorizeRegions();

@@ -3,12 +3,13 @@
     https://github.com/yiyuezhuo
     https://www.youtube.com/channel/UCL4QE7LRQinmA0071J0kN9w
 */
-Shader "Unlit/WorldMap"
+Shader "Unlit/EditorWorldMap"
 {
     Properties
     {
         _RegionTex ("Region Texture", 2D) = "white" {}        
         _RiverTex ("River Texture", 2D) = "white" {}
+
     }
     SubShader
     {
@@ -36,9 +37,12 @@ Shader "Unlit/WorldMap"
 
             sampler2D _RegionTex;
             sampler2D _SeaTex;
-            sampler2D _RiverTex;
+            sampler2D _RiverTex;            
             sampler2D _RemapTex;
             sampler2D _PaletteTex;
+
+            float _DrawRiver;
+
             float4 _RegionTex_ST;
 
             v2f vert (appdata v)
@@ -62,19 +66,31 @@ Shader "Unlit/WorldMap"
 
                 // Sea regions
                 fixed4 sea_index = tex2D(_SeaTex, i.uv);   
-
                 
-                if(river_index.r == 1 && river_index.g == 1 && river_index.b == 1)
+
+                // There are rivers
+                if(_DrawRiver == 1)
                 {
-                    // Land grey borders 
-                    if (sea_index.r == 1 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
-                        return fixed4(0.55, 0.55, 0.55, 1);                    
-                    }  
+                        if(river_index.r == 1 && river_index.g == 1 && river_index.b == 1)
+                        {
+                            // Land grey borders 
+                            if (sea_index.r == 1 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
+                                return fixed4(0.55, 0.55, 0.55, 1);                    
+                            }  
+                        }
+                        else{
+                            // Current pixel is a river                    
+                            return fixed4(0, 0.88, 1, 1);    
+                        }
                 }
-                else{
-                    // Current pixel is a river                    
-                    return fixed4(0, 0.88, 1, 1);    
+                else
+                {// There are not rivers
+                        // Land grey borders 
+                        if (sea_index.r == 1 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
+                            return fixed4(0.55, 0.55, 0.55, 1);                    
+                        }  
                 }
+
 
                 fixed4 index = tex2D(_RemapTex, i.uv);                   
                 return tex2D(_PaletteTex, index.xy * 255.0 / 256.0 + float2(0.001953125, 0.001953125));     

@@ -15,6 +15,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     public GameObject editorMenuSubbutton;
     public GameObject editorHistoryButton;
     public GameObject postItElement;
+
+    [Header("Custom map")]
     public Toggle layerCheckCollective;
     public TMP_Dropdown layersDropdown;
 
