@@ -98,10 +98,10 @@ public class Region
             color32.g = _owner.Rgb32.g;
             color32.b = _owner.Rgb32.b;
 
-            // Random color for political frontier
-            if (color32.r.ToString() == "0") { color32.r= byte.Parse(Random.Range(0, 255).ToString("D3")); }
+            // Random color for political frontier ???
+            /*if (color32.r.ToString() == "0") { color32.r= byte.Parse(Random.Range(0, 255).ToString("D3")); }
             if (color32.g.ToString() == "0") { color32.g = byte.Parse(Random.Range(0, 255).ToString("D3")); }
-            if (color32.b.ToString() == "0") { color32.b = byte.Parse(Random.Range(0, 255).ToString("D3")); }
+            if (color32.b.ToString() == "0") { color32.b = byte.Parse(Random.Range(0, 255).ToString("D3")); }*/
         }
 
         return color32;

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
+using System.Collections;
+using UnityEngine.UI;
 
 public class MapManager : Singleton<MapManager>
 {
@@ -29,12 +31,20 @@ public class MapManager : Singleton<MapManager>
 
     Color32 colorHighlight;
 
-
     public GameObject flagMarker;
+    public List<Color32> polityColorList = new List<Color32>();
 
 
     void Start()
     {
+        // List used colors
+        polityColorList.Add(ParamColor.COLOR_BLACK);
+        polityColorList.Add(ParamColor.COLOR_REGION_HIGHLIGHT);
+        polityColorList.Add(ParamColor.COLOR_REGION_LAKE);
+        polityColorList.Add(ParamColor.COLOR_REGION_LAND);
+        polityColorList.Add(ParamColor.COLOR_REGION_SEA);
+        polityColorList.Add(ParamColor.COLOR_WHITE);
+
         // Material, texture & properties inicialization
         _material = GetComponent<Renderer>().material;
         mainTex = _material.GetTexture("_RegionTex") as Texture2D;        
@@ -175,7 +185,7 @@ public class MapManager : Singleton<MapManager>
     void CreateMap()
     {
         var mainArr = mainTex.GetPixels32();
-
+        
         width = mainTex.width;
         height = mainTex.height;
 
@@ -303,7 +313,6 @@ public class MapManager : Singleton<MapManager>
         {
             for (int y = iy; y < ey; y++)
             {
-
                 bool mustBeColored = false;
                 Color32 regionColor;
                 if (singleRegion == null)

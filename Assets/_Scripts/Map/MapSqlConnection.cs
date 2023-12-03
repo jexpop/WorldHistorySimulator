@@ -108,7 +108,8 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                                         "StageId, SettlementId, StartDate, EndDate, " +
                                         "L1_PolityParentId, L2_PolityParentId, L3_PolityParentId,  L4_PolityParentId, " +
                                         "L1_PolityTypeIdParent, L2_PolityTypeIdParent, L3_PolityTypeIdParent, L4_PolityTypeIdParent, " +
-                                        "PolicyPolityId, PolicyPolityTypeId FROM TerritoryHistory ORDER BY RegionId, StartDate";
+                                        "L1_PolityCapital, L2_PolityCapital, L3_PolityCapital, L4_PolityCapital, " +
+                                        "PolicyPolityId, PolicyPolityTypeId, PolicyCapital FROM TerritoryHistory ORDER BY RegionId, StartDate";
         dbcmd.CommandText = sqlQuery;
 
         using (cursor = dbcmd.ExecuteReader())
@@ -136,13 +137,19 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                 int polityTypeIdParent_L2 = cursor.IsDBNull(10) ? 0 : cursor.GetInt32(10);
                 int polityTypeIdParent_L3 = cursor.IsDBNull(11) ? 0 : cursor.GetInt32(11);
                 int polityTypeIdParent_L4 = cursor.IsDBNull(12) ? 0 : cursor.GetInt32(12);
-                int policyPolityId = cursor.IsDBNull(13) ? 0 : cursor.GetInt32(13);
-                int policyPolityTypeId = cursor.IsDBNull(14) ? 0 : cursor.GetInt32(14);
+                int capital_L1 = cursor.IsDBNull(13) ? 0 : cursor.GetInt32(13);
+                int capital_L2 = cursor.IsDBNull(14) ? 0 : cursor.GetInt32(14);
+                int capital_L3 = cursor.IsDBNull(15) ? 0 : cursor.GetInt32(15);
+                int capital_L4 = cursor.IsDBNull(16) ? 0 : cursor.GetInt32(16); ;
+                int policyPolityId = cursor.IsDBNull(17) ? 0 : cursor.GetInt32(17);
+                int policyPolityTypeId = cursor.IsDBNull(18) ? 0 : cursor.GetInt32(18);
+                int policyCapital = cursor.IsDBNull(19) ? 0 : cursor.GetInt32(19);
                 HistoryStage stage = new HistoryStage(
                                     startDate, endDate,
                                     polityParentId_L1, polityParentId_L2, polityParentId_L3, polityParentId_L4,
                                     polityTypeIdParent_L1, polityTypeIdParent_L2, polityTypeIdParent_L3, polityTypeIdParent_L4,
-                                    policyPolityId, policyPolityTypeId
+                                    capital_L1, capital_L2, capital_L3, capital_L4,
+                                    policyPolityId, policyPolityTypeId, policyCapital
                 );
 
                 // History of the region
@@ -168,8 +175,9 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT StageId, SettlementId, StartDate, EndDate, " +
                                                             "L1_PolityParentId, L2_PolityParentId, L3_PolityParentId,  L4_PolityParentId, " +
-                                                            "L1_PolityTypeIdParent, L2_PolityTypeIdParent, L3_PolityTypeIdParent, L4_PolityTypeIdParent, " + 
-                                                            "PolicyPolityId, PolicyPolityTypeId FROM TerritoryHistory WHERE RegionId=" + regionId + " ORDER BY StartDate";
+                                                            "L1_PolityTypeIdParent, L2_PolityTypeIdParent, L3_PolityTypeIdParent, L4_PolityTypeIdParent, " +
+                                                            "L1_PolityCapital, L2_PolityCapital, L3_PolityCapital, L4_PolityCapital, " +
+                                                            "PolicyPolityId, PolicyPolityTypeId, PolicyCapital FROM TerritoryHistory WHERE RegionId=" + regionId + " ORDER BY StartDate";
         dbcmd.CommandText = sqlQuery;
         List<HistoryRegionRelation> history = new List<HistoryRegionRelation>();
         using (cursor = dbcmd.ExecuteReader())
@@ -191,13 +199,19 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                 int polityTypeIdParent_L2 = cursor.IsDBNull(9) ? 0 : cursor.GetInt32(9);
                 int polityTypeIdParent_L3 = cursor.IsDBNull(10) ? 0 : cursor.GetInt32(10);
                 int polityTypeIdParent_L4 = cursor.IsDBNull(11) ? 0 : cursor.GetInt32(11);
-                int policyPolityId = cursor.IsDBNull(12) ? 0 : cursor.GetInt32(12);
-                int policyPolityTypeId = cursor.IsDBNull(13) ? 0 : cursor.GetInt32(13);
+                int capital_L1 = cursor.IsDBNull(12) ? 0 : cursor.GetInt32(12);
+                int capital_L2 = cursor.IsDBNull(13) ? 0 : cursor.GetInt32(13);
+                int capital_L3 = cursor.IsDBNull(14) ? 0 : cursor.GetInt32(14);
+                int capital_L4 = cursor.IsDBNull(15) ? 0 : cursor.GetInt32(15);
+                int policyPolityId = cursor.IsDBNull(16) ? 0 : cursor.GetInt32(16);
+                int policyPolityTypeId = cursor.IsDBNull(17) ? 0 : cursor.GetInt32(17);
+                int policyCapital = cursor.IsDBNull(18) ? 0 : cursor.GetInt32(18);
                 HistoryStage stage = new HistoryStage(
                                     startDate, endDate, 
                                     polityParentId_L1, polityParentId_L2, polityParentId_L3, polityParentId_L4,  
-                                    polityTypeIdParent_L1, polityTypeIdParent_L2, polityTypeIdParent_L3, polityTypeIdParent_L4,  
-                                    policyPolityId, policyPolityTypeId
+                                    polityTypeIdParent_L1, polityTypeIdParent_L2, polityTypeIdParent_L3, polityTypeIdParent_L4,
+                                    capital_L1, capital_L2, capital_L3, capital_L4,
+                                    policyPolityId, policyPolityTypeId, policyCapital
                 );
 
                 // History of the region
@@ -457,7 +471,8 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                         int startDate, int toDate, 
                         int polityParentId_L1, int polityParentId_L2, int polityParentId_L3, int polityParentId_L4,  
                         int polityTypeIdParent_L1, int polityTypeIdParent_L2, int polityTypeIdParent_L3, int polityTypeIdParent_L4, 
-                        int policyPolityId, int policyPolityTypeId)
+                        int polityCapital_L1, int polityCapital_L2, int polityCapital_L3, int polityCapital_L4,
+                        int policyPolityId, int policyPolityTypeId, int policyCapital)
     {
         string qPolityParentId_L1 = polityParentId_L1 == 0 ? "NULL" : polityParentId_L1.ToString();
         string qPolityParentId_L2 = polityParentId_L2 == 0 ? "NULL" : polityParentId_L2.ToString();
@@ -467,23 +482,30 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
         string qPolityTypeIdParent_L2 = polityTypeIdParent_L2 == 0 ? "NULL" : polityTypeIdParent_L2.ToString();
         string qPolityTypeIdParent_L3 = polityTypeIdParent_L3 == 0 ? "NULL" : polityTypeIdParent_L3.ToString();
         string qPolityTypeIdParent_L4 = polityTypeIdParent_L4 == 0 ? "NULL" : polityTypeIdParent_L4.ToString();
+        string qPolityCapital_L1 = polityCapital_L1 == 0 ? "NULL" : polityCapital_L1.ToString();
+        string qPolityCapital_L2 = polityCapital_L2 == 0 ? "NULL" : polityCapital_L2.ToString();
+        string qPolityCapital_L3 = polityCapital_L3 == 0 ? "NULL" : polityCapital_L3.ToString();
+        string qPolityCapital_L4 = polityCapital_L4 == 0 ? "NULL" : polityCapital_L4.ToString();
         string qPolicyPolityId = policyPolityId == 0 ? "NULL" : policyPolityId.ToString();
         string qPolicyPolityTypeId = policyPolityTypeId == 0 ? "NULL" : policyPolityTypeId.ToString();
+        string qPolicyCapital = policyCapital == 0 ? "NULL" : policyCapital.ToString();
 
-        string sInsert = "INSERT INTO TerritoryHistory VALUES(NULL, " + 
-                                                                                regionId + ", " + settlementId + ", " + 
-                                                                                startDate + ", " + toDate + ", " + 
-                                                                                qPolityParentId_L1 + "," + qPolityParentId_L2 + "," + qPolityParentId_L3 + "," + qPolityParentId_L4 + "," + 
-                                                                                qPolityTypeIdParent_L1 + ", " + qPolityTypeIdParent_L2 + ", " + qPolityTypeIdParent_L3 + ", " + qPolityTypeIdParent_L4 + ", " + 
-                                                                                qPolicyPolityId + ", " + qPolicyPolityTypeId + ")";
+        string sInsert = "INSERT INTO TerritoryHistory VALUES(NULL, " +
+                                                                                regionId + ", " + settlementId + ", " +
+                                                                                startDate + ", " + toDate + ", " +
+                                                                                qPolityParentId_L1 + "," + qPolityParentId_L2 + "," + qPolityParentId_L3 + "," + qPolityParentId_L4 + "," +
+                                                                                qPolityTypeIdParent_L1 + ", " + qPolityTypeIdParent_L2 + ", " + qPolityTypeIdParent_L3 + ", " + qPolityTypeIdParent_L4 + ", " +
+                                                                                qPolityCapital_L1 + ", " + qPolityCapital_L2 + ", " + qPolityCapital_L3 + ", " + qPolityCapital_L4 + ", " +
+                                                                                qPolicyPolityId + ", " + qPolicyPolityTypeId + "," + qPolicyCapital + ")";
         SentSQLOperation(sInsert);
     }
     public void UpdateStage(
                         int stageId, 
                         int startDate, int toDate, 
                         int polityParentId_L1, int polityParentId_L2, int polityParentId_L3, int polityParentId_L4, 
-                        int polityTypeIdParent_L1, int polityTypeIdParent_L2, int polityTypeIdParent_L3, int polityTypeIdParent_L4, 
-                        int policyPolityId, int policyPolityTypeId
+                        int polityTypeIdParent_L1, int polityTypeIdParent_L2, int polityTypeIdParent_L3, int polityTypeIdParent_L4,
+                        int polityCapital_L1, int polityCapital_L2, int polityCapital_L3, int polityCapital_L4,
+                        int policyPolityId, int policyPolityTypeId, int policyCapital
         )
     {
         string qPolityParentId_L1 = polityParentId_L1 == 0 ? "NULL" : polityParentId_L1.ToString();
@@ -494,14 +516,20 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
         string qPolityTypeIdParent_L2 = polityTypeIdParent_L2 == 0 ? "NULL" : polityTypeIdParent_L2.ToString();
         string qPolityTypeIdParent_L3 = polityTypeIdParent_L3 == 0 ? "NULL" : polityTypeIdParent_L3.ToString();
         string qPolityTypeIdParent_L4 = polityTypeIdParent_L4 == 0 ? "NULL" : polityTypeIdParent_L4.ToString();
+        string qPolityCapital_L1 = polityCapital_L1 == 0 ? "NULL" : polityCapital_L1.ToString();
+        string qPolityCapital_L2 = polityCapital_L2 == 0 ? "NULL" : polityCapital_L2.ToString();
+        string qPolityCapital_L3 = polityCapital_L3 == 0 ? "NULL" : polityCapital_L3.ToString();
+        string qPolityCapital_L4 = polityCapital_L4 == 0 ? "NULL" : polityCapital_L4.ToString();
         string qPolicyPolityId = policyPolityId == 0 ? "NULL" : policyPolityId.ToString();
         string qPolicyPolityTypeId = policyPolityTypeId == 0 ? "NULL" : policyPolityTypeId.ToString();
+        string qPolicyCapital = policyCapital == 0 ? "NULL" : policyCapital.ToString();
 
         string sUpdate = "UPDATE TerritoryHistory " +
                                     "SET StartDate=" + startDate + ", EndDate=" + toDate +
                                     ", L1_PolityParentId=" + qPolityParentId_L1 + ", L2_PolityParentId=" + qPolityParentId_L2 + ", L3_PolityParentId=" + qPolityParentId_L3 + ", L4_PolityParentId=" + qPolityParentId_L4 + 
-                                    ", L1_PolityTypeIdParent=" + qPolityTypeIdParent_L1 + ", L2_PolityTypeIdParent=" + qPolityTypeIdParent_L2 + ", L3_PolityTypeIdParent=" + qPolityTypeIdParent_L3 + ", L4_PolityTypeIdParent=" + qPolityTypeIdParent_L4 + 
-                                    ", PolicyPolityId=" + qPolicyPolityId + ", PolicyPolityTypeId=" + qPolicyPolityTypeId + " " +
+                                    ", L1_PolityTypeIdParent=" + qPolityTypeIdParent_L1 + ", L2_PolityTypeIdParent=" + qPolityTypeIdParent_L2 + ", L3_PolityTypeIdParent=" + qPolityTypeIdParent_L3 + ", L4_PolityTypeIdParent=" + qPolityTypeIdParent_L4 +
+                                    ", L1_PolityCapital=" + qPolityCapital_L1 + ", L2_PolityCapital=" + qPolityCapital_L2 + ", L3_PolityCapital=" + qPolityCapital_L3 + ", L4_PolityCapital=" + qPolityCapital_L4 +
+                                    ", PolicyPolityId=" + qPolicyPolityId + ", PolicyPolityTypeId=" + qPolicyPolityTypeId + ", PolicyCapital=" + qPolicyCapital +  " " +
                                     "WHERE StageId=" + stageId;
         SentSQLOperation(sUpdate);
     }

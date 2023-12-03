@@ -581,7 +581,6 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 // Polity Type
                 PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
                 tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
-                Debug.Log("entro 2");
                 // Main polity
                 tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL2.Name);
 

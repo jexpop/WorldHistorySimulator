@@ -72,6 +72,7 @@
     <Compile Include="Assets\_Scripts\Map\MapBox.cs" />
     <Compile Include="Assets\_Scripts\Config\ParamMap.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\PostItNote.cs" />
+    <Compile Include="Assets\_Scripts\UI\CursorManager.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\Settlement.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\PolityType.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\StageFloatingPanel.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Assets\_Scripts\Config\ParamColor.cs" />
     <Compile Include="Assets\_Scripts\Config\ParamResources.cs" />
     <Compile Include="Assets\_Scripts\GameManager.cs" />
+    <Compile Include="Assets\_Scripts\Common\DeltaEColor.cs" />
     <Compile Include="Assets\_Scripts\UI\NotificationSystem\SimpleMessage.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\Polity.cs" />
     <Compile Include="Assets\_Scripts\Config\GlobalEnum.cs" />

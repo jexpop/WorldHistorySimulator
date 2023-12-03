@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class StageFloatingPanel : MonoBehaviour
 {
@@ -18,30 +18,35 @@ public class StageFloatingPanel : MonoBehaviour
     public TMP_Dropdown parentDropdown_L1;
     public EditorDropdown parentTypeEditorDropdown_L1;
     public EditorDropdown parentEditorDropdown_L1;
+    public Toggle isCapital_L1;
 
     [Header("Components of the owner's parent Level 2")]
     public TMP_Dropdown parentTypeDropdown_L2;
     public TMP_Dropdown parentDropdown_L2;
     public EditorDropdown parentTypeEditorDropdown_L2;
     public EditorDropdown parentEditorDropdown_L2;
+    public Toggle isCapital_L2;
 
     [Header("Components of the owner's parent Level 3")]
     public TMP_Dropdown parentTypeDropdown_L3;
     public TMP_Dropdown parentDropdown_L3;
     public EditorDropdown parentTypeEditorDropdown_L3;
     public EditorDropdown parentEditorDropdown_L3;
+    public Toggle isCapital_L3;
 
     [Header("Components of the owner's parent Level 4")]
     public TMP_Dropdown parentTypeDropdown_L4;
     public TMP_Dropdown parentDropdown_L4;
     public EditorDropdown parentTypeEditorDropdown_L4;
     public EditorDropdown parentEditorDropdown_L4;
+    public Toggle isCapital_L4;
 
     [Header("Components of the policy")]
     public TMP_Dropdown policyTypeDropdown;
     public TMP_Dropdown policyDropdown;
     public EditorDropdown policyTypeEditorDropdown;
     public EditorDropdown policyEditorDropdown;
+    public Toggle isCapital_Policy;
 
     [Header("Status messages")]
     public SimpleMessage stageOkMessage;
@@ -126,9 +131,15 @@ public class StageFloatingPanel : MonoBehaviour
             parentDropdown_L3.value = GetDropdownValue(parentEditorDropdown_L3, historyStage.PolityParentId_L3, false, true);
             parentDropdown_L4.value = GetDropdownValue(parentEditorDropdown_L4, historyStage.PolityParentId_L4, false, true);
 
+            isCapital_L1.isOn=historyStage.Capital_L1==1?true:false;
+            isCapital_L2.isOn = historyStage.Capital_L2 == 1 ? true : false;
+            isCapital_L3.isOn = historyStage.Capital_L3 == 1 ? true : false;
+            isCapital_L4.isOn = historyStage.Capital_L4 == 1 ? true : false;
+
             // Policy
             policyTypeDropdown.value = GetDropdownValue(policyTypeEditorDropdown, historyStage.PolicyTypeId, false, true);
             policyDropdown.value = GetDropdownValue(policyEditorDropdown, historyStage.PolicyId, false, true);
+            isCapital_Policy.isOn = historyStage.PolicyCapital == 1 ? true : false;
 
         }
         else
@@ -163,12 +174,17 @@ public class StageFloatingPanel : MonoBehaviour
             parentDropdown_L2.value = 0;
             parentDropdown_L3.value = 0;
             parentDropdown_L4.value = 0;
+            isCapital_L1.isOn = false;
+            isCapital_L2.isOn = false;
+            isCapital_L3.isOn = false;
+            isCapital_L4.isOn = false;
 
             // Policy
             policyTypeEditorDropdown.LoadOptions(true);
             policyEditorDropdown.LoadOptions(true);
             policyTypeDropdown.value = 0;
             policyDropdown.value = 0;
+            isCapital_Policy.isOn = false;
 
         }
 
@@ -263,8 +279,13 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true),
                                                                                     GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true),
                                                                                     GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true),
+                                                                                    isCapital_L1.isOn == true ? 1 : 0,
+                                                                                    isCapital_L2.isOn == true ? 1 : 0,
+                                                                                    isCapital_L3.isOn == true ? 1 : 0,
+                                                                                    isCapital_L4.isOn == true ? 1 : 0,
                                                                                     GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
-                                                                                    GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true)
+                                                                                    GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
+                                                                                    isCapital_Policy.isOn == true ? 1 : 0
                                                                                 );
 
                     // Refreshing data                   
@@ -298,8 +319,13 @@ public class StageFloatingPanel : MonoBehaviour
                                                                 GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true),
                                                                 GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true),
                                                                 GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true),
+                                                                isCapital_L1.isOn == true ? 1 : 0,
+                                                                isCapital_L2.isOn == true ? 1 : 0,
+                                                                isCapital_L3.isOn == true ? 1 : 0,
+                                                                isCapital_L4.isOn == true ? 1 : 0,
                                                                 GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
-                                                                GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true)
+                                                                GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
+                                                                isCapital_Policy.isOn == true ? 1 : 0
                                                             );
                     
                     // Refreshing data                   
