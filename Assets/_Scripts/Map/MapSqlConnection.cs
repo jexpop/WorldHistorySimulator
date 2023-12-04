@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Data;
 using Mono.Data.Sqlite;
 using Aron.Weiler;
+using Unity.VisualScripting;
+using static UnityEngine.Rendering.HDROutputUtils;
 
 public class MapSqlConnection : Singleton<MapSqlConnection>
 {
@@ -259,14 +261,27 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /// <summary>
     /// Gets information from the polity to build a dictionary of political frontiers
     /// </summary>
+    /// <param name="time">Current time to filter the color shown</param>
+    /// <param name="polityParentHierarchy">Hierarchy to filter the color shown</param>
     /// <returns>Polities Dictionary</returns>
-    public Dictionary<int, Polity> GetInfoPolities()
+    public Dictionary<int, Polity> GetInfoPolities(string time, int polityParentHierarchy)
     {
+        string polityParentHierarchyExtra = polityParentHierarchy switch
+        {
+            2 => "or th.L2_PolityParentId=p.PolityId ",
+            3 => "or th.L2_PolityParentId=p.PolityId or th.L3_PolityParentId=p.PolityId ",
+            4 => "or th.L2_PolityParentId=p.PolityId or th.L3_PolityParentId=p.PolityId or th.L4_PolityParentId=p.PolityId ",
+            _ => ""
+        };
+
         ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
-        sqlQuery = "SELECT p.PolityId, p.PolityName, ifnull(p.RGB,'999.999.999'), CASE WHEN py.PolicyName = '"+ ParamResources.DB_IS_COLLECTIVE+"' THEN TRUE ELSE FALSE END IsCollective FROM Polity p INNER JOIN Policy py ON py.PolicyId = p.PolicyId ORDER BY p.PolityName";
+        sqlQuery = "SELECT p.PolityId, p.PolityName, ifnull(p.RGB,'999.999.999'), " +
+                                "CASE WHEN py.PolicyName = '"+ ParamResources.DB_IS_COLLECTIVE+ "' THEN TRUE ELSE FALSE END IsCollective, " +
+                                "(select th.stageId from TerritoryHistory th where (th.L1_PolityParentId=p.PolityId " + polityParentHierarchyExtra + ") and th.StartDate<=" + time + " and th.EndDate>=" + time + " limit 1) VisibilityCheck " +
+                                "FROM Polity p INNER JOIN Policy py ON py.PolicyId = p.PolicyId ORDER BY p.PolityName";
         dbcmd.CommandText = sqlQuery;
-
+        
         Dictionary<int, Polity> polities = new Dictionary<int, Polity>();
         using (cursor = dbcmd.ExecuteReader())
         {
@@ -277,6 +292,9 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                 string polityName = cursor.GetString(1);
                 string polityColor = cursor.GetString(2);
                 bool policy = cursor.GetBoolean(3);
+                int colorVisibility = cursor.IsDBNull(4) ? 0 : cursor.GetInt32(4);
+
+                polityColor = colorVisibility == 0 ? "255.255.255" : polityColor;
 
                 polities.Add(
                                     polityKey,

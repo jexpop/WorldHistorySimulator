@@ -17,7 +17,7 @@ public class Polity
     public Polity(string name, string rgb, bool isCollective)
     {
         this._name = name;
-        this._rgb32 = PolityColorSelect(rgb);
+        this._rgb32 = rgb=="255.255.255"? ParamColor.COLOR_WHITE : PolityColorSelect(rgb);
         this._isCollective = isCollective;
     }
 
@@ -29,6 +29,8 @@ public class Polity
     private Color32 PolityColorSelect(string color)
     {
         Color32 color32 = new Color32();
+        
+        // Colors from database
         color32.r = byte.Parse(color.Substring(0, 3));
         color32.g = byte.Parse(color.Substring(4, 3));
         color32.b = byte.Parse(color.Substring(8, 3));
@@ -40,7 +42,8 @@ public class Polity
             if (color32.r.ToString() == "0") { color32.r = byte.Parse(Random.Range(0, 255).ToString("D3")); }
             if (color32.g.ToString() == "0") { color32.g = byte.Parse(Random.Range(0, 255).ToString("D3")); }
             if (color32.b.ToString() == "0") { color32.b = byte.Parse(Random.Range(0, 255).ToString("D3")); }
-            if(!DeltaEColor.SimilarColorFromList(color32, MapManager.Instance.polityColorList))
+
+            if (!DeltaEColor.SimilarColorFromList(color32, MapManager.Instance.polityColorList))
             {
                 MapManager.Instance.polityColorList.Add(color32);
                 check = true;

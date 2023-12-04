@@ -4,6 +4,7 @@ using Aron.Weiler;
 using System.Linq;
 using System.Collections;
 using UnityEngine.UI;
+using static UnityEngine.ParticleSystem;
 
 public class MapManager : Singleton<MapManager>
 {
@@ -37,28 +38,36 @@ public class MapManager : Singleton<MapManager>
 
     void Start()
     {
-        // List used colors
-        polityColorList.Add(ParamColor.COLOR_BLACK);
-        polityColorList.Add(ParamColor.COLOR_REGION_HIGHLIGHT);
-        polityColorList.Add(ParamColor.COLOR_REGION_LAKE);
-        polityColorList.Add(ParamColor.COLOR_REGION_LAND);
-        polityColorList.Add(ParamColor.COLOR_REGION_SEA);
-        polityColorList.Add(ParamColor.COLOR_WHITE);
-
-        // Material, texture & properties inicialization
-        _material = GetComponent<Renderer>().material;
-        mainTex = _material.GetTexture("_RegionTex") as Texture2D;        
-        _material.SetFloat("_DrawRiver", 0f);
+        UsedColors();
+        InitParams();
 
         // Get Sql data
         LoadPolitiesTypeDictionaryFromDB();
-        LoadPolitiesDictionaryFromDB();
+        LoadPolitiesDictionaryFromDB(EditorUICanvasManager.Instance.GetCurrentTimeline(false), 1);
         LoadSettlementsDictionaryFromDB();
 
         // Building map
         CreateMap();
         CreateRegions(0);
 
+    }
+
+    // List used colors
+    private void UsedColors()
+    {        
+        polityColorList.Add(ParamColor.COLOR_BLACK);
+        polityColorList.Add(ParamColor.COLOR_REGION_HIGHLIGHT);
+        polityColorList.Add(ParamColor.COLOR_REGION_LAKE);
+        polityColorList.Add(ParamColor.COLOR_REGION_LAND);
+        polityColorList.Add(ParamColor.COLOR_REGION_SEA);
+        polityColorList.Add(ParamColor.COLOR_WHITE);
+    }
+    // Material, texture & properties inicialization
+    private void InitParams()
+    {        
+        _material = GetComponent<Renderer>().material;
+        mainTex = _material.GetTexture("_RegionTex") as Texture2D;
+        _material.SetFloat("_DrawRiver", 0f);
     }
 
     void Update()
@@ -279,6 +288,9 @@ public class MapManager : Singleton<MapManager>
         // Get current timeline
         int timeline = EditorUICanvasManager.Instance.GetCurrentTimeline(timeTravelbutton);
 
+        // Uptade Polities (Important, before regions)
+        LoadPolitiesDictionaryFromDB(timeline, optionLayer + 1);
+
         // Create the list of regions with your information
         regions = MapSqlConnection.Instance.GetInfoRegions(timeline, optionLayer);
 
@@ -470,9 +482,10 @@ public class MapManager : Singleton<MapManager>
     {
         politiesType = MapSqlConnection.Instance.GetInfoPolitiesType();
     }
-    public void LoadPolitiesDictionaryFromDB()
+    public void LoadPolitiesDictionaryFromDB(int currentTime, int polityLayer)
     {
-        polities = MapSqlConnection.Instance.GetInfoPolities();
+        polityColorList.Clear();
+        polities = MapSqlConnection.Instance.GetInfoPolities(currentTime.ToString(), polityLayer);
     }
     public void LoadSettlementsDictionaryFromDB()
     {

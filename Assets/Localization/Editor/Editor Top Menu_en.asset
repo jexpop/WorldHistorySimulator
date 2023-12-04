@@ -82,6 +82,10 @@ MonoBehaviour:
     m_Localized: Rivers layer
     m_Metadata:
       m_Items: []
+  - m_Id: 184839064492789760
+    m_Localized: Edit polity symbols
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

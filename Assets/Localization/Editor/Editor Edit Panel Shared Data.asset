@@ -87,6 +87,10 @@ MonoBehaviour:
     m_Key: SettlementList
     m_Metadata:
       m_Items: []
+  - m_Id: 184893245563949056
+    m_Key: PolitySymbols
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -3,6 +3,7 @@ public class ParamUI
     public const string EDITMENU_POLITYTYPE_NAME_INPUT = "PolityTypeNameInput";
     public const string EDITMENU_POLITY_NAME_INPUT = "PolityNameInput";
     public const string EDITMENU_SCROLLBUTTONS_POLITY = "PolityContent";
+    public const string EDITMENU_SCROLLBUTTONS_POLITY_SYMBOLS = "PolitySymbolsContent";
     public const string EDITMENU_SCROLLBUTTONS_POLITY_TYPE = "PolityTypeContent";
     public const string EDITMENU_SCROLLBUTTONS_SETTLEMENT = "SettlementContent";
     public const string EDITMENU_SETTLEMENT_NAME_INPUT = "SettlementNameInput";

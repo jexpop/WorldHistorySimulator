@@ -104,6 +104,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         UIgameobject.SetActive(!UIgameobject.activeInHierarchy);
     }
 
+
+    /*** Filling scrolls ***/
     /// <summary>
     /// Get information for a scrollview of the buttons
     /// </summary>
@@ -129,126 +131,133 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
             // Polity Type Edit Menu
             case ParamUI.EDITMENU_SCROLLBUTTONS_POLITY_TYPE:
-
-                // Building list of polities type
-                List<GameObject> polityTypeButtons = new List<GameObject>();
-                foreach (KeyValuePair<int, PolityType> pt in MapManager.Instance.GetPolitiesType())
-                {
-                    PolityType currentPolityType = pt.Value;
-
-                    // Instantiate buttons
-                    GameObject button = Instantiate(editorMenuButton);
-                    string polityTypeName = currentPolityType.Name;
-
-                    LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES_TYPE", polityTypeName);
-
-
-                    //*// OnClick() events //*//
-                    // Data filler
-                    button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.PolityType, pt.Key); });
-                    // Message status
-                    IdentificatorMessage message = Instantiate(polityTypeMessage);
-                    message.objectName = currentPolityType.Name;
-                    button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
-                    // Run click events for a element
-                    if (currentPolityType.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
-                    //*//
-
-                    polityTypeButtons.Add(button);
-                };
-
-                // Reordering buttons
-                List<GameObject> SortedPolityTypeButtons = polityTypeButtons.OrderBy(o => o.GetComponentInChildren<TextMeshProUGUI>().text).ToList();
-                foreach (GameObject polityTypeButton in SortedPolityTypeButtons)
-                {
-                    polityTypeButton.transform.SetParent(scrollViewButton.transform);
-                }
-
+                FillScrollPolityType(scrollViewButton, elementKey);
                 // End case Polity Type Edit Menu
                 break;
 
             // Polity Edit Menu
             case ParamUI.EDITMENU_SCROLLBUTTONS_POLITY:
-
-                // Building list of polities
-                List<GameObject> polityButtons= new List<GameObject>();
-                foreach (KeyValuePair<int, Polity> p in MapManager.Instance.GetPolities())
-                {
-                    Polity currentPolity = p.Value;
-
-                    // Instantiate buttons
-                    GameObject button = Instantiate(editorMenuButton);
-                    string polityName = currentPolity.Name;
-
-                    LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES", polityName);
-
-
-                    //*// OnClick() events //*//
-                    // Data filler
-                    button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.Polity, p.Key); });
-                    // Message status
-                    IdentificatorMessage message = Instantiate(polityMessage);
-                    message.objectName = currentPolity.Name;
-                    button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
-                    // Run click events for a element
-                    if (currentPolity.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
-                    //*//
-
-                    polityButtons.Add(button);
-                };
-
-                // Reordering buttons
-                List<GameObject> SortedPolityButtons = polityButtons.OrderBy(o => o.GetComponentInChildren<TextMeshProUGUI>().text).ToList();
-                foreach (GameObject polityButton in SortedPolityButtons)
-                {
-                    polityButton.transform.SetParent(scrollViewButton.transform);
-                }
-
+                FillScrollPolity(scrollViewButton, elementKey);
                 // End case Polity Edit Menu
                 break;
 
             // Settlement Edit Menu
             case ParamUI.EDITMENU_SCROLLBUTTONS_SETTLEMENT:
-
-                // Building list of settlements
-                List<GameObject> settlementButtons = new List<GameObject>();
-                foreach (KeyValuePair<int, Settlement> s in MapManager.Instance.GetSettlements())
-                {
-                    Settlement currentSettlement = s.Value;
-
-                    // Instantiate buttons
-                    GameObject button = Instantiate(editorMenuButton);
-                    string settlementName = currentSettlement.Name;
-
-                    LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_SETTLEMENTS", settlementName);
-
-
-                    //*// OnClick() events //*//
-                    // Data filler
-                    button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.Settlement, s.Key); });
-                    // Message status
-                    IdentificatorMessage message = Instantiate(settlementMessage);
-                    message.objectName = currentSettlement.Name;
-                    button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
-                    // Run click events for a element
-                    if (currentSettlement.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
-                    //*//
-
-                    settlementButtons.Add(button);
-                };
-
-                // Reordering buttons
-                List<GameObject> SortedSettlementButtons = settlementButtons.OrderBy(o => o.GetComponentInChildren<TextMeshProUGUI>().text).ToList();
-                foreach (GameObject settlementButton in SortedSettlementButtons)
-                {
-                    settlementButton.transform.SetParent(scrollViewButton.transform);
-                }
-
+                FillScrollSettlement(scrollViewButton, elementKey);
                 // End case Settlement Edit Menu
                 break;
         }
 
     }
+    private void FillScrollPolityType(Transform scrollViewButton, string elementKey = null)
+    {
+        // Building list of polities type
+        List<GameObject> polityTypeButtons = new List<GameObject>();
+        foreach (KeyValuePair<int, PolityType> pt in MapManager.Instance.GetPolitiesType())
+        {
+            PolityType currentPolityType = pt.Value;
+
+            // Instantiate buttons
+            GameObject button = Instantiate(editorMenuButton);
+            string polityTypeName = currentPolityType.Name;
+
+            LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES_TYPE", polityTypeName);
+
+
+            //*// OnClick() events //*//
+            // Data filler
+            button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.PolityType, pt.Key); });
+            // Message status
+            IdentificatorMessage message = Instantiate(polityTypeMessage);
+            message.objectName = currentPolityType.Name;
+            button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
+            // Run click events for a element
+            if (currentPolityType.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
+            //*//
+
+            polityTypeButtons.Add(button);
+        };
+
+        // Reordering buttons
+        List<GameObject> SortedPolityTypeButtons = polityTypeButtons.OrderBy(o => o.GetComponentInChildren<TextMeshProUGUI>().text).ToList();
+        foreach (GameObject polityTypeButton in SortedPolityTypeButtons)
+        {
+            polityTypeButton.transform.SetParent(scrollViewButton.transform);
+        }
+    }
+    private void FillScrollPolity(Transform scrollViewButton, string elementKey = null)
+    {
+        // Building list of polities
+        List<GameObject> polityButtons = new List<GameObject>();
+        foreach (KeyValuePair<int, Polity> p in MapManager.Instance.GetPolities())
+        {
+            Polity currentPolity = p.Value;
+
+            // Instantiate buttons
+            GameObject button = Instantiate(editorMenuButton);
+            string polityName = currentPolity.Name;
+
+            LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES", polityName);
+
+
+            //*// OnClick() events //*//
+            // Data filler
+            button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.Polity, p.Key); });
+            // Message status
+            IdentificatorMessage message = Instantiate(polityMessage);
+            message.objectName = currentPolity.Name;
+            button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
+            // Run click events for a element
+            if (currentPolity.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
+            //*//
+
+            polityButtons.Add(button);
+        };
+
+        // Reordering buttons
+        List<GameObject> SortedPolityButtons = polityButtons.OrderBy(o => o.GetComponentInChildren<TextMeshProUGUI>().text).ToList();
+        foreach (GameObject polityButton in SortedPolityButtons)
+        {
+            polityButton.transform.SetParent(scrollViewButton.transform);
+        }
+    }
+    private void FillScrollSettlement(Transform scrollViewButton, string elementKey = null)
+    {
+        // Building list of settlements
+        List<GameObject> settlementButtons = new List<GameObject>();
+        foreach (KeyValuePair<int, Settlement> s in MapManager.Instance.GetSettlements())
+        {
+            Settlement currentSettlement = s.Value;
+
+            // Instantiate buttons
+            GameObject button = Instantiate(editorMenuButton);
+            string settlementName = currentSettlement.Name;
+
+            LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_SETTLEMENTS", settlementName);
+
+
+            //*// OnClick() events //*//
+            // Data filler
+            button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.Settlement, s.Key); });
+            // Message status
+            IdentificatorMessage message = Instantiate(settlementMessage);
+            message.objectName = currentSettlement.Name;
+            button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
+            // Run click events for a element
+            if (currentSettlement.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
+            //*//
+
+            settlementButtons.Add(button);
+        };
+
+        // Reordering buttons
+        List<GameObject> SortedSettlementButtons = settlementButtons.OrderBy(o => o.GetComponentInChildren<TextMeshProUGUI>().text).ToList();
+        foreach (GameObject settlementButton in SortedSettlementButtons)
+        {
+            settlementButton.transform.SetParent(scrollViewButton.transform);
+        }
+    }
+    /***                        ***/
 
 
     /*** Floating menus***/
@@ -703,7 +712,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             // Clearing old text
             polityNameInput.text = "";
 
-            MapManager.Instance.LoadPolitiesDictionaryFromDB();
+            MapManager.Instance.LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
             Dictionary<int, Polity> polities = MapManager.Instance.GetPolities();
             Polity polity = polities.Where(x => x.Key.Equals(labelId)).Select(x => x.Value).FirstOrDefault();
             polityIdLabel.text = labelId.ToString();            
@@ -830,7 +839,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                             messageStatusName = polityName;
 
                             // Reload dictionary
-                            MapManager.Instance.LoadPolitiesDictionaryFromDB();
+                            MapManager.Instance.LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
                             FillScrollButton(polityContent);
                         }
                         else if (dataType == EditorDataType.Settlement)
@@ -1050,7 +1059,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
             // Update displayed data
             // Reload dictionary
-            MapManager.Instance.LoadPolitiesDictionaryFromDB();
+            MapManager.Instance.LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
             FillScrollButton(polityContent);
             // New status information
             SimpleMessage message = Instantiate(polityNewMessage);

@@ -79,6 +79,10 @@ MonoBehaviour:
     m_Key: River Layer
     m_Metadata:
       m_Items: []
+  - m_Id: 184839064492789760
+    m_Key: PolitySymbolsEdit
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

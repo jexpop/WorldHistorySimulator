@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public static class DeltaEColor
 {
@@ -74,7 +75,7 @@ public static class DeltaEColor
     }
 
 
-    public static double CalculateDeltaE(Color colorX, Color colorY)
+    private static double CalculateDeltaE(Color colorX, Color colorY)
     {
         double[] labX = RGBtoLABColors(colorX);
         double[] labY = RGBtoLABColors(colorY);
@@ -88,17 +89,15 @@ public static class DeltaEColor
 
     public static bool SimilarColorFromList(Color colorToCompare, List<Color32> colors)
     {
-        foreach (Color color in colors)
+
+        if (colors.Where(x => CalculateDeltaE(x, colorToCompare) < 3).Select(s => s).Count()<1)
         {
-            double p = CalculateDeltaE(color, colorToCompare);
-            if(p < 2) 
-            {
-                return true;
-            }
-
+            return false;
         }
-
-        return false;
+        else
+        {
+            return true;
+        }
     }
 
 }

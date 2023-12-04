@@ -90,6 +90,10 @@ MonoBehaviour:
     m_Localized: Llista de assentaments
     m_Metadata:
       m_Items: []
+  - m_Id: 184893245563949056
+    m_Localized: "S\xEDmbols de govern"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
