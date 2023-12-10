@@ -3,5 +3,5 @@
  * ADD THE NEW VALUES AT THE END OF THE OPTIONS.
  */
 public enum UIStatus { InfoRegion, Nothing, OwnerSelection, PostItNote, TopPanel }
-public enum EditorDataType { CollectivePolity, IndividualPolity, Polity, PolityType, Settlement, StagePanel };
+public enum EditorDataType { CollectivePolity, IndividualPolity, Polity, PolityType, Settlement, StagePanel, PolitySymbols };
 public enum ActionButtons { ClearButton, DeleteButton, SaveButton };

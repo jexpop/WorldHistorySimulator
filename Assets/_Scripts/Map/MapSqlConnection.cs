@@ -3,8 +3,7 @@ using UnityEngine;
 using System.Data;
 using Mono.Data.Sqlite;
 using Aron.Weiler;
-using Unity.VisualScripting;
-using static UnityEngine.Rendering.HDROutputUtils;
+
 
 public class MapSqlConnection : Singleton<MapSqlConnection>
 {
@@ -419,6 +418,40 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
         }
 
         return settlements;
+    }
+
+    /// <summary>
+    /// Generate a queue of colors for the polity's colors
+    /// </summary>
+    /// <returns>Colors</returns>
+    public Queue<Color32> GetColors()
+    {
+        ConnectionOpen();
+        dbcmd = dbconn.CreateCommand();
+        sqlQuery = "SELECT R, G, B FROM PolityColorsBaked";
+        dbcmd.CommandText = sqlQuery;
+
+        List<Color32> colors = new List<Color32>();
+        using (cursor = dbcmd.ExecuteReader())
+        {
+            while (cursor.Read())
+            {
+
+                int r = cursor.GetInt32(0);
+                int g = cursor.GetInt32(1);
+                int b = cursor.GetInt32(2);
+
+                Color32 color = new Color32((byte)r, (byte)g, (byte)b, 255);
+                colors.Add(color);
+
+            }
+            ConnectionClose();
+        }
+
+        // Random items in the list
+        Utilities.Shuffle(colors);
+
+        return new Queue<Color32>(colors); ;
     }
 
 

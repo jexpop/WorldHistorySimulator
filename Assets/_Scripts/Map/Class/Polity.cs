@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -36,17 +37,11 @@ public class Polity
         color32.b = byte.Parse(color.Substring(8, 3));
 
         // Random color for the political frontier - this color is unique
-        bool check = false;
-        while (!check)
+        if(color32.r.ToString() == "0" & color32.g.ToString() == "0" & color32.b.ToString() == "0")
         {
-            if (color32.r.ToString() == "0") { color32.r = byte.Parse(Random.Range(0, 255).ToString("D3")); }
-            if (color32.g.ToString() == "0") { color32.g = byte.Parse(Random.Range(0, 255).ToString("D3")); }
-            if (color32.b.ToString() == "0") { color32.b = byte.Parse(Random.Range(0, 255).ToString("D3")); }
-
-            if (!DeltaEColor.SimilarColorFromList(color32, MapManager.Instance.polityColorList))
+            if(MapManager.Instance.polityColorList.Count > 0)
             {
-                MapManager.Instance.polityColorList.Add(color32);
-                check = true;
+                color32 = MapManager.Instance.polityColorList.Dequeue();
             }
         }
 

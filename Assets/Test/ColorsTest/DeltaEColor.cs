@@ -90,7 +90,7 @@ public static class DeltaEColor
     public static bool SimilarColorFromList(Color colorToCompare, List<Color32> colors)
     {
 
-        if (colors.Where(x => CalculateDeltaE(x, colorToCompare) < 3).Select(s => s).Count()<1)
+        if (colors.Where(x => CalculateDeltaE(x, colorToCompare) < 10).Select(s => s).Count()<1)
         {
             return false;
         }

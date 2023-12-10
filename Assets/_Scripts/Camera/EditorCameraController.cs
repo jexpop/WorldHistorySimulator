@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class EditorCameraController : MonoBehaviour
+public class EditorCameraController : Singleton<EditorCameraController>
 {
 
 	private Vector3 mouseOrigin;    // Cursor position
 
 	private bool isPanning;     // Camera movement in XY coordinates
 	private bool isZooming;     // Is the camera zooming in?
+	private bool isZoomingEnabled = true;
 
 
 	void Update()
@@ -40,12 +41,17 @@ public class EditorCameraController : MonoBehaviour
         }
 
 		// Camera zoom
-		if (isZooming)
+		if (isZooming & isZoomingEnabled)
 		{
 			Camera.main.fieldOfView -= ParamMap.MAP_ZOOM_SPEED * Input.GetAxis(ParamMap.MAP_MOUSE_SCROLL);
 			Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, ParamMap.MAP_ZOOM_MIN, ParamMap.MAP_ZOOM_MAX);
 		}
 
+	}
+
+	public void ChangeZoomingEnabled()
+	{
+		isZoomingEnabled = !isZoomingEnabled;
 	}
 
 }

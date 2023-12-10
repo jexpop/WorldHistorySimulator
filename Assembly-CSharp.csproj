@@ -78,11 +78,13 @@
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\StageFloatingPanel.cs" />
     <Compile Include="Assets\_Scripts\UI\NotificationSystem\Message.cs" />
     <Compile Include="Assets\_Scripts\Config\ParamColor.cs" />
+    <Compile Include="Assets\_Scripts\UI\PanelsFiller\PolitySymbolPanel.cs" />
+    <Compile Include="Assets\Test\ColorsTest\DeltaEColor.cs" />
     <Compile Include="Assets\_Scripts\Config\ParamResources.cs" />
     <Compile Include="Assets\_Scripts\GameManager.cs" />
-    <Compile Include="Assets\_Scripts\Common\DeltaEColor.cs" />
     <Compile Include="Assets\_Scripts\UI\NotificationSystem\SimpleMessage.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\Polity.cs" />
+    <Compile Include="Assets\Test\ColorsTest\ColorTest.cs" />
     <Compile Include="Assets\_Scripts\Config\GlobalEnum.cs" />
     <Compile Include="Assets\_Scripts\Config\LocalizeDictionaries.cs" />
     <Compile Include="Assets\_Scripts\Camera\MapCameraController.cs" />
@@ -109,7 +111,6 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\Sqlite\Plugins\sqlite3.dll" />
     <None Include="Assets\Shaders\EditorWorldMap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
@@ -119,11 +120,11 @@
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\Test\ColorsTest\Colors.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\Sqlite\Plugins\Mono.Data.Sqlite.dll" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
@@ -590,7 +591,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Data.Sqlite">
-      <HintPath>Assets\Sqlite\Plugins\Mono.Data.Sqlite.dll</HintPath>
+      <HintPath>Assets\Plugins\Sqlite\Mono.Data.Sqlite.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">

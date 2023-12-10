@@ -1,8 +1,5 @@
 public class ParamResources
-{
-    /* Localize dictionaries */
-
-    
+{  
 
     /* Database constants */
     public static string DB_PATH = "/Sqlite/HistoricalData.db";
@@ -16,5 +13,7 @@ public class ParamResources
     /* Assets */
     public static string ASSET_MSG_ED_STATUS_MOD_PT = "Assets/Messages/EditorStatusModPolityType.asset";
 
+    /* Polity's symbols */
+    public static string SYMBOLS_FOLDER = "/PolitySymbols/";
 
 }

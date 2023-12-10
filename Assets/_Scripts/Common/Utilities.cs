@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public static class Utilities
 {
@@ -36,6 +39,60 @@ public static class Utilities
         bool result = false;
         for (int i = start; i <= stop; i++) { if(i==check) { result = true; } }
         return result;
+    }
+
+    /// <summary>
+    /// Random items in a list
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    private static System.Random rng = new System.Random();  
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
+    /// <summary>
+    /// Get a Texture 2D from a defined path
+    /// </summary>
+    /// <param name="path">path of the image</param>
+    /// <returns>Texture 2D</returns>
+    public static Texture2D GetTexture2D(string path)
+    {
+        if (File.Exists(path))
+        {
+            //Converts desired path into byte array
+            byte[] pngBytes = File.ReadAllBytes(path);
+
+            //Creates texture and loads byte array data to create image
+            Texture2D tex = new Texture2D(2, 2);
+            tex.LoadImage(pngBytes);
+
+            return tex;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Capitalize on the first letter of each word in a string
+    /// </summary>
+    /// <param name="line">any words</param>
+    /// <returns>words in pascal case</returns>
+    public static string PascalStrings(string line)
+    {       
+        string pascalCase = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(line.ToLower());
+        return pascalCase.Replace(" ", "");
     }
 
 }

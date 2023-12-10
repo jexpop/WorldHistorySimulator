@@ -82,6 +82,10 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     public TMP_InputField settlementRegionInput;
     public GameObject settlementStatus;
 
+    [Header("Polity symbols Data Values")]
+    public GameObject symbolItemPrefab;
+    public GameObject contentPolitySymbols;
+
     // Panel of the regions - Floating panels
     private GameObject tmpEditorRegionPanel, tmpEditorHistoryPanel, tmpPostItNote;
     private float regionPanelxPositionLast, regionPanelyPositionLast;
@@ -90,7 +94,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     private void Start()
     {
         // Initialise the post it note with polity information
-        tmpPostItNote= Instantiate(postItElement);
+        tmpPostItNote = Instantiate(postItElement);
         tmpPostItNote.transform.SetParent(this.transform.parent);
         tmpPostItNote.SetActive(false);
     }
@@ -137,7 +141,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
             // Polity Edit Menu
             case ParamUI.EDITMENU_SCROLLBUTTONS_POLITY:
-                FillScrollPolity(scrollViewButton, elementKey);
+                FillScrollPolity(scrollViewButton, EditorDataType.Polity, elementKey);
                 // End case Polity Edit Menu
                 break;
 
@@ -145,6 +149,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             case ParamUI.EDITMENU_SCROLLBUTTONS_SETTLEMENT:
                 FillScrollSettlement(scrollViewButton, elementKey);
                 // End case Settlement Edit Menu
+                break;
+
+            // Polity Edit Menu
+            case ParamUI.EDITMENU_SCROLLBUTTONS_POLITY_SYMBOLS:
+                FillScrollPolity(scrollViewButton, EditorDataType.PolitySymbols, elementKey);
+                // End case Polity Edit Menu
                 break;
         }
 
@@ -185,7 +195,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             polityTypeButton.transform.SetParent(scrollViewButton.transform);
         }
     }
-    private void FillScrollPolity(Transform scrollViewButton, string elementKey = null)
+    private void FillScrollPolity(Transform scrollViewButton, EditorDataType editorType, string elementKey = null)
     {
         // Building list of polities
         List<GameObject> polityButtons = new List<GameObject>();
@@ -201,17 +211,25 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
 
             //*// OnClick() events //*//
-            // Data filler
-            button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.Polity, p.Key); });
-            // Message status
-            IdentificatorMessage message = Instantiate(polityMessage);
-            message.objectName = currentPolity.Name;
-            button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
-            // Run click events for a element
-            if (currentPolity.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
+            if (editorType == EditorDataType.Polity)
+            {
+                // Data filler
+                button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.Polity, p.Key); });
+                // Message status
+                IdentificatorMessage message = Instantiate(polityMessage);
+                message.objectName = currentPolity.Name;
+                button.GetComponent<Button>().onClick.AddListener(delegate { UpdateModStatusMessage(message); });
+                // Run click events for a element
+                if (currentPolity.Name == elementKey) { button.GetComponent<Button>().onClick.Invoke(); }
+            }
+            if (editorType == EditorDataType.PolitySymbols)
+            {
+                // Data filler
+                button.GetComponent<Button>().onClick.AddListener(delegate { ButtonEventToFillInfo(EditorDataType.PolitySymbols, p.Key); });
+            }
             //*//
 
-            polityButtons.Add(button);
+                polityButtons.Add(button);
         };
 
         // Reordering buttons
@@ -308,6 +326,14 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         // Sprite
         Sprite terrainTile = terrainTiles.FirstOrDefault(o => o.name.Equals(terrain));
         tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetTerrainImage(terrainTile);
+    }
+    /// <summary>
+    /// For debugging, show color of the owner
+    /// </summary>
+    /// <param name="rgb">color</param>
+    public void ShowRgbOwner(string rgb)
+    {
+        tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().ShowOwnerColor(rgb);
     }
     /// <summary>
     /// Show the setllements of the region and button 'Stages of History'
@@ -515,12 +541,19 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
                 tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL4.Name);
-                
+                // Image
+                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL4.Name, polityType.Name);
+
                 // Parent 1
-                if(polityL3 != null)
+                if (polityL3 != null)
                 {
+                    // Polity Type Parent 1
+                    PolityType polityTypeL3 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);                    
+                    // Parent 1
                     tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(true);
                     tmpPostItNote.GetComponent<PostItNote>().SetParent("LOC_TABLE_HIST_POLITIES", polityL3.Name);
+                    // Image Parent 1
+                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage(polityL3.Name, polityTypeL3.Name);
                 }
                 else
                 {
@@ -530,8 +563,13 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 // Parent 2
                 if (polityL2 != null)
                 {
+                    // Polity Type Parent 2
+                    PolityType polityTypeL2 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
+                    // Parent 2
                     tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(true);
                     tmpPostItNote.GetComponent<PostItNote>().SetParent2("LOC_TABLE_HIST_POLITIES", polityL2.Name);
+                    // Image Parent 2
+                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage2(polityL2.Name, polityTypeL2.Name);
                 }
                 else
                 {
@@ -541,8 +579,13 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 // Parent 3
                 if (polityL3 != null)
                 {
+                    // Polity Type Parent 3
+                    PolityType polityTypeL3 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
+                    // Parent 3
                     tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility3(true);
                     tmpPostItNote.GetComponent<PostItNote>().SetParent3("LOC_TABLE_HIST_POLITIES", polityL3.Name);
+                    // Image Parent 3
+                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage3(polityL3.Name, polityTypeL3.Name);
                 }
                 else
                 {
@@ -558,12 +601,19 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
                 tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL3.Name);
+                // Image
+                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL3.Name, polityType.Name);
 
                 // Parent 1
                 if (polityL2 != null)
                 {
+                    // Polity Type Parent 1
+                    PolityType polityTypeL2 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
+                    // Parent 1
                     tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(true);
                     tmpPostItNote.GetComponent<PostItNote>().SetParent("LOC_TABLE_HIST_POLITIES", polityL2.Name);
+                    // Image Parent 1
+                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage(polityL2.Name, polityTypeL2.Name);
                 }
                 else
                 {
@@ -573,8 +623,13 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 // Parent 2
                 if (polityL1 != null)
                 {
+                    // Polity Type Parent 2
+                    PolityType polityTypeL1 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
+                    // Parent 2
                     tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(true);
                     tmpPostItNote.GetComponent<PostItNote>().SetParent2("LOC_TABLE_HIST_POLITIES", polityL1.Name);
+                    // Image Parent 2
+                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage2(polityL1.Name, polityTypeL1.Name);
                 }
                 else
                 {
@@ -592,12 +647,19 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
                 tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL2.Name);
+                // Image
+                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL2.Name, polityType.Name);
 
                 // Parent 1
                 if (polityL1 != null)
                 {
+                    // Polity Type Parent 1
+                    PolityType polityTypeL1 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
+                    // Parent 1
                     tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(true);
                     tmpPostItNote.GetComponent<PostItNote>().SetParent("LOC_TABLE_HIST_POLITIES", polityL1.Name);
+                    // Image Parent 1
+                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage(polityL1.Name, polityTypeL1.Name);
                 }
                 else
                 {
@@ -614,12 +676,15 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 // Polity Type
                 PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
                 tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
-                
+
                 // Main polity
                 tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL1.Name);
                 tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(false);
                 tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(false);
                 tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility3(false);
+
+                // Image
+                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL1.Name, polityType.Name);
             }
 
             // Policy
@@ -752,6 +817,26 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
             settlementRegionInput.text = settlement.RegionId.ToString();
             
+        }
+        else if (dataType == EditorDataType.PolitySymbols)
+        {
+            // Remove old panels
+            GameObject[] oldSymbolPanels = GameObject.FindGameObjectsWithTag(ParamUI.TAG_EDITOR_POLITY_SYMBOLS);
+            foreach (GameObject oldSymbolPanel in oldSymbolPanels)
+            {
+                Destroy(oldSymbolPanel);
+            }
+
+            // Clone the panel of the symbols
+            List<int> polityTypesId = MapManager.Instance.GetPolityTypesByPolity(labelId);
+            List<int> polityTypesId_Policy = MapManager.Instance.GetPolityTypesByPolicy(labelId);
+            polityTypesId.AddRange(polityTypesId_Policy);
+            foreach(int polityTypeId in polityTypesId)
+            {
+                GameObject symbolItem = Instantiate(symbolItemPrefab);
+                symbolItem.transform.SetParent(contentPolitySymbols.transform);
+                symbolItem.GetComponent<PolitySymbolPanel>().SetSymbolInfo(labelId, polityTypeId);
+            }
         }
 
     }

@@ -10,6 +10,7 @@ public class RegionFloatingPanel : MonoBehaviour
     public TextMeshProUGUI regionSettlementValue;
     public GameObject regionHistoryButton;
     public Image terrainImage;
+    public TextMeshProUGUI RGB;
 
 
     public void DeactivatePanel()
@@ -38,6 +39,11 @@ public class RegionFloatingPanel : MonoBehaviour
     public void SetTerrainImage(Sprite sprite)
     {
         terrainImage.sprite = sprite;
+    }
+
+    public void ShowOwnerColor(string rgb)
+    {
+        RGB.text = rgb;
     }
 
 }

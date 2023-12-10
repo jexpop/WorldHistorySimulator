@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
-using System.Collections;
-using UnityEngine.UI;
-using static UnityEngine.ParticleSystem;
+using UnityEditor.SceneManagement;
+
 
 public class MapManager : Singleton<MapManager>
 {
@@ -33,12 +32,12 @@ public class MapManager : Singleton<MapManager>
     Color32 colorHighlight;
 
     public GameObject flagMarker;
-    public List<Color32> polityColorList = new List<Color32>();
+    public Queue<Color32> polityColorList = new Queue<Color32>();
 
 
     void Start()
     {
-        UsedColors();
+        
         InitParams();
 
         // Get Sql data
@@ -52,16 +51,6 @@ public class MapManager : Singleton<MapManager>
 
     }
 
-    // List used colors
-    private void UsedColors()
-    {        
-        polityColorList.Add(ParamColor.COLOR_BLACK);
-        polityColorList.Add(ParamColor.COLOR_REGION_HIGHLIGHT);
-        polityColorList.Add(ParamColor.COLOR_REGION_LAKE);
-        polityColorList.Add(ParamColor.COLOR_REGION_LAND);
-        polityColorList.Add(ParamColor.COLOR_REGION_SEA);
-        polityColorList.Add(ParamColor.COLOR_WHITE);
-    }
     // Material, texture & properties inicialization
     private void InitParams()
     {        
@@ -136,6 +125,10 @@ public class MapManager : Singleton<MapManager>
 
                         // Name and Image Panel, only lands
                         EditorUICanvasManager.Instance.SetNameAndImageRegionPanel(region.Name, region.Terrain);
+
+                        // For debugging, show color of the owner
+                        string debugColor = region.Rgb32.r.ToString() + "-" + region.Rgb32.g.ToString() + "-" + region.Rgb32.b.ToString();
+                        EditorUICanvasManager.Instance.ShowRgbOwner(debugColor);
 
                         // Info Panel
                         if (region.Settlement == null)
@@ -285,6 +278,9 @@ public class MapManager : Singleton<MapManager>
     public void CreateRegions(int optionLayer, bool timeTravelbutton = false, float drawRiver = 0f)
     {
 
+        // Generate the list of colors for the polities
+        polityColorList = MapSqlConnection.Instance.GetColors();
+
         // Get current timeline
         int timeline = EditorUICanvasManager.Instance.GetCurrentTimeline(timeTravelbutton);
 
@@ -425,6 +421,43 @@ public class MapManager : Singleton<MapManager>
         string name = politiesType.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
         return name;
     }
+    public List<int> GetPolityTypesByPolity(int polityId)
+    {
+        List<int> polityTypes = new List<int>();
+
+        foreach (var region in regions)
+        {
+            List<HistoryRegionRelation> history = region.Value.History;         
+            if(history != null)
+            {
+                foreach (HistoryRegionRelation stage in history)
+                {
+                    if (stage.Stage.PolityParentId_L1 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L1); }
+                    if (stage.Stage.PolityParentId_L2 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L2); }
+                    if (stage.Stage.PolityParentId_L3 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L3); }
+                    if (stage.Stage.PolityParentId_L4 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L4); }
+                }
+            }
+        }
+        return polityTypes.Distinct().ToList();
+    }
+    public List<int> GetPolityTypesByPolicy(int policyId)
+    {
+        List<int> polityTypes = new List<int>();
+
+        foreach (var region in regions)
+        {
+            List<HistoryRegionRelation> history = region.Value.History;
+            if (history != null)
+            {
+                foreach (HistoryRegionRelation stage in history)
+                {
+                    if (stage.Stage.PolicyId == policyId) { polityTypes.Add(stage.Stage.PolicyTypeId); }
+                }
+            }
+        }
+        return polityTypes.Distinct().ToList();
+    }
     /***                        ***/
 
     /*** Polities methods ***/
@@ -484,7 +517,6 @@ public class MapManager : Singleton<MapManager>
     }
     public void LoadPolitiesDictionaryFromDB(int currentTime, int polityLayer)
     {
-        polityColorList.Clear();
         polities = MapSqlConnection.Instance.GetInfoPolities(currentTime.ToString(), polityLayer);
     }
     public void LoadSettlementsDictionaryFromDB()

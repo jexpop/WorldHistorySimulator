@@ -21,6 +21,7 @@ public class ParamUI
     public static string REGION_OWNER_BUTTON = "RegionOwnerButton";
     public static string REGION_PANEL = "RegionPanel";
     public static string REGION_POLITIES_LIST = "PolityScrollView";
+    public static string TAG_EDITOR_POLITY_SYMBOLS = "EditorPolitySymbols";
     public static string TAG_EDITOR_STAGES = "EditorStages";
     public static string TAG_FLAG_MARKER = "FlagMarker";
     public static string TAG_MESSAGES = "UIMessages";    

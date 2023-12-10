@@ -91,8 +91,7 @@ Shader "Unlit/EditorWorldMap"
                         }  
                 }
 
-
-                fixed4 index = tex2D(_RemapTex, i.uv);                   
+                fixed4 index = tex2D(_RemapTex, i.uv);      
                 return tex2D(_PaletteTex, index.xy * 255.0 / 256.0 + float2(0.001953125, 0.001953125));     
             }
             ENDCG
