@@ -709,7 +709,9 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         float w = tmpPostItNote.GetComponent<RectTransform>().rect.width;
         float h = tmpPostItNote.GetComponent<RectTransform>().rect.height;
 
-        float panelXPositionNew = mousePos.x < horizontalHalfScreen ? mousePos.x + w : mousePos.x - w;
+        float w_margin = 100;
+
+        float panelXPositionNew = mousePos.x < horizontalHalfScreen ? mousePos.x + w : mousePos.x - w + w_margin;
         float panelYPositionNew = mousePos.y < verticalHalfScreen ? mousePos.y + h : mousePos.y - h;
 
         Vector2 panelPositionNew = new Vector2(panelXPositionNew, panelYPositionNew);

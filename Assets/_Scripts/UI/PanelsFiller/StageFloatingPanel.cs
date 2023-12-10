@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -288,6 +291,33 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     isCapital_Policy.isOn == true ? 1 : 0
                                                                                 );
 
+                    // Add data in the dictionary of the stages
+                    HistoryStage stage = new HistoryStage(
+                                                                                    Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
+                                                                                    Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0')),
+                                                                                    GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false),
+                                                                                    GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true),
+                                                                                    GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true),
+                                                                                    GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true),
+                                                                                    GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false),
+                                                                                    GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true),
+                                                                                    GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true),
+                                                                                    GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true),
+                                                                                    isCapital_L1.isOn == true ? 1 : 0,
+                                                                                    isCapital_L2.isOn == true ? 1 : 0,
+                                                                                    isCapital_L3.isOn == true ? 1 : 0,
+                                                                                    isCapital_L4.isOn == true ? 1 : 0,
+                                                                                    GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
+                                                                                    GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
+                                                                                    isCapital_Policy.isOn == true ? 1 : 0
+                        );
+                    HistoryRegionRelation history = new HistoryRegionRelation(
+                                                                                    MapSqlConnection.Instance.GetLastIdAdded(EditorDataType.StagePanel),
+                                                                                    settlementId,
+                                                                                    stage
+                        );
+                    MapManager.Instance.GetRegionById(regionId).History.Add(history);
+
                     // Refreshing data                   
                     if (EditorUICanvasManager.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                     {
@@ -327,7 +357,27 @@ public class StageFloatingPanel : MonoBehaviour
                                                                 GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
                                                                 isCapital_Policy.isOn == true ? 1 : 0
                                                             );
-                    
+
+                    // Update data in the dictionary of the stages
+                    HistoryStage stage = MapManager.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x.Stage).FirstOrDefault();
+                    stage.StartDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
+                    stage.EndDate = Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'));
+                    stage.PolityParentId_L1 = GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false);
+                    stage.PolityParentId_L2 = GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true);
+                    stage.PolityParentId_L3 = GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true);
+                    stage.PolityParentId_L4 = GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true);
+                    stage.PolityTypeIdParent_L1 = GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false);
+                    stage.PolityTypeIdParent_L2 = GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true);
+                    stage.PolityTypeIdParent_L3 = GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true);
+                    stage.PolityTypeIdParent_L4 = GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true);
+                    stage.Capital_L1 = isCapital_L1.isOn == true ? 1 : 0;
+                    stage.Capital_L2 = isCapital_L2.isOn == true ? 1 : 0;
+                    stage.Capital_L3 = isCapital_L3.isOn == true ? 1 : 0;
+                    stage.Capital_L4 = isCapital_L4.isOn == true ? 1 : 0;
+                    stage.PolicyId = GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true);
+                    stage.PolicyTypeId = GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true);
+                    stage.PolicyCapital = isCapital_Policy.isOn == true ? 1 : 0;
+
                     // Refreshing data                   
                     if (EditorUICanvasManager.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                     {
@@ -349,6 +399,10 @@ public class StageFloatingPanel : MonoBehaviour
     {
         // Delete
         if (stageId != 0) { MapSqlConnection.Instance.RemoveStage(stageId); }
+
+        // Reload data in the dictionary
+        HistoryRegionRelation history = MapManager.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x).FirstOrDefault();
+        MapManager.Instance.GetRegionById(regionId).History.Remove(history);
 
         // Refreshing data                   
         if (EditorUICanvasManager.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
-using UnityEditor.SceneManagement;
 
 
 public class MapManager : Singleton<MapManager>

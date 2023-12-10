@@ -19,23 +19,23 @@ public class HistoryStage
     private int _policyTypeId;
     private int _policyCapital;
 
-    public int StartDate { get { return _startDate; } }
-    public int EndDate { get { return _endDate; } }
-    public int PolityParentId_L1 { get { return _polityParentId_L1; } }
-    public int PolityParentId_L2 { get { return _polityParentId_L2; } }
-    public int PolityParentId_L3 { get { return _polityParentId_L3; } }
-    public int PolityParentId_L4 { get { return _polityParentId_L4; } }
-    public int Capital_L1 { get { return _capital_L1; } }
-    public int Capital_L2 { get { return _capital_L2; } }
-    public int Capital_L3 { get { return _capital_L3; } }
-    public int Capital_L4 { get { return _capital_L4; } }
-    public int PolityTypeIdParent_L1 { get { return _polityTypeIdParent_L1; } }
-    public int PolityTypeIdParent_L2 { get { return _polityTypeIdParent_L2; } }
-    public int PolityTypeIdParent_L3 { get { return _polityTypeIdParent_L3; } }
-    public int PolityTypeIdParent_L4 { get { return _polityTypeIdParent_L4; } }
-    public int PolicyId { get { return _policyId; } }
-    public int PolicyTypeId { get { return _policyTypeId; } }
-    public int PolicyCapital { get { return _policyCapital; } }
+    public int StartDate { get { return _startDate; } set { _startDate = value; } }
+    public int EndDate { get { return _endDate; } set { _endDate = value; } }
+    public int PolityParentId_L1 { get { return _polityParentId_L1; } set { _polityParentId_L1 = value; } }
+    public int PolityParentId_L2 { get { return _polityParentId_L2; } set { _polityParentId_L2 = value; } }
+    public int PolityParentId_L3 { get { return _polityParentId_L3; } set { _polityParentId_L3 = value; } }
+    public int PolityParentId_L4 { get { return _polityParentId_L4; } set { _polityParentId_L4 = value; } }
+    public int Capital_L1 { get { return _capital_L1; } set { _capital_L1 = value; } }
+    public int Capital_L2 { get { return _capital_L2; } set { _capital_L2 = value; } }
+    public int Capital_L3 { get { return _capital_L3; } set { _capital_L3 = value; } }
+    public int Capital_L4 { get { return _capital_L4; } set { _capital_L4 = value; } }
+    public int PolityTypeIdParent_L1 { get { return _polityTypeIdParent_L1; } set { _polityTypeIdParent_L1 = value; } }
+    public int PolityTypeIdParent_L2 { get { return _polityTypeIdParent_L2; } set { _polityTypeIdParent_L2 = value; } }
+    public int PolityTypeIdParent_L3 { get { return _polityTypeIdParent_L3; } set { _polityTypeIdParent_L3 = value; } }
+    public int PolityTypeIdParent_L4 { get { return _polityTypeIdParent_L4; } set { _polityTypeIdParent_L4 = value; } }
+    public int PolicyId { get { return _policyId; } set { _policyId = value; } }
+    public int PolicyTypeId { get { return _policyTypeId; } set { _policyTypeId = value; } }
+    public int PolicyCapital { get { return _policyCapital; } set { _policyCapital = value; } }
 
 
     public HistoryStage(

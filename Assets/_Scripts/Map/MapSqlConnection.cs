@@ -324,8 +324,12 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
         {
             sqlQuery = "SELECT PolityId FROM Polity ORDER BY PolityId DESC LIMIT 1";
         }
+        else if (dataType == EditorDataType.StagePanel)
+        {
+            sqlQuery = "SELECT StageId FROM TerritoryHistory ORDER BY StageId DESC LIMIT 1";
+        }
         dbcmd.CommandText = sqlQuery;
-
+        
         int id = 0;
         using (cursor = dbcmd.ExecuteReader())
         {

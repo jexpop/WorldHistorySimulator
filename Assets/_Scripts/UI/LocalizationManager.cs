@@ -91,10 +91,11 @@ public class LocalizationManager : Singleton<LocalizationManager>
             var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeDictionaries.DIC_LOCATION_TABLES[table], LocalizationSettings.AvailableLocales.Locales[i]);
             tableCollection.AddEntry(key, value);
 
-            //AssetDatabase.SaveAssets();
-            /*EditorUtility.SetDirty(tableCollection);
+            #if UNITY_EDITOR
+            AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(tableCollection);
             EditorUtility.SetDirty(tableCollection.SharedData);
-            No build - revisar*/
+            #endif
         }
 
     }    
@@ -103,20 +104,22 @@ public class LocalizationManager : Singleton<LocalizationManager>
         var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeDictionaries.DIC_LOCATION_TABLES[table], LocalizationSettings.SelectedLocale);
         tableCollection.AddEntry(key, newValue);
 
-        //AssetDatabase.SaveAssets();
-        /*EditorUtility.SetDirty(tableCollection);
-        EditorUtility.SetDirty(tableCollection.SharedData);
-                    No build - revisar*/
+        #if UNITY_EDITOR
+                AssetDatabase.SaveAssets();
+                EditorUtility.SetDirty(tableCollection);
+                EditorUtility.SetDirty(tableCollection.SharedData);
+        #endif
     }
     public void DeleteEntry(string table, string key)
     {
         var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeDictionaries.DIC_LOCATION_TABLES[table], LocalizationSettings.SelectedLocale);
         tableCollection.SharedData.RemoveKey(key);
 
-        //AssetDatabase.SaveAssets();
-        /*EditorUtility.SetDirty(tableCollection);
-        EditorUtility.SetDirty(tableCollection.SharedData);
-        No build - revisar*/
+        #if UNITY_EDITOR
+                AssetDatabase.SaveAssets();
+                EditorUtility.SetDirty(tableCollection);
+                EditorUtility.SetDirty(tableCollection.SharedData);
+        #endif
     }
     /***                        ***/
 
