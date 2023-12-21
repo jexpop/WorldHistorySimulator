@@ -58,6 +58,10 @@ MonoBehaviour:
     m_Localized: Asentamiento romano
     m_Metadata:
       m_Items: []
+  - m_Id: 124047546626953216
+    m_Localized: Asentamiento galo
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

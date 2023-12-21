@@ -48,4 +48,15 @@ public class Polity
         return color32;
     }
 
+    /// <summary>
+    /// Recolor when the polity is white
+    /// </summary>
+    public void Recolor()
+    {
+        if (this._rgb32.Equals(ParamColor.COLOR_WHITE))
+        {
+            this._rgb32 = PolityColorSelect("000.000.000");
+        }
+    }
+
 }

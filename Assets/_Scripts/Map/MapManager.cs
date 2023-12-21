@@ -390,7 +390,6 @@ public class MapManager : Singleton<MapManager>
     {
         // Modify dictionary        
         regions[regionId].Owner = owner;
-
         // Modify new color region
         regions[regionId].ColorRecalculate();
         ColorizeRegions(regions[regionId]);

@@ -58,6 +58,10 @@ MonoBehaviour:
     m_Localized: Roman settlement
     m_Metadata:
       m_Items: []
+  - m_Id: 124047546626953216
+    m_Localized: Gaul settlement
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

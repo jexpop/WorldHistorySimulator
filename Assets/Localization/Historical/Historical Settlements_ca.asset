@@ -58,6 +58,10 @@ MonoBehaviour:
     m_Localized: "Assentament rom\xE0"
     m_Metadata:
       m_Items: []
+  - m_Id: 124047546626953216
+    m_Localized: Assentament gal
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

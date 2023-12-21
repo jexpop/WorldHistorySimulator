@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
-
+using Unity.VisualScripting;
 
 public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 {
@@ -459,15 +459,16 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 polityId = layersDropdown.value switch
                 {
                     0 => history.Stage.PolityParentId_L1,
-                    1 => history.Stage.PolityParentId_L2,
-                    2 => history.Stage.PolityParentId_L3,
-                    3 => history.Stage.PolityParentId_L4,
+                    1 => Utilities.EitherInt(history.Stage.PolityParentId_L2, history.Stage.PolityParentId_L1),
+                    2 => Utilities.EitherInt(Utilities.EitherInt(history.Stage.PolityParentId_L3, history.Stage.PolityParentId_L2), history.Stage.PolityParentId_L1),
+                    3 => Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(history.Stage.PolityParentId_L4, history.Stage.PolityParentId_L3),history.Stage.PolityParentId_L2), history.Stage.PolityParentId_L1),
                     _ => 0
                 };
             }
 
             // Update region in the map
             Polity polity = delete ? null : MapManager.Instance.GetPolityById(polityId);
+            polity.Recolor();
             MapManager.Instance.ColorizeRegionsById(currentRegionId, polity);
         }
         else

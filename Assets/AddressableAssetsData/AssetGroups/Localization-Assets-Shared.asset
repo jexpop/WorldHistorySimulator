@@ -53,7 +53,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2bf76493e748fbc418febe9efe8b76ea
-    m_Address: Assets/Localization/Historical/Historical Settlement Shared Data.asset
+    m_Address: Assets/ocalization/Historical/Historical Settlement Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

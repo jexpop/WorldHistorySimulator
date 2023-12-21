@@ -95,4 +95,22 @@ public static class Utilities
         return pascalCase.Replace(" ", "");
     }
 
+    /// <summary>
+    /// Compare if first value is zero then return second value
+    /// </summary>
+    /// <param name="first">first int</param>
+    /// <param name="second">second int</param>
+    /// <returns>second or first values</returns>
+    public static int EitherInt(int first, int second)
+    {
+        if(first == 0)
+        {
+            return second;
+        }
+        else
+        {
+            return first;
+        }
+    }
+
 }
