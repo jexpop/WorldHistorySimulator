@@ -62,6 +62,18 @@ MonoBehaviour:
     m_Localized: Assentament gal
     m_Metadata:
       m_Items: []
+  - m_Id: 126447286446542848
+    m_Localized: Portus Ritupis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 126460703089709056
+    m_Localized: Noviomagus Reginorum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 126543356295991296
+    m_Localized: 'Isca Dumnoniorum '
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

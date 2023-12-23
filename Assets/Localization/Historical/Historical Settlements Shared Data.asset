@@ -55,6 +55,18 @@ MonoBehaviour:
     m_Key: Gaul settlement
     m_Metadata:
       m_Items: []
+  - m_Id: 126447286446542848
+    m_Key: Portus Ritupis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 126460703089709056
+    m_Key: Noviomagus Reginorum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 126543356295991296
+    m_Key: 'Isca Dumnoniorum '
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
