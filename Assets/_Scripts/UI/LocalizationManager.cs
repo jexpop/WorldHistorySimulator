@@ -8,6 +8,8 @@ using UnityEngine.AddressableAssets;
 using System.Collections;
 using UnityEngine.Localization.Tables;
 using System.IO;
+using static UnityEngine.Rendering.DebugUI;
+using System;
 
 public class LocalizationManager : Singleton<LocalizationManager>
 {
@@ -23,12 +25,9 @@ public class LocalizationManager : Singleton<LocalizationManager>
     UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<StringTable> settlementsTable_es;
 
 
-    /// <summary>
-    /// After build
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator  Start()
+    private IEnumerator Start()
     {
+
         // Load the table polities type
         politiesTypeTable_ca = LocalizationSettings.StringDatabase.GetTableAsync(LocalizeParams.DIC_LOCATION_TABLES["LOC_TABLE_HIST_POLITIES_TYPE"], LocalizationSettings.AvailableLocales.Locales[LocalizeParams.LocaleCatalan]);
         yield return politiesTypeTable_ca;
@@ -63,6 +62,8 @@ public class LocalizationManager : Singleton<LocalizationManager>
         Addressables.ResourceManager.Acquire(settlementsTable_ca);
         Addressables.ResourceManager.Acquire(settlementsTable_en);
         Addressables.ResourceManager.Acquire(settlementsTable_es);
+
+        ImportFromCSV();
     }
 
     /*** Data validations ***/
@@ -141,9 +142,18 @@ public class LocalizationManager : Singleton<LocalizationManager>
 
 
     /*** Modify the Table Collection ***/
-    public void InsertNewEntry(string table, string key, string value)
+    public void InsertNewEntry(string table, string key, string value, int locale=-1)
     {
-        for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
+        int start = 0;
+        int end = LocalizationSettings.AvailableLocales.Locales.Count;
+
+        if (locale > -1)
+        {
+            start = locale;
+            end = locale + 1;
+        }
+
+        for (int i = start; i < end; ++i)
         {
 #if UNITY_EDITOR
             var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], LocalizationSettings.AvailableLocales.Locales[i]);
@@ -171,7 +181,12 @@ public class LocalizationManager : Singleton<LocalizationManager>
             else if (i == LocalizeParams.LocaleSpanish) { settlementsTable_es.Result.AddEntry(key, value); }
         }
 #endif
-            ExpostToCSV(table, LocalizationSettings.AvailableLocales.Locales[i]);
+
+            if (locale == -1)
+            {
+                ExpostToCSV(table, LocalizationSettings.AvailableLocales.Locales[i]);
+            }
+            
         }
     }    
     public void UpdateEntry(string table, string key, string newValue)
@@ -232,16 +247,56 @@ public class LocalizationManager : Singleton<LocalizationManager>
     private void ExpostToCSV(string table, Locale locale)
     {
         string path = Application.streamingAssetsPath + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + locale.Identifier + ".csv";
-        StreamWriter writer = new StreamWriter(path, false);
         var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], locale);
 
-        foreach (var valuePair in tableCollection)
+        using (StreamWriter writer = new StreamWriter(path, false)) 
         {
-            string line = valuePair.Value.Key.ToString() + ";" + valuePair.Value.Value.ToString();
-            writer.WriteLine(line);
+            foreach (var valuePair in tableCollection)
+            {
+                string line = valuePair.Value.Key.ToString() + ";" + valuePair.Value.Value.ToString();
+                writer.WriteLine(line);
+            }
+        }      
+
+    }
+    private void ImportFromCSV()
+    {
+        // Clear tables
+        politiesTypeTable_ca.Result.Clear();
+        politiesTypeTable_en.Result.Clear();
+        politiesTypeTable_es.Result.Clear();
+        politiesTable_ca.Result.Clear();
+        politiesTable_en.Result.Clear();
+        politiesTable_es.Result.Clear();
+        settlementsTable_ca.Result.Clear();
+        settlementsTable_en.Result.Clear();
+        settlementsTable_es.Result.Clear();
+
+        // Tables
+        string[] tables = {
+                         "LOC_TABLE_HIST_POLITIES_TYPE",
+                         "LOC_TABLE_HIST_POLITIES",
+                         "LOC_TABLE_HIST_SETTLEMENTS"
+                     };
+
+        // Import localizations
+        foreach(string table in tables)
+        {
+            for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
+            {
+                string path = Application.streamingAssetsPath + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + LocalizationSettings.AvailableLocales.Locales[i].Identifier + ".csv";
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] fields = line.Split(';');
+                        InsertNewEntry(table, fields[0], fields[1], i);
+                    }
+                }
+            }
         }
 
-        writer.Close();
     }
     /***                        ***/
 
