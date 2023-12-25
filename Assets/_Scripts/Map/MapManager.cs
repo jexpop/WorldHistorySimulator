@@ -534,9 +534,12 @@ public class MapManager : Singleton<MapManager>
         foreach (var region in regions)
         {
             List<HistoryRegionRelation> history = region.Value.History;
-            foreach (HistoryRegionRelation stage in history)
+            if(history != null)
             {
-                if (stage.Stage.PolicyId == polityId) { result = true; }
+                foreach (HistoryRegionRelation stage in history)
+                {
+                    if (stage.Stage.PolicyId == polityId) { result = true; }
+                }
             }
         }
 
@@ -549,9 +552,12 @@ public class MapManager : Singleton<MapManager>
         foreach (var region in regions)
         {
             List<HistoryRegionRelation> history = region.Value.History;
-            foreach (HistoryRegionRelation stage in history)
+            if(history != null)
             {
-                if (stage.Stage.PolicyTypeId == polityTypeId) { result = true; }
+                foreach (HistoryRegionRelation stage in history)
+                {
+                    if (stage.Stage.PolicyTypeId == polityTypeId) { result = true; }
+                }
             }
         }
 

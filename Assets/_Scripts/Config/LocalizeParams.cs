@@ -1,7 +1,17 @@
 using System.Collections.Generic;
 
-public class LocalizeDictionaries
+public class LocalizeParams
 {
+
+    public static int LocaleCatalan = 0;
+    public static int LocaleEnglish = 1;
+    public static int LocaleSpanish = 2;
+
+    public static string IdentifierCatalan = "Catalan(ca)";
+    public static string IdentifierEnglish = "English(en)";
+    public static string IdentifierSpanish = "Spanish(es)";
+
+
     public static Dictionary<string, string> DIC_LOCATION_TABLES = new()
     {
         {"LOC_TABLE_EDITOR_EDIT_PANEL", "Editor Edit Panel"},
@@ -23,4 +33,5 @@ public class LocalizeDictionaries
         { "LOC_KEY_NO_DATA_REMOVE", "NoDataDelete" },
         { "LOC_KEY_DATA_RELATED", "DataRelated" }
     };
+
 }

@@ -126,7 +126,7 @@ public class EditorDropdown : MonoBehaviour
     private void AddLocalizedOption(string table, string entry)
     {
         LocalizedString localizedString = new LocalizedString();
-        localizedString.TableReference = LocalizeDictionaries.DIC_LOCATION_TABLES[table];
+        localizedString.TableReference = LocalizeParams.DIC_LOCATION_TABLES[table];
         localizedString.TableEntryReference = entry;
         localizeDropdown.SetOptionsList(localizedString);
     }
@@ -134,7 +134,7 @@ public class EditorDropdown : MonoBehaviour
     private string GetLocalizedOption(string table, string entry)
     {
         LocalizedString localizedString = new LocalizedString();
-        localizedString.TableReference = LocalizeDictionaries.DIC_LOCATION_TABLES[table];
+        localizedString.TableReference = LocalizeParams.DIC_LOCATION_TABLES[table];
         localizedString.TableEntryReference = entry;
         return localizedString.GetLocalizedString();
     }
