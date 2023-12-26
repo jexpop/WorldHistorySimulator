@@ -476,7 +476,6 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             // Update region in the map
             MapManager.Instance.ColorizeRegionsById(currentRegionId, null);
         }
-
     }
     private void LoadStages(int regionId)
     {
@@ -1220,7 +1219,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         return timeline;
     }
     public bool IsDateCurrent(int start, int end)
-    {
+    {        
         int currentDate = GetCurrentTimeline(true);
 
         return currentDate >= start && currentDate <= end ? true : false;

@@ -3,13 +3,11 @@ using TMPro;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization;
-using UnityEditor;
 using UnityEngine.AddressableAssets;
 using System.Collections;
 using UnityEngine.Localization.Tables;
 using System.IO;
-using static UnityEngine.Rendering.DebugUI;
-using System;
+
 
 public class LocalizationManager : Singleton<LocalizationManager>
 {
@@ -63,7 +61,11 @@ public class LocalizationManager : Singleton<LocalizationManager>
         Addressables.ResourceManager.Acquire(settlementsTable_en);
         Addressables.ResourceManager.Acquire(settlementsTable_es);
 
+#if UNITY_EDITOR
+        Debug.Log("Localization deactivated in Editor");
+#else
         ImportFromCSV();
+#endif
     }
 
     /*** Data validations ***/
@@ -144,101 +146,90 @@ public class LocalizationManager : Singleton<LocalizationManager>
     /*** Modify the Table Collection ***/
     public void InsertNewEntry(string table, string key, string value, int locale=-1)
     {
-        int start = 0;
-        int end = LocalizationSettings.AvailableLocales.Locales.Count;
+            int start = 0;
+            int end = LocalizationSettings.AvailableLocales.Locales.Count;
 
-        if (locale > -1)
-        {
-            start = locale;
-            end = locale + 1;
-        }
+            if (locale > -1)
+            {
+                start = locale;
+                end = locale + 1;
+            }
 
-        for (int i = start; i < end; ++i)
-        {
+            for (int i = start; i < end; ++i)
+            {
+
+            if (table == "LOC_TABLE_HIST_POLITIES_TYPE")
+            {
+                if (i == 0) { politiesTypeTable_ca.Result.AddEntry(key, value); }
+                else if (i == 1) { politiesTypeTable_en.Result.AddEntry(key, value); }
+                else if (i == 2) { politiesTypeTable_es.Result.AddEntry(key, value); }
+            }
+            else if (table == "LOC_TABLE_HIST_POLITIES")
+            {
+                if (i == LocalizeParams.LocaleCatalan) { politiesTable_ca.Result.AddEntry(key, value); }
+                else if (i == LocalizeParams.LocaleEnglish) { politiesTable_en.Result.AddEntry(key, value); }
+                else if (i == LocalizeParams.LocaleSpanish) { politiesTable_es.Result.AddEntry(key, value); }
+            }
+            else if (table == "LOC_TABLE_HIST_SETTLEMENTS")
+            {
+                if (i == LocalizeParams.LocaleCatalan) { settlementsTable_ca.Result.AddEntry(key, value); }
+                else if (i == LocalizeParams.LocaleEnglish) { settlementsTable_en.Result.AddEntry(key, value); }
+                else if (i == LocalizeParams.LocaleSpanish) { settlementsTable_es.Result.AddEntry(key, value); }
+            }
+
 #if UNITY_EDITOR
-            var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], LocalizationSettings.AvailableLocales.Locales[i]);
-            tableCollection.AddEntry(key, value);
-            AssetDatabase.SaveAssets();
-            EditorUtility.SetDirty(tableCollection);
-            EditorUtility.SetDirty(tableCollection.SharedData);
+            Debug.Log("Export CSV deactivated in Editor");
 #else
-        if (table == "LOC_TABLE_HIST_POLITIES_TYPE")
-        {
-            if (i == 0) { politiesTypeTable_ca.Result.AddEntry(key, value); }
-            else if (i == 1) { politiesTypeTable_en.Result.AddEntry(key, value); }
-            else if (i == 2) { politiesTypeTable_es.Result.AddEntry(key, value); }
-        }
-        else if (table == "LOC_TABLE_HIST_POLITIES")
-        {
-            if (i == LocalizeParams.LocaleCatalan) { politiesTable_ca.Result.AddEntry(key, value); }
-            else if (i == LocalizeParams.LocaleEnglish) { politiesTable_en.Result.AddEntry(key, value); }
-            else if (i == LocalizeParams.LocaleSpanish) { politiesTable_es.Result.AddEntry(key, value); }
-        }
-        else if (table == "LOC_TABLE_HIST_SETTLEMENTS")
-        {
-            if (i == LocalizeParams.LocaleCatalan) { settlementsTable_ca.Result.AddEntry(key, value); }
-            else if (i == LocalizeParams.LocaleEnglish) { settlementsTable_en.Result.AddEntry(key, value); }
-            else if (i == LocalizeParams.LocaleSpanish) { settlementsTable_es.Result.AddEntry(key, value); }
-        }
-#endif
-
             if (locale == -1)
             {
                 ExpostToCSV(table, LocalizationSettings.AvailableLocales.Locales[i]);
             }
-            
+#endif
         }
     }    
     public void UpdateEntry(string table, string key, string newValue)
     {
-#if UNITY_EDITOR
-        var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], LocalizationSettings.SelectedLocale);
-        tableCollection.AddEntry(key, newValue);
-        AssetDatabase.SaveAssets();
-        EditorUtility.SetDirty(tableCollection);
-        EditorUtility.SetDirty(tableCollection.SharedData);
-#else
-       string currentLocale = LocalizationSettings.SelectedLocale.Identifier.ToString();
+           string currentLocale = LocalizationSettings.SelectedLocale.Identifier.ToString();
 
-        if (table == "LOC_TABLE_HIST_POLITIES_TYPE")
-        {
-            if (currentLocale == LocalizeParams.IdentifierCatalan) { politiesTypeTable_ca.Result.AddEntry(key, newValue); }
-            else if (currentLocale == LocalizeParams.IdentifierEnglish) { politiesTypeTable_en.Result.AddEntry(key, newValue); }
-            else if (currentLocale == LocalizeParams.IdentifierSpanish) { politiesTypeTable_es.Result.AddEntry(key, newValue); }
-        }
-        else if (table == "LOC_TABLE_HIST_POLITIES")
-        {
-            if (currentLocale == LocalizeParams.IdentifierCatalan) { politiesTable_ca.Result.AddEntry(key, newValue); }
-            else if (currentLocale == LocalizeParams.IdentifierEnglish) { politiesTable_en.Result.AddEntry(key, newValue); }
-            else if (currentLocale == LocalizeParams.IdentifierSpanish) { politiesTable_es.Result.AddEntry(key, newValue); }
-        }
-        else if (table == "LOC_TABLE_HIST_SETTLEMENTS")
-        {
-            if (currentLocale == LocalizeParams.IdentifierCatalan) { settlementsTable_ca.Result.AddEntry(key, newValue); }
-            else if (currentLocale == LocalizeParams.IdentifierEnglish) { settlementsTable_en.Result.AddEntry(key, newValue); }
-            else if (currentLocale == LocalizeParams.IdentifierSpanish) { settlementsTable_es.Result.AddEntry(key, newValue); }
-        }
-#endif
+            if (table == "LOC_TABLE_HIST_POLITIES_TYPE")
+            {
+                if (currentLocale == LocalizeParams.IdentifierCatalan) { politiesTypeTable_ca.Result.AddEntry(key, newValue); }
+                else if (currentLocale == LocalizeParams.IdentifierEnglish) { politiesTypeTable_en.Result.AddEntry(key, newValue); }
+                else if (currentLocale == LocalizeParams.IdentifierSpanish) { politiesTypeTable_es.Result.AddEntry(key, newValue); }
+            }
+            else if (table == "LOC_TABLE_HIST_POLITIES")
+            {
+                if (currentLocale == LocalizeParams.IdentifierCatalan) { politiesTable_ca.Result.AddEntry(key, newValue); }
+                else if (currentLocale == LocalizeParams.IdentifierEnglish) { politiesTable_en.Result.AddEntry(key, newValue); }
+                else if (currentLocale == LocalizeParams.IdentifierSpanish) { politiesTable_es.Result.AddEntry(key, newValue); }
+            }
+            else if (table == "LOC_TABLE_HIST_SETTLEMENTS")
+            {
+                if (currentLocale == LocalizeParams.IdentifierCatalan) { settlementsTable_ca.Result.AddEntry(key, newValue); }
+                else if (currentLocale == LocalizeParams.IdentifierEnglish) { settlementsTable_en.Result.AddEntry(key, newValue); }
+                else if (currentLocale == LocalizeParams.IdentifierSpanish) { settlementsTable_es.Result.AddEntry(key, newValue); }
+            }
+
+#if UNITY_EDITOR
+        Debug.Log("Export CSV deactivated in Editor");
+#else
         ExpostToCSV(table, LocalizationSettings.SelectedLocale);
+#endif
     }
     public void DeleteEntry(string table, string key)
     {
-#if UNITY_EDITOR
-        var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], LocalizationSettings.SelectedLocale);
-        tableCollection.RemoveEntry(key);
-        AssetDatabase.SaveAssets();
-        EditorUtility.SetDirty(tableCollection);
-        EditorUtility.SetDirty(tableCollection.SharedData);
-#else
         if (table == "LOC_TABLE_HIST_POLITIES_TYPE") { politiesTypeTable_ca.Result.RemoveEntry(key); politiesTypeTable_en.Result.RemoveEntry(key); politiesTypeTable_es.Result.RemoveEntry(key); }
         else if (table == "LOC_TABLE_HIST_POLITIES") { politiesTable_ca.Result.RemoveEntry(key); politiesTable_en.Result.RemoveEntry(key); politiesTable_es.Result.RemoveEntry(key); }
         else if (table == "LOC_TABLE_HIST_SETTLEMENTS") { settlementsTable_ca.Result.RemoveEntry(key); settlementsTable_en.Result.RemoveEntry(key); settlementsTable_es.Result.RemoveEntry(key); }
-#endif
 
+#if UNITY_EDITOR
+        Debug.Log("Export CSV deactivated in Editor");
+#else
         for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
         {
             ExpostToCSV(table, LocalizationSettings.AvailableLocales.Locales[i]);
         }
+#endif
     }
     /***                        ***/
 

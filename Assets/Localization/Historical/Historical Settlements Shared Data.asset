@@ -14,59 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TableCollectionName: Historical Settlements
   m_TableCollectionNameGuidString: 2bf76493e748fbc418febe9efe8b76ea
-  m_Entries:
-  - m_Id: 1244598491238400
-    m_Key: Gaelic settlement
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2992155500302336
-    m_Key: Ivernis
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3053048258973696
-    m_Key: Menapia
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3055036631699456
-    m_Key: Nagnata
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3056330306048000
-    m_Key: "E\u1E41a\u0131n \u1E40acha"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3058719268360192
-    m_Key: Britain settlement
-    m_Metadata:
-      m_Items: []
-  - m_Id: 5033597139767296
-    m_Key: Camulodunom
-    m_Metadata:
-      m_Items: []
-  - m_Id: 14913553466478592
-    m_Key: Camulodunon
-    m_Metadata:
-      m_Items: []
-  - m_Id: 14927641479303168
-    m_Key: Roman settlement
-    m_Metadata:
-      m_Items: []
-  - m_Id: 124047546626953216
-    m_Key: Gaul settlement
-    m_Metadata:
-      m_Items: []
-  - m_Id: 126447286446542848
-    m_Key: Portus Ritupis
-    m_Metadata:
-      m_Items: []
-  - m_Id: 126460703089709056
-    m_Key: Noviomagus Reginorum
-    m_Metadata:
-      m_Items: []
-  - m_Id: 126543356295991296
-    m_Key: 'Isca Dumnoniorum '
-    m_Metadata:
-      m_Items: []
+  m_Entries: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -73,6 +73,7 @@
     <Compile Include="Assets\_Scripts\Config\ParamMap.cs" />
     <Compile Include="Assets\_Scripts\UI\PanelsFiller\PostItNote.cs" />
     <Compile Include="Assets\_Scripts\UI\CursorManager.cs" />
+    <Compile Include="Assets\_Scripts\Map\PlacementObjects.cs" />
     <Compile Include="Assets\_Scripts\Config\LocalizeParams.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\Settlement.cs" />
     <Compile Include="Assets\_Scripts\Map\Class\PolityType.cs" />
@@ -125,6 +126,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />

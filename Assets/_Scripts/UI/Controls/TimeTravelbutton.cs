@@ -14,6 +14,7 @@ public class TimeTravelbutton : MonoBehaviour
         int optionLayer = EditorUICanvasManager.Instance.layersDropdown.value;
         float rivers= layerCheckRivers.isOn ? 1f : 0f;
         MapManager.Instance.CreateRegions(optionLayer, true, rivers);
+        MapManager.Instance.ShowCapitalSymbols();
     }
 
 }

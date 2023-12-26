@@ -97,6 +97,9 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                                      )
                  ); ;
 
+                // List of identifier of the regions used
+                MapManager.Instance.regionsIdList.Add( regionId );
+
             }                
             ConnectionClose();
         }

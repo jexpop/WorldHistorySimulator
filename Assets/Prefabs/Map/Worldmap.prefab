@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300982199156218743}
   - component: {fileID: 3137380709654744209}
   - component: {fileID: 7997884140173549643}
+  - component: {fileID: 5398463808522636755}
   m_Layer: 0
   m_Name: Worldmap
   m_TagString: Untagged
@@ -122,3 +123,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flagMarker: {fileID: 9110044775724399279, guid: 4b8ee970582cc2e40891051460380b9c, type: 3}
+  capitalSymbol: {fileID: 5603419384567816078, guid: 7ece3bf2350bc0e40ae5bfca98c150c7, type: 3}
+--- !u!114 &5398463808522636755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5756754858770502744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0af58fa2eb16c2468b2c1f828cc4cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectsPrefabs:
+  - {fileID: 9110044775724399279, guid: 4b8ee970582cc2e40891051460380b9c, type: 3}
+  - {fileID: 5603419384567816078, guid: 7ece3bf2350bc0e40ae5bfca98c150c7, type: 3}

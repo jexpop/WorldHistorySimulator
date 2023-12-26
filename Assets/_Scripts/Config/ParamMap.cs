@@ -20,4 +20,8 @@ public class ParamMap
     public static float MAP_ZOOM_MIN = 20.0f;
     public static float MAP_ZOOM_MAX = 100.0f;
 
+    // Tags to objects in the map
+    public static string MAPTAG_CAPITAL_SYMBOL = "CapitalSymbol";
+    public static string MAPTAG_FLAG_MARKER = "FlagMarker";
+
 }

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
+using static UnityEngine.Rendering.HDROutputUtils;
+using UnityEngine.Rendering.Universal;
 
 
 public class MapManager : Singleton<MapManager>
@@ -30,7 +32,10 @@ public class MapManager : Singleton<MapManager>
 
     Color32 colorHighlight;
 
-    public GameObject flagMarker;
+    private PlacementObjects placementObjects = new PlacementObjects();
+
+
+    public List<int> regionsIdList = new List<int>();
     public Queue<Color32> polityColorList = new Queue<Color32>();
 
 
@@ -44,9 +49,15 @@ public class MapManager : Singleton<MapManager>
         LoadPolitiesDictionaryFromDB(EditorUICanvasManager.Instance.GetCurrentTimeline(false), 1);
         LoadSettlementsDictionaryFromDB();
 
+        // Placement objects script
+        placementObjects=gameObject.GetComponentInParent<PlacementObjects>();
+
         // Building map
         CreateMap();
         CreateRegions(0);
+
+        // Put capital symbols
+        ShowCapitalSymbols();
 
     }
 
@@ -109,7 +120,7 @@ public class MapManager : Singleton<MapManager>
                     }
 
                     // Remove others flag marker
-                    RemoveFlagMarkers();
+                    placementObjects.RemoveMapObjects(ParamMap.MAPTAG_FLAG_MARKER);
 
                     int redColor = OnlyRGBColorByPosition(x, y).x;
                     int greenColor = OnlyRGBColorByPosition(x, y).y;
@@ -140,8 +151,7 @@ public class MapManager : Singleton<MapManager>
                         }
 
                         // Instantiate a flag marker in the center of the region (only lands)
-                        GameObject flag = Instantiate(flagMarker);
-                        flag.transform.position = new Vector3(region.CoordinatesCenter.x, region.CoordinatesCenter.y, -1);
+                        placementObjects.PutMapObjects(ParamMap.MAPTAG_FLAG_MARKER, region);
 
                     }
 
@@ -151,7 +161,7 @@ public class MapManager : Singleton<MapManager>
                 if (Input.GetMouseButton(1))
                 {
                     EditorUICanvasManager.Instance.DeactivateRegionPanel();
-                    RemoveFlagMarkers();
+                    placementObjects.RemoveMapObjects(ParamMap.MAPTAG_FLAG_MARKER);
                 }
  
                 if ( !selectAny || !prevColor.Equals(remapColor) )
@@ -262,13 +272,13 @@ public class MapManager : Singleton<MapManager>
     /// </summary>
     /// <param name="color">RGBA color</param>
     /// <returns>RGB color</returns>
-    Vector3Int OnlyRGBColorByRGBA(Color color)
+    /*Vector3Int OnlyRGBColorByRGBA(Color color)
     {
         int redColor = (int)Mathf.Round(color.r * ParamColor.COLOR32_MAX);
         int greenColor = (int)Mathf.Round(color.g * ParamColor.COLOR32_MAX);
         int bluecolor = (int)Mathf.Round(color.b * ParamColor.COLOR32_MAX);
         return new Vector3Int(redColor, greenColor, bluecolor);
-    }
+    }*/
 
     /// <summary>
     /// Get information from database to colorize the regions
@@ -499,14 +509,6 @@ public class MapManager : Singleton<MapManager>
     /***                        ***/
 
 
-    void RemoveFlagMarkers()
-    {
-        GameObject[] flags = GameObject.FindGameObjectsWithTag(ParamUI.TAG_FLAG_MARKER);
-        for (int i = 0; i < flags.Length; i++)
-        {
-            Destroy(flags[i].transform.parent.gameObject);
-        }
-    }
 
     /// Load data from database to dictionaries
     public void LoadPolitiesTypeDictionaryFromDB()
@@ -562,6 +564,64 @@ public class MapManager : Singleton<MapManager>
         }
 
         return result;
+    }
+
+    public void ShowCapitalSymbols()
+    {
+        // Remove previous symbols
+        placementObjects.RemoveMapObjects(ParamMap.MAPTAG_CAPITAL_SYMBOL);
+
+        // Current layer selected
+        int currentLevelLayer = EditorUICanvasManager.Instance.layersDropdown.value + 1;
+
+        int isCapital;
+        string polityCapital;
+        string polityTypeCapital;
+        // Find regions with capital symbol
+        foreach(int id in regionsIdList)
+        {
+            Region region = regions[id];
+            List<HistoryRegionRelation> history = region.History;
+            if(history != null)
+            {
+                foreach (HistoryRegionRelation h in history)
+                {
+                    switch (currentLevelLayer)
+                    {
+                        case 1:
+                            isCapital = h.Stage.Capital_L1; 
+                            polityCapital = GetPolityById(h.Stage.PolityParentId_L1).Name; 
+                            polityTypeCapital= GetPolityTypeById(h.Stage.PolityTypeIdParent_L1).Name;  
+                            break;
+                        case 2: 
+                            isCapital = Utilities.EitherInt(h.Stage.Capital_L2, h.Stage.Capital_L1); 
+                            polityCapital = GetPolityById(Utilities.EitherInt(h.Stage.PolityParentId_L2, h.Stage.PolityParentId_L1)).Name; 
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(h.Stage.PolityParentId_L2, h.Stage.PolityTypeIdParent_L1)).Name; break;
+                        case 3: 
+                            isCapital = Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L3, h.Stage.Capital_L2), h.Stage.Capital_L1); 
+                            polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L3, h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name; 
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L3, h.Stage.PolityTypeIdParent_L2), h.Stage.PolityTypeIdParent_L1)).Name; 
+                            break;
+                        case 4: 
+                            isCapital = Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L4, h.Stage.Capital_L3), h.Stage.Capital_L2), h.Stage.Capital_L1); 
+                            polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L4, h.Stage.PolityParentId_L3), h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name; 
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L4, h.Stage.PolityTypeIdParent_L3), h.Stage.PolityTypeIdParent_L2), h.Stage.PolityTypeIdParent_L1)).Name; 
+                            break;
+                        default: isCapital = 0; polityCapital = ""; polityTypeCapital = ""; break;
+                    }
+
+                    if (isCapital == 1 & EditorUICanvasManager.Instance.IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
+                    {                        
+                        string imagePath = Application.streamingAssetsPath + ParamResources.SYMBOLS_FOLDER + Utilities.PascalStrings(polityCapital + "_" + polityTypeCapital) + ".png";
+                        Texture2D symbolTexture = Utilities.GetTexture2D(imagePath);
+                        
+                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region, symbolTexture);
+                    }
+
+                }
+            }
+        }
+
     }
 
 }

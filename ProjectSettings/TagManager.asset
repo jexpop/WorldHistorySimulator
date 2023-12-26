@@ -8,6 +8,7 @@ TagManager:
   - UIMessages
   - EditorStages
   - EditorPolitySymbols
+  - CapitalSymbol
   layers:
   - Default
   - TransparentFX
