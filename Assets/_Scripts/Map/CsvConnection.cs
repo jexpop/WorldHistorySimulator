@@ -20,7 +20,7 @@ public class CsvConnection : Singleton<CsvConnection>
     /// <returns></returns>
     private List<string[]> GetCsvTable(string filename, string subpath, bool isTitle)
     {
-        string path = ParamResources.STREAMING_FOLDER + subpath + "/" + filename;
+        string path = GameManager.Instance.STREAMING_FOLDER + subpath + "/" + filename;
 
         List<string[]> table = new List<string[]>();
         using (StreamReader reader = new StreamReader(path,System.Text.Encoding.UTF8))
@@ -391,7 +391,7 @@ public class CsvConnection : Singleton<CsvConnection>
              ); ;            
 
             // List of identifier of the regions used
-            MapManager.Instance.regionsIdList.Add(regionId);
+            MapController.Instance.regionsIdList.Add(regionId);
         }
             
         return regions;
@@ -531,7 +531,7 @@ public class CsvConnection : Singleton<CsvConnection>
     }
     public void ExportLocalization(string table, Locale locale, StringTable tableCollection)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + locale.Identifier + ".csv";
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + locale.Identifier + ".csv";
 
         using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.UTF8))
         {
@@ -548,14 +548,14 @@ public class CsvConnection : Singleton<CsvConnection>
     /************************************************/
     public void AddPolityType(string polityTypeName)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES_TYPE;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES_TYPE;
         int lastId = GetLastIdAdded(EditorDataType.PolityType) + 1;
         string line = lastId.ToString() + ";" + polityTypeName;
         WriteSingleLine(path, true, line);
     }
     public void AddPolity(string polityName, bool isCollective)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES;
         int policy = isCollective ? GetCollectiveId() : 1;
         int lastId = GetLastIdAdded(EditorDataType.Polity) + 1;
         string line = lastId.ToString() + ";" + polityName + ";" + "000.000.000" + ";" + policy.ToString();
@@ -563,7 +563,7 @@ public class CsvConnection : Singleton<CsvConnection>
     }
     public void AddSettlement(string settlementName, int regionId)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
         int lastId = GetLastIdAdded(EditorDataType.Settlement) + 1;
         string line = lastId.ToString() + ";" + settlementName + ";" + regionId;
         WriteSingleLine(path, true, line);
@@ -592,7 +592,7 @@ public class CsvConnection : Singleton<CsvConnection>
         string qPolicyPolityTypeId = policyPolityTypeId == 0 ? "" : policyPolityTypeId.ToString();
         string qPolicyCapital = policyCapital == 0 ? "" : policyCapital.ToString();
 
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
         int lastId = GetLastIdAdded(EditorDataType.StagePanel) + 1;
         string line = lastId.ToString() + ";"
                             + regionId.ToString() + ";"
@@ -622,7 +622,7 @@ public class CsvConnection : Singleton<CsvConnection>
 /************************************************/
     public void UpdatePolity(int polityId, string polityName, bool isCollective)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES;
         int policy = isCollective ? GetCollectiveId() : 1;
         string newLine =polityId.ToString()+";"+polityName+";"+ "000.000.000"+";"+policy.ToString();
         int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_POLITIES, polityId.ToString());
@@ -630,7 +630,7 @@ public class CsvConnection : Singleton<CsvConnection>
     }
     public void UpdateSettlement(int settlementId, string settlementName, int regionId)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
         string newLine = settlementId.ToString() + ";" + settlementName + ";" + regionId.ToString();
         int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS, settlementId.ToString());
         LineChanger(newLine, path, line);
@@ -661,7 +661,7 @@ public class CsvConnection : Singleton<CsvConnection>
         string qPolicyPolityTypeId = policyPolityTypeId == 0 ? "" : policyPolityTypeId.ToString();
         string qPolicyCapital = policyCapital == 0 ? "" : policyCapital.ToString();
 
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
         string newLine = stageId.ToString() + ";"
                                     + regionId.ToString() + ";"
                                     + settlementId.ToString() + ";"
@@ -691,28 +691,28 @@ public class CsvConnection : Singleton<CsvConnection>
 /************************************************/
     public void RemovePolityType(int polityTypeId)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES_TYPE;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES_TYPE;
         string item = polityTypeId.ToString() + ";";
         var lines = File.ReadLines(path).Where(line => !line.StartsWith(item)).ToArray();
         File.WriteAllLines(path, lines);
     }
     public void RemovePolity(int polityId)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES;
         string item = polityId.ToString() + ";";
         var lines = File.ReadLines(path).Where(line => !line.StartsWith(item)).ToArray();
         File.WriteAllLines(path, lines);
     }
     public void RemoveSettlement(int settlementId)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
         string item = settlementId.ToString() + ";";
         var lines = File.ReadLines(path).Where(line => !line.StartsWith(item)).ToArray();
         File.WriteAllLines(path, lines);
     }
     public void RemoveStage(int stageId)
     {
-        string path = ParamResources.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
         string item = stageId.ToString() + ";";
         var lines = File.ReadLines(path).Where(line => !line.StartsWith(item)).ToArray();
         File.WriteAllLines(path, lines);

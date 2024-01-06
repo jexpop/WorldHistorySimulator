@@ -63,7 +63,7 @@ public class StageFloatingPanel : MonoBehaviour
 
     public void ChangeActive(GameObject UIgameobject)
     {
-        EditorUICanvasManager.Instance.ChangeActive(UIgameobject);
+        EditorUICanvasController.Instance.ChangeActive(UIgameobject);
     }
 
     public void SetStageId(int stageId)
@@ -80,7 +80,7 @@ public class StageFloatingPanel : MonoBehaviour
     }
     public void SetSettlementName(string table, string key)
     {
-        LocalizationManager.Instance.AddLocalizeString(settlementNameLabel, table, key);
+        LocalizationController.Instance.AddLocalizeString(settlementNameLabel, table, key);
     }
 
 
@@ -146,7 +146,7 @@ public class StageFloatingPanel : MonoBehaviour
         else
         {
             // Current date
-            string currentYear = EditorUICanvasManager.Instance.GetCurrentTimeline(false).ToString();
+            string currentYear = EditorUICanvasController.Instance.GetCurrentTimeline(false).ToString();
 
             int yearLength = currentYear.Substring(0,1)=="-" ? 5 : 4;
 
@@ -207,7 +207,7 @@ public class StageFloatingPanel : MonoBehaviour
 
         bool exist = false;
 
-        Region region = MapManager.Instance.GetRegionById(regionId);
+        Region region = MapController.Instance.GetRegionById(regionId);
         List<HistoryRegionRelation> regionHistory = region.History;
         if (regionHistory != null)
         {
@@ -238,7 +238,7 @@ public class StageFloatingPanel : MonoBehaviour
     private void SaveActionEvent(SimpleMessage okNameMessage)
     {
         // Remove old fields messages
-        LocalizationManager.Instance.AddLocalizeString(okNameMessage);
+        LocalizationController.Instance.AddLocalizeString(okNameMessage);
         
         // Global Checks
         if (
@@ -250,11 +250,11 @@ public class StageFloatingPanel : MonoBehaviour
                 MessageHelper.IsFieldEmpty(yToDate.text) == true 
             )
         {
-            LocalizationManager.Instance.AddLocalizeString(emptyDatesMessage);
+            LocalizationController.Instance.AddLocalizeString(emptyDatesMessage);
         }
         else if (!DatesRangeOk())
         {
-            LocalizationManager.Instance.AddLocalizeString(koDatesMessage);
+            LocalizationController.Instance.AddLocalizeString(koDatesMessage);
         }
         else
         {            
@@ -263,7 +263,7 @@ public class StageFloatingPanel : MonoBehaviour
             {
                 if (DatesExist())
                 {// Check duplicate dates
-                    LocalizationManager.Instance.AddLocalizeString(duplicatedDatesMessage);
+                    LocalizationController.Instance.AddLocalizeString(duplicatedDatesMessage);
                 }
                 else
                 {
@@ -314,16 +314,16 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     settlementId,
                                                                                     stage
                         );
-                    MapManager.Instance.GetRegionById(regionId).History.Add(history);
+                    MapController.Instance.GetRegionById(regionId).History.Add(history);
 
                     // Refreshing data                   
-                    if (EditorUICanvasManager.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
+                    if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                     {
-                        EditorUICanvasManager.Instance.RefleshingHistory(regionId, false, settlementId);
+                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false, settlementId);
                     }
                     else
                     {
-                        EditorUICanvasManager.Instance.RefleshingHistory(regionId, false);
+                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false);
                     }                   
                 }
             }
@@ -331,7 +331,7 @@ public class StageFloatingPanel : MonoBehaviour
             { // Update new data
                 if (DatesExist(stageId))
                 {// Check duplicate dates
-                    LocalizationManager.Instance.AddLocalizeString(duplicatedDatesMessage);
+                    LocalizationController.Instance.AddLocalizeString(duplicatedDatesMessage);
                 }
                 else
                 {
@@ -358,7 +358,7 @@ public class StageFloatingPanel : MonoBehaviour
                                                             );
 
                     // Update data in the dictionary of the stages
-                    HistoryStage stage = MapManager.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x.Stage).FirstOrDefault();
+                    HistoryStage stage = MapController.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x.Stage).FirstOrDefault();
                     stage.StartDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
                     stage.EndDate = Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'));
                     stage.PolityParentId_L1 = GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false);
@@ -378,13 +378,13 @@ public class StageFloatingPanel : MonoBehaviour
                     stage.PolicyCapital = isCapital_Policy.isOn == true ? 1 : 0;
 
                     // Refreshing data                   
-                    if (EditorUICanvasManager.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
+                    if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                     {
-                        EditorUICanvasManager.Instance.RefleshingHistory(regionId, false, settlementId);
+                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false, settlementId);
                     }
                     else
                     {
-                        EditorUICanvasManager.Instance.RefleshingHistory(regionId, false);
+                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false);
                     }
                 }
             }
@@ -400,17 +400,17 @@ public class StageFloatingPanel : MonoBehaviour
         if (stageId != 0) { CsvConnection.Instance.RemoveStage(stageId); }
 
         // Reload data in the dictionary
-        HistoryRegionRelation history = MapManager.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x).FirstOrDefault();
-        MapManager.Instance.GetRegionById(regionId).History.Remove(history);
+        HistoryRegionRelation history = MapController.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x).FirstOrDefault();
+        MapController.Instance.GetRegionById(regionId).History.Remove(history);
 
         // Refreshing data                   
-        if (EditorUICanvasManager.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
+        if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
         {
-            EditorUICanvasManager.Instance.RefleshingHistory(regionId, true, settlementId);
+            EditorUICanvasController.Instance.RefleshingHistory(regionId, true, settlementId);
         }
         else
         {
-            EditorUICanvasManager.Instance.RefleshingHistory(regionId, true);
+            EditorUICanvasController.Instance.RefleshingHistory(regionId, true);
         }
     }
     /***                        ***/

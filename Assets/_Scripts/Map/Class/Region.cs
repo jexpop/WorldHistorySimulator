@@ -78,13 +78,13 @@ public class Region
 
     private Settlement UpdateSettlement(int settlementId)
     {
-        Dictionary<int, Settlement> settlements = MapManager.Instance.GetSettlements();
+        Dictionary<int, Settlement> settlements = MapController.Instance.GetSettlements();
         return settlements[settlementId];
     }
 
     private Polity UpdateOwner(int ownerId)
     {
-        Dictionary<int, Polity> polities = MapManager.Instance.GetPolities();
+        Dictionary<int, Polity> polities = MapController.Instance.GetPolities();
         return polities[ownerId];
     }
 

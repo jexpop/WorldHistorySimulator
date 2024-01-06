@@ -27,7 +27,6 @@ public class ParamResources
     public static string ASSET_MSG_ED_STATUS_MOD_PT = "Assets/Messages/EditorStatusModPolityType.asset";
 
     /* Polity's symbols */
-    public static string STREAMING_FOLDER = Application.streamingAssetsPath;
     public static string SYMBOLS_FOLDER = "/PolitySymbols/";
 
     /* Localization */

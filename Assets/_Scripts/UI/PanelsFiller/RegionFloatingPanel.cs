@@ -15,7 +15,7 @@ public class RegionFloatingPanel : MonoBehaviour
 
     public void DeactivatePanel()
     {
-        EditorUICanvasManager.Instance.DeactivateRegionPanel();
+        EditorUICanvasController.Instance.DeactivateRegionPanel();
     }
 
     public void SetRegionValue(string value)
@@ -24,16 +24,16 @@ public class RegionFloatingPanel : MonoBehaviour
     }
     public void SetSettlementValue(string table, string value)
     {
-        LocalizationManager.Instance.AddLocalizeString(regionSettlementValue, table, value);
+        LocalizationController.Instance.AddLocalizeString(regionSettlementValue, table, value);
     }
     public void SetHistoryButtonText(string table, string value)
     {
-        LocalizationManager.Instance.AddLocalizeString(regionHistoryButton, table, value);
+        LocalizationController.Instance.AddLocalizeString(regionHistoryButton, table, value);
     }
 
     public void SetButtonClick()
     {
-        regionHistoryButton.GetComponent<Button>().onClick.AddListener(delegate { EditorUICanvasManager.Instance.ToggleChangeOwner(Int32.Parse(regionPanelValue.text)); });
+        regionHistoryButton.GetComponent<Button>().onClick.AddListener(delegate { EditorUICanvasController.Instance.ToggleChangeOwner(Int32.Parse(regionPanelValue.text)); });
     }
 
     public void SetTerrainImage(Sprite sprite)

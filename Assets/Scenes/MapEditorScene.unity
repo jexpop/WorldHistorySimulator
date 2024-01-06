@@ -26138,7 +26138,7 @@ GameObject:
   - component: {fileID: 1868905352}
   - component: {fileID: 1868905353}
   m_Layer: 5
-  m_Name: UICanvasManager
+  m_Name: UICanvasController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29023,7 +29023,7 @@ GameObject:
   - component: {fileID: 2102023671}
   - component: {fileID: 2102023670}
   m_Layer: 0
-  m_Name: LocalizationManager
+  m_Name: LocalizationController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

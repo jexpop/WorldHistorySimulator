@@ -20,30 +20,30 @@ public class PostItNote : MonoBehaviour
 
     public void SetPolityType(string table, string value)
     {        
-        LocalizationManager.Instance.AddLocalizeString(polityTypeText, table, value);
+        LocalizationController.Instance.AddLocalizeString(polityTypeText, table, value);
     }
 
     public void SetPolity(string table, string value)
     {
-        LocalizationManager.Instance.AddLocalizeString(polityText, table, value);
+        LocalizationController.Instance.AddLocalizeString(polityText, table, value);
     }
 
     public void SetParent(string table, string value)
     {
-        LocalizationManager.Instance.AddLocalizeString(parentText, table, value);
+        LocalizationController.Instance.AddLocalizeString(parentText, table, value);
     }
     public void SetParent2(string table, string value)
     {
-        LocalizationManager.Instance.AddLocalizeString(parentText2, table, value);
+        LocalizationController.Instance.AddLocalizeString(parentText2, table, value);
     }
     public void SetParent3(string table, string value)
     {
-        LocalizationManager.Instance.AddLocalizeString(parentText3, table, value);
+        LocalizationController.Instance.AddLocalizeString(parentText3, table, value);
     }
 
     public void SetPolicy(string table, string value)
     {
-        LocalizationManager.Instance.AddLocalizeString(policyText, table, value);
+        LocalizationController.Instance.AddLocalizeString(policyText, table, value);
     }
 
     public void SetParentVisibility(bool show)
@@ -68,7 +68,7 @@ public class PostItNote : MonoBehaviour
     public void SetPolityImage(string polityName, string polityTypeName)
     {
         // Get the symbol
-        Texture2D tex = MapManager.Instance.GetSymbolTexture(polityName, polityTypeName);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(polityName, polityTypeName);
 
         // Transparence
         polityImage.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -79,7 +79,7 @@ public class PostItNote : MonoBehaviour
     public void SetParentImage(string parentName, string parentTypeName)
     {
         // Get the symbol
-        Texture2D tex = MapManager.Instance.GetSymbolTexture(parentName, parentTypeName);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(parentName, parentTypeName);
 
         // Transparence
         parentImage.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -90,7 +90,7 @@ public class PostItNote : MonoBehaviour
     public void SetParentImage2(string parentName2, string parentTypeName2)
     {
         // Get the symbol
-        Texture2D tex = MapManager.Instance.GetSymbolTexture(parentName2, parentTypeName2);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(parentName2, parentTypeName2);
 
         // Transparence
         parentImage2.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -101,7 +101,7 @@ public class PostItNote : MonoBehaviour
     public void SetParentImage3(string parentName3, string parentTypeName3)
     {
         // Get the symbol
-        Texture2D tex = MapManager.Instance.GetSymbolTexture(parentName3, parentTypeName3);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(parentName3, parentTypeName3);
 
         // Transparence
         parentImage3.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);

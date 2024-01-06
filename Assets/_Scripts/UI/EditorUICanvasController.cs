@@ -4,9 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
-using Unity.VisualScripting;
 
-public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
+
+public class EditorUICanvasController : Singleton<EditorUICanvasController>
 {
 
     public UIStatus uiStatus;
@@ -167,7 +167,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     {
         // Building list of polities type
         List<GameObject> polityTypeButtons = new List<GameObject>();
-        foreach (KeyValuePair<int, PolityType> pt in MapManager.Instance.GetPolitiesType())
+        foreach (KeyValuePair<int, PolityType> pt in GameManager.Instance.MAP_GetPolitiesType())
         {
             PolityType currentPolityType = pt.Value;
 
@@ -175,7 +175,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             GameObject button = Instantiate(editorMenuButton);
             string polityTypeName = currentPolityType.Name;
 
-            LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES_TYPE", polityTypeName);
+            GameManager.Instance.LOC_AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES_TYPE", polityTypeName);
 
 
             //*// OnClick() events //*//
@@ -203,7 +203,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     {
         // Building list of polities
         List<GameObject> polityButtons = new List<GameObject>();
-        foreach (KeyValuePair<int, Polity> p in MapManager.Instance.GetPolities())
+        foreach (KeyValuePair<int, Polity> p in GameManager.Instance.MAP_GetPolities())
         {
             Polity currentPolity = p.Value;
 
@@ -211,7 +211,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             GameObject button = Instantiate(editorMenuButton);
             string polityName = currentPolity.Name;
 
-            LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES", polityName);
+            GameManager.Instance.LOC_AddLocalizeString(button, "LOC_TABLE_HIST_POLITIES", polityName);
 
 
             //*// OnClick() events //*//
@@ -247,7 +247,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     {
         // Building list of settlements
         List<GameObject> settlementButtons = new List<GameObject>();
-        foreach (KeyValuePair<int, Settlement> s in MapManager.Instance.GetSettlements())
+        foreach (KeyValuePair<int, Settlement> s in GameManager.Instance.MAP_GetSettlements())
         {
             Settlement currentSettlement = s.Value;
 
@@ -255,7 +255,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             GameObject button = Instantiate(editorMenuButton);
             string settlementName = currentSettlement.Name;
 
-            LocalizationManager.Instance.AddLocalizeString(button, "LOC_TABLE_HIST_SETTLEMENTS", settlementName);
+            GameManager.Instance.LOC_AddLocalizeString(button, "LOC_TABLE_HIST_SETTLEMENTS", settlementName);
 
 
             //*// OnClick() events //*//
@@ -391,7 +391,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             tmpEditorHistoryPanel.transform.position = new Vector3(x, y, zPanel);
 
             // Building list of settlements
-            foreach (KeyValuePair<int, Settlement> s in MapManager.Instance.GetSettlements())
+            foreach (KeyValuePair<int, Settlement> s in GameManager.Instance.MAP_GetSettlements())
             {
                 if(s.Value.RegionId==currentRegionId || s.Value.RegionId == 0)
                 {
@@ -428,7 +428,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     public void RefleshingHistory(int currentRegionId, bool delete, int settlementId = 0)
     {
         // Reload database
-        MapManager.Instance.LoadHistoryRegionDictionaryFromDB(currentRegionId);
+        GameManager.Instance.MAP_LoadHistoryRegionDictionaryFromDB(currentRegionId);
 
         // Clean old stages
         GameObject[] editorStages = GameObject.FindGameObjectsWithTag(ParamUI.TAG_EDITOR_STAGES);
@@ -450,12 +450,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             }
             else
             {
-                string settlementKey = MapManager.Instance.GetSettlementsLocaleKeyById(settlementId);
+                string settlementKey = GameManager.Instance.MAP_GetSettlementsLocaleKeyById(settlementId);
                 SetSettlementRegionPanel(false, settlementKey);
             }
 
             // Get current stage info
-            Region currentRegion = MapManager.Instance.GetRegionById(currentRegionId);
+            Region currentRegion = GameManager.Instance.MAP_GetRegionById(currentRegionId);
             HistoryRegionRelation history = GetCurrentStageByRegion(currentRegion);
             int polityId = 0;
             if(history != null)
@@ -471,19 +471,19 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             }
 
             // Update region in the map
-            Polity polity = delete ? null : MapManager.Instance.GetPolityById(polityId);
+            Polity polity = delete ? null : GameManager.Instance.MAP_GetPolityById(polityId);
             polity.Recolor();
-            MapManager.Instance.ColorizeRegionsById(currentRegionId, polity);
+            GameManager.Instance.MAP_ColorizeRegionsById(currentRegionId, polity);
         }
         else
         {
             // Update region in the map
-            MapManager.Instance.ColorizeRegionsById(currentRegionId, null);
+            GameManager.Instance.MAP_ColorizeRegionsById(currentRegionId, null);
         }
     }
     private void LoadStages(int regionId)
     {
-        Region currentRegion = MapManager.Instance.GetRegionById(regionId);
+        Region currentRegion = GameManager.Instance.MAP_GetRegionById(regionId);
         if(currentRegion.History != null)
         {
             foreach (HistoryRegionRelation history in currentRegion.History)
@@ -532,16 +532,16 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             HistoryRegionRelation history = GetCurrentStageByRegion(region);
             
             // Get polity names
-            Polity polityL4 = history.Stage.PolityParentId_L4==0?null:MapManager.Instance.GetPolityById(history.Stage.PolityParentId_L4);
-            Polity polityL3 = history.Stage.PolityParentId_L3 == 0 ? null : MapManager.Instance.GetPolityById(history.Stage.PolityParentId_L3);
-            Polity polityL2 = history.Stage.PolityParentId_L2 == 0 ? null : MapManager.Instance.GetPolityById(history.Stage.PolityParentId_L2);
-            Polity polityL1 = history.Stage.PolityParentId_L1 == 0 ? null : MapManager.Instance.GetPolityById(history.Stage.PolityParentId_L1);
+            Polity polityL4 = history.Stage.PolityParentId_L4==0?null:GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L4);
+            Polity polityL3 = history.Stage.PolityParentId_L3 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L3);
+            Polity polityL2 = history.Stage.PolityParentId_L2 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L2);
+            Polity polityL1 = history.Stage.PolityParentId_L1 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L1);
             
             // Polity Owner L4
             if (polityL4 == region.Owner)
             {
                 // Polity Type
-                PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L4);
+                PolityType polityType = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L4);
                 postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
                 postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL4.Name);
@@ -552,7 +552,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 if (polityL3 != null)
                 {
                     // Polity Type Parent 1
-                    PolityType polityTypeL3 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);                    
+                    PolityType polityTypeL3 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);                    
                     // Parent 1
                     postItNote.SetParentVisibility(true);
                     postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL3.Name);
@@ -568,7 +568,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 if (polityL2 != null)
                 {
                     // Polity Type Parent 2
-                    PolityType polityTypeL2 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
+                    PolityType polityTypeL2 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
                     // Parent 2
                     postItNote.SetParentVisibility2(true);
                     postItNote.SetParent2("LOC_TABLE_HIST_POLITIES", polityL2.Name);
@@ -584,7 +584,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 if (polityL3 != null)
                 {
                     // Polity Type Parent 3
-                    PolityType polityTypeL3 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
+                    PolityType polityTypeL3 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
                     // Parent 3
                     postItNote.SetParentVisibility3(true);
                     postItNote.SetParent3("LOC_TABLE_HIST_POLITIES", polityL3.Name);
@@ -601,7 +601,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             if (polityL3 == region.Owner)
             {
                 // Polity Type
-                PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
+                PolityType polityType = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
                 postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
                 postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL3.Name);
@@ -612,7 +612,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 if (polityL2 != null)
                 {
                     // Polity Type Parent 1
-                    PolityType polityTypeL2 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
+                    PolityType polityTypeL2 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
                     // Parent 1
                     postItNote.SetParentVisibility(true);
                     postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL2.Name);
@@ -628,7 +628,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 if (polityL1 != null)
                 {
                     // Polity Type Parent 2
-                    PolityType polityTypeL1 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
+                    PolityType polityTypeL1 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
                     // Parent 2
                     postItNote.SetParentVisibility2(true);
                     postItNote.SetParent2("LOC_TABLE_HIST_POLITIES", polityL1.Name);
@@ -647,7 +647,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             if (polityL2 == region.Owner)
             {
                 // Polity Type
-                PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
+                PolityType polityType = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
                 postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
                 postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL2.Name);
@@ -658,7 +658,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 if (polityL1 != null)
                 {
                     // Polity Type Parent 1
-                    PolityType polityTypeL1 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
+                    PolityType polityTypeL1 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
                     // Parent 1
                     postItNote.SetParentVisibility(true);
                     postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL1.Name);
@@ -678,7 +678,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             if (polityL1.Name == region.Owner.Name)
             {
                 // Polity Type
-                PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
+                PolityType polityType = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
                 postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
 
                 // Main polity
@@ -695,7 +695,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             if (history.Stage.PolicyId != 0)
             {
                 postItNote.SetPolicyVisibility(true);
-                Polity policy = MapManager.Instance.GetPolityById(history.Stage.PolicyId);
+                Polity policy = GameManager.Instance.MAP_GetPolityById(history.Stage.PolicyId);
                 postItNote.SetPolicy("LOC_TABLE_HIST_POLITIES", policy.Name);
             }
             else
@@ -743,12 +743,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     /*** Message status functions ***/
     public void UpdateNewStatusMessage(SimpleMessage simpleMessage)
     {
-        LocalizationManager.Instance.AddLocalizeString(simpleMessage);
+        GameManager.Instance.LOC_AddLocalizeString(simpleMessage);
     }
 
     public void UpdateModStatusMessage(IdentificatorMessage identificatorMessage)
     {
-        LocalizationManager.Instance.AddLocalizeString(identificatorMessage);
+        GameManager.Instance.LOC_AddLocalizeString(identificatorMessage);
     }
     /***                        ***/
 
@@ -765,12 +765,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             // Clearing old text
             polityTypeNameInput.text = "";
             
-            Dictionary<int, PolityType> politiesType = MapManager.Instance.GetPolitiesType();
+            Dictionary<int, PolityType> politiesType = GameManager.Instance.MAP_GetPolitiesType();
             PolityType polityType = politiesType.Where(x => x.Key.Equals(labelId)).Select(x => x.Value).FirstOrDefault();
             polityTypeIdLabel.text = labelId.ToString();
             currentName = polityType.Name;
             table = "LOC_TABLE_HIST_POLITIES_TYPE";
-            LocalizationManager.Instance.AddLocalizeString(polityTypeNameInput, table, currentName);
+            GameManager.Instance.LOC_AddLocalizeString(polityTypeNameInput, table, currentName);
 
             // Focus on this field
             if (polityTypeNameInput.placeholder.GetComponent<TextMeshProUGUI>().text != polityTypeNameInput.name)
@@ -783,13 +783,13 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             // Clearing old text
             polityNameInput.text = "";
 
-            MapManager.Instance.LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
-            Dictionary<int, Polity> polities = MapManager.Instance.GetPolities();
+            GameManager.Instance.MAP_LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
+            Dictionary<int, Polity> polities = GameManager.Instance.MAP_GetPolities();
             Polity polity = polities.Where(x => x.Key.Equals(labelId)).Select(x => x.Value).FirstOrDefault();
             polityIdLabel.text = labelId.ToString();            
             currentName = polity.Name;
             table = "LOC_TABLE_HIST_POLITIES";
-            LocalizationManager.Instance.AddLocalizeString(polityNameInput, table, currentName);
+            GameManager.Instance.LOC_AddLocalizeString(polityNameInput, table, currentName);
 
             // Focus on this field
             if (polityNameInput.placeholder.GetComponent<TextMeshProUGUI>().text != polityNameInput.name)
@@ -807,13 +807,13 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             settlementNameInput.text = "";
             settlementRegionInput.text = "0";
 
-            MapManager.Instance.LoadSettlementsDictionaryFromDB();
-            Dictionary<int, Settlement> settlements = MapManager.Instance.GetSettlements();
+            GameManager.Instance.MAP_LoadSettlementsDictionaryFromDB();
+            Dictionary<int, Settlement> settlements = GameManager.Instance.MAP_GetSettlements();
             Settlement settlement = settlements.Where(x => x.Key.Equals(labelId)).Select(x => x.Value).FirstOrDefault();
             settlementIdLabel.text = labelId.ToString();
             currentName = settlement.Name;
             table = "LOC_TABLE_HIST_SETTLEMENTS";
-            LocalizationManager.Instance.AddLocalizeString(settlementNameInput, table, currentName);
+            GameManager.Instance.LOC_AddLocalizeString(settlementNameInput, table, currentName);
 
             // Focus on this field
             if (settlementNameInput.placeholder.GetComponent<TextMeshProUGUI>().text != settlementNameInput.name)
@@ -834,8 +834,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             }
 
             // Clone the panel of the symbols
-            List<int> polityTypesId = MapManager.Instance.GetPolityTypesByPolity(labelId);
-            List<int> polityTypesId_Policy = MapManager.Instance.GetPolityTypesByPolicy(labelId);
+            List<int> polityTypesId = GameManager.Instance.MAP_GetPolityTypesByPolity(labelId);
+            List<int> polityTypesId_Policy = GameManager.Instance.MAP_GetPolityTypesByPolicy(labelId);
             polityTypesId.AddRange(polityTypesId_Policy);
             foreach(int polityTypeId in polityTypesId)
             {
@@ -856,7 +856,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         // Remove old fields messages
         foreach(SimpleMessage message in okMessages)
         {
-            LocalizationManager.Instance.AddLocalizeString(message);
+            GameManager.Instance.LOC_AddLocalizeString(message);
         }
 
         // Check flags
@@ -868,7 +868,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         {
             if (input.name!= ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && MessageHelper.IsFieldEmpty(input.text) == true)
             {
-                LocalizationManager.Instance.AddLocalizeString(emptyNameMessage);
+                GameManager.Instance.LOC_AddLocalizeString(emptyNameMessage);
                 fChkGlobalIsOk = false;
             }
         }
@@ -881,14 +881,14 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 {
                     foreach (TMP_InputField input in inputs)
                     {
-                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && LocalizationManager.Instance.KeyExist(loc_table, input.text))
+                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && GameManager.Instance.LOC_KeyExist(loc_table, input.text))
                         {// Check duplicate key
-                            LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
+                            GameManager.Instance.LOC_AddLocalizeString(duplicatedNameMessage);
                             fChkLocalIsOk = false;
                         }
-                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && LocalizationManager.Instance.ValueExist(loc_table, input.text, input.text))
+                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && GameManager.Instance.LOC_ValueExist(loc_table, input.text, input.text))
                         {// Check duplicate locate value (current language)
-                            LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
+                            GameManager.Instance.LOC_AddLocalizeString(duplicatedNameMessage);
                             fChkLocalIsOk = false;
                         }
                     }
@@ -902,7 +902,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         {
                             if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)
                             {
-                                LocalizationManager.Instance.InsertNewEntry(loc_table, input.text, input.text);
+                                GameManager.Instance.LOC_InsertNewEntry(loc_table, input.text, input.text);
                             }
                         }
 
@@ -917,7 +917,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                             messageStatusName = polityTypeName;
 
                             // Reload dictionary
-                            MapManager.Instance.LoadPolitiesTypeDictionaryFromDB();
+                            GameManager.Instance.MAP_LoadPolitiesTypeDictionaryFromDB();
                             FillScrollButton(polityTypeContent);
                         }
                         else if (dataType == EditorDataType.Polity)
@@ -930,7 +930,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                             messageStatusName = polityName;
 
                             // Reload dictionary
-                            MapManager.Instance.LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
+                            GameManager.Instance.MAP_LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
                             FillScrollButton(polityContent);
                         }
                         else if (dataType == EditorDataType.Settlement)
@@ -945,7 +945,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                             messageStatusName = settlementName;
 
                             // Reload dictionary
-                            MapManager.Instance.LoadSettlementsDictionaryFromDB();
+                            GameManager.Instance.MAP_LoadSettlementsDictionaryFromDB();
                             FillScrollButton(settlementContent);
                         }
 
@@ -963,32 +963,32 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                 { // Update new data
                     if (dataType == EditorDataType.PolityType)
                     {
-                        string polityTypeLocaleId = MapManager.Instance.GetPolitiesTypeLocaleKeyById(Int32.Parse(idLabel));
+                        string polityTypeLocaleId = GameManager.Instance.MAP_GetPolitiesTypeLocaleKeyById(Int32.Parse(idLabel));
                         string polityTypeName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITYTYPE_NAME_INPUT)).text;
-                        if (LocalizationManager.Instance.ValueExist(loc_table, polityTypeLocaleId, polityTypeName))
+                        if (GameManager.Instance.LOC_ValueExist(loc_table, polityTypeLocaleId, polityTypeName))
                         {// Check duplicate locate value (current language)
-                            LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
+                            GameManager.Instance.LOC_AddLocalizeString(duplicatedNameMessage);
                         }
                         else
                         {
                             // Update new current locale data
-                            LocalizationManager.Instance.UpdateEntry(loc_table, polityTypeLocaleId, polityTypeName);
+                            GameManager.Instance.LOC_UpdateEntry(loc_table, polityTypeLocaleId, polityTypeName);
                             // Update displayed data
                             FillScrollButtonScript(polityTypeContent, polityTypeLocaleId);
                         }
                     }
                     else if (dataType == EditorDataType.Polity)
                     {
-                        string polityLocaleId = MapManager.Instance.GetPolitiesLocaleKeyById(Int32.Parse(idLabel));
+                        string polityLocaleId = GameManager.Instance.MAP_GetPolitiesLocaleKeyById(Int32.Parse(idLabel));
                         string polityName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITY_NAME_INPUT)).text;
-                        if (LocalizationManager.Instance.ValueExist(loc_table, polityLocaleId, polityName))
+                        if (GameManager.Instance.LOC_ValueExist(loc_table, polityLocaleId, polityName))
                         {// Check duplicate locate value (current language)
-                            LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
+                            GameManager.Instance.LOC_AddLocalizeString(duplicatedNameMessage);
                         }
                         else
                         {
                             // Update new current locale data                    
-                            LocalizationManager.Instance.UpdateEntry(loc_table, polityLocaleId, polityName);
+                            GameManager.Instance.LOC_UpdateEntry(loc_table, polityLocaleId, polityName);
                             // Update csv file
                             CsvConnection.Instance.UpdatePolity(Int32.Parse(idLabel), polityLocaleId, check.isOn);
                             // Update displayed data
@@ -998,17 +998,17 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     }
                     else if (dataType == EditorDataType.Settlement)
                     {
-                        string settlementLocaleId = MapManager.Instance.GetSettlementsLocaleKeyById(Int32.Parse(idLabel));
+                        string settlementLocaleId = GameManager.Instance.MAP_GetSettlementsLocaleKeyById(Int32.Parse(idLabel));
                         string settlementName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_NAME_INPUT)).text;
-                        if (LocalizationManager.Instance.ValueExist(loc_table, settlementLocaleId, settlementName))
+                        if (GameManager.Instance.LOC_ValueExist(loc_table, settlementLocaleId, settlementName))
                         {// Check duplicate locate value (current language)
-                            LocalizationManager.Instance.AddLocalizeString(duplicatedNameMessage);
+                            GameManager.Instance.LOC_AddLocalizeString(duplicatedNameMessage);
                         }
                         else
                         {
                             // Update new current locale data
                             string settlementRegion = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)).text;
-                            LocalizationManager.Instance.UpdateEntry(loc_table, settlementLocaleId, settlementName);
+                            GameManager.Instance.LOC_UpdateEntry(loc_table, settlementLocaleId, settlementName);
                             // Update CSV file
                             settlementRegion = int.TryParse(settlementRegion, out int n) == true ? settlementRegion : "0";
                             CsvConnection.Instance.UpdateSettlement(Int32.Parse(idLabel), settlementLocaleId, Int32.Parse(settlementRegion));
@@ -1069,7 +1069,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         status.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "";
 
         // Fields message status
-        LocalizationManager.Instance.AddLocalizeString(okNameMessage);
+        GameManager.Instance.LOC_AddLocalizeString(okNameMessage);
     }
     public void PolityTypeClearActionButtonEvent()
     {
@@ -1104,11 +1104,11 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     {
         if (polityTypeIdLabel.text == "0")
         {
-            LocalizationManager.Instance.AddLocalizeString(polityTypeNoRemoveMessage);
+            GameManager.Instance.LOC_AddLocalizeString(polityTypeNoRemoveMessage);
         }
-        else if (MapManager.Instance.PolityTypeIsRelated(Int32.Parse(polityTypeIdLabel.text)))
+        else if (GameManager.Instance.MAP_PolityTypeIsRelated(Int32.Parse(polityTypeIdLabel.text)))
         {
-            LocalizationManager.Instance.AddLocalizeString(polityTypeRelatedDataMessage);
+            GameManager.Instance.LOC_AddLocalizeString(polityTypeRelatedDataMessage);
         }
         else
         {
@@ -1116,12 +1116,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             CsvConnection.Instance.RemovePolityType(Int32.Parse(polityTypeIdLabel.text));
 
             // Delete locale data (All languanges)
-            string polityTypeLocaleId = MapManager.Instance.GetPolitiesTypeLocaleKeyById(Int32.Parse(polityTypeIdLabel.text));
-            LocalizationManager.Instance.DeleteEntry("LOC_TABLE_HIST_POLITIES_TYPE", polityTypeLocaleId);
+            string polityTypeLocaleId = GameManager.Instance.MAP_GetPolitiesTypeLocaleKeyById(Int32.Parse(polityTypeIdLabel.text));
+            GameManager.Instance.LOC_DeleteEntry("LOC_TABLE_HIST_POLITIES_TYPE", polityTypeLocaleId);
 
             // Update displayed data
             // Reload dictionary
-            MapManager.Instance.LoadPolitiesTypeDictionaryFromDB();
+            GameManager.Instance.MAP_LoadPolitiesTypeDictionaryFromDB();
             FillScrollButton(polityTypeContent);
             // New status information
             SimpleMessage message = Instantiate(polityTypeNewMessage);
@@ -1133,11 +1133,11 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     {
         if (polityIdLabel.text == "0")
         {
-            LocalizationManager.Instance.AddLocalizeString(polityNoRemoveMessage);
+            GameManager.Instance.LOC_AddLocalizeString(polityNoRemoveMessage);
         }
-        else if (MapManager.Instance.PolityIsRelated(Int32.Parse(polityIdLabel.text)))
+        else if (GameManager.Instance.MAP_PolityIsRelated(Int32.Parse(polityIdLabel.text)))
         {
-            LocalizationManager.Instance.AddLocalizeString(polityRelatedDataMessage);
+            GameManager.Instance.LOC_AddLocalizeString(polityRelatedDataMessage);
         }
         else
         {
@@ -1145,12 +1145,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             CsvConnection.Instance.RemovePolity(Int32.Parse(polityIdLabel.text));
 
             // Delete locale data (All languanges)
-            string polityLocaleId = MapManager.Instance.GetPolitiesLocaleKeyById(Int32.Parse(polityIdLabel.text));
-            LocalizationManager.Instance.DeleteEntry("LOC_TABLE_HIST_POLITIES", polityLocaleId);
+            string polityLocaleId = GameManager.Instance.MAP_GetPolitiesLocaleKeyById(Int32.Parse(polityIdLabel.text));
+            GameManager.Instance.LOC_DeleteEntry("LOC_TABLE_HIST_POLITIES", polityLocaleId);
 
             // Update displayed data
             // Reload dictionary
-            MapManager.Instance.LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
+            GameManager.Instance.MAP_LoadPolitiesDictionaryFromDB(GetCurrentTimeline(false), 1);
             FillScrollButton(polityContent);
             // New status information
             SimpleMessage message = Instantiate(polityNewMessage);
@@ -1162,11 +1162,11 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
     {
         if (settlementIdLabel.text == "0")
         {
-            LocalizationManager.Instance.AddLocalizeString(settlementNoRemoveMessage);
+            GameManager.Instance.LOC_AddLocalizeString(settlementNoRemoveMessage);
         }
-        /*else if (MapManager.Instance.PolityIsRelated(Int32.Parse(polityIdLabel.text)))  ------ TO CHECK
+        /*else if (GameManager.Instance.MAP_PolityIsRelated(Int32.Parse(polityIdLabel.text)))  ------ TO CHECK
         {
-            LocalizationManager.Instance.AddLocalizeString(polityRelatedDataMessage);
+            GameManager.Instance.LOC_AddLocalizeString(polityRelatedDataMessage);
         }*/
         else
         {
@@ -1174,12 +1174,12 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             CsvConnection.Instance.RemoveSettlement(Int32.Parse(settlementIdLabel.text));
 
             // Delete locale data (All languanges)
-            string settlementLocaleId = MapManager.Instance.GetSettlementsLocaleKeyById(Int32.Parse(settlementIdLabel.text));
-            LocalizationManager.Instance.DeleteEntry("LOC_TABLE_HIST_SETTLEMENTS", settlementLocaleId);
+            string settlementLocaleId = GameManager.Instance.MAP_GetSettlementsLocaleKeyById(Int32.Parse(settlementIdLabel.text));
+            GameManager.Instance.LOC_DeleteEntry("LOC_TABLE_HIST_SETTLEMENTS", settlementLocaleId);
 
             // Update displayed data
             // Reload dictionary
-            MapManager.Instance.LoadSettlementsDictionaryFromDB();
+            GameManager.Instance.MAP_LoadSettlementsDictionaryFromDB();
             FillScrollButton(settlementContent);
             // New status information
             SimpleMessage message = Instantiate(settlementNewMessage);

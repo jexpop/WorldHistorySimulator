@@ -8,7 +8,7 @@ using System.Collections;
 using UnityEngine.Localization.Tables;
 using System.Collections.Generic;
 
-public class LocalizationManager : Singleton<LocalizationManager>
+public class LocalizationController : Singleton<LocalizationController>
 {
 
     UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<StringTable> politiesTypeTable_ca;

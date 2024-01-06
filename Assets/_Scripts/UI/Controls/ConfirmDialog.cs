@@ -26,13 +26,13 @@ public class ConfirmDialog : MonoBehaviour
         switch (dataType)
         {
             case EditorDataType.PolityType:
-                EditorUICanvasManager.Instance.PolityTypeSaveActionButtonEvent();
+                EditorUICanvasController.Instance.PolityTypeSaveActionButtonEvent();
                 break;
             case EditorDataType.Polity:
-                EditorUICanvasManager.Instance.PolitySaveActionButtonEvent();
+                EditorUICanvasController.Instance.PolitySaveActionButtonEvent();
                 break;
             case EditorDataType.Settlement:
-                EditorUICanvasManager.Instance.SettlementSaveActionButtonEvent();
+                EditorUICanvasController.Instance.SettlementSaveActionButtonEvent();
                 break;
         }
         transform.parent.gameObject.SetActive(false);
@@ -43,13 +43,13 @@ public class ConfirmDialog : MonoBehaviour
         switch (dataType)
         {
             case EditorDataType.PolityType:
-                EditorUICanvasManager.Instance.PolityTypeClearActionButtonEvent();
+                EditorUICanvasController.Instance.PolityTypeClearActionButtonEvent();
                 break;
             case EditorDataType.Polity:
-                EditorUICanvasManager.Instance.PolityClearActionButtonEvent();
+                EditorUICanvasController.Instance.PolityClearActionButtonEvent();
                 break;
             case EditorDataType.Settlement:
-                EditorUICanvasManager.Instance.SettlementClearActionButtonEvent();
+                EditorUICanvasController.Instance.SettlementClearActionButtonEvent();
                 break;
         }        
         transform.parent.gameObject.SetActive(false);
@@ -60,13 +60,13 @@ public class ConfirmDialog : MonoBehaviour
         switch (dataType)
         {
             case EditorDataType.PolityType:
-                EditorUICanvasManager.Instance.PolityTypeDeleteActionButtonEvent();
+                EditorUICanvasController.Instance.PolityTypeDeleteActionButtonEvent();
                 break;
             case EditorDataType.Polity:
-                EditorUICanvasManager.Instance.PolityDeleteActionButtonEvent();
+                EditorUICanvasController.Instance.PolityDeleteActionButtonEvent();
                 break;
             case EditorDataType.Settlement:
-                EditorUICanvasManager.Instance.SettlementDeleteActionButtonEvent();
+                EditorUICanvasController.Instance.SettlementDeleteActionButtonEvent();
                 break;
         }
         transform.parent.gameObject.SetActive(false);

@@ -62,7 +62,7 @@ public class EditorDropdown : MonoBehaviour
         {
             // List to order the options
             List<OptionsOrdered> polityTypeOptionsOrdered = new List<OptionsOrdered>();
-            foreach (KeyValuePair<int, PolityType> pt in MapManager.Instance.GetPolitiesType())
+            foreach (KeyValuePair<int, PolityType> pt in MapController.Instance.GetPolitiesType())
             {
                 OptionsOrdered optionOrdered = new OptionsOrdered(pt.Key, pt.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", pt.Value.Name));
                 polityTypeOptionsOrdered.Add(optionOrdered);
@@ -83,7 +83,7 @@ public class EditorDropdown : MonoBehaviour
         {
             // List to order the options
             List<OptionsOrdered> individualOptionsOrdered = new List<OptionsOrdered>();
-            foreach (KeyValuePair<int, Polity> p in MapManager.Instance.GetPolities(CsvConnection.Instance.GetIndividualId()))
+            foreach (KeyValuePair<int, Polity> p in MapController.Instance.GetPolities(CsvConnection.Instance.GetIndividualId()))
             {
                 OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name));
                 individualOptionsOrdered.Add(optionOrdered);
@@ -104,7 +104,7 @@ public class EditorDropdown : MonoBehaviour
         {
             // List to order the options
             List<OptionsOrdered> collectiveOptionsOrdered = new List<OptionsOrdered>();
-            foreach (KeyValuePair<int, Polity> p in MapManager.Instance.GetPolities(CsvConnection.Instance.GetCollectiveId()))
+            foreach (KeyValuePair<int, Polity> p in MapController.Instance.GetPolities(CsvConnection.Instance.GetCollectiveId()))
             {
                 OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name));
                 collectiveOptionsOrdered.Add(optionOrdered);

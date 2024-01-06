@@ -26,14 +26,14 @@ public class PolitySymbolPanel : MonoBehaviour
 
     private void SetPolity(int polityId)
     {
-        polityName.text = MapManager.Instance.GetPolityById(polityId).Name;
-        LocalizationManager.Instance.AddLocalizeString(polityName, "LOC_TABLE_HIST_POLITIES", polityName.text);
+        polityName.text = MapController.Instance.GetPolityById(polityId).Name;
+        LocalizationController.Instance.AddLocalizeString(polityName, "LOC_TABLE_HIST_POLITIES", polityName.text);
     }
 
     private void SetPolityType(int polityTypeId)
     {
-        polityTypeName.text = MapManager.Instance.GetPolityTypeById(polityTypeId).Name;
-        LocalizationManager.Instance.AddLocalizeString(polityTypeName, "LOC_TABLE_HIST_POLITIES_TYPE", polityTypeName.text);
+        polityTypeName.text = MapController.Instance.GetPolityTypeById(polityTypeId).Name;
+        LocalizationController.Instance.AddLocalizeString(polityTypeName, "LOC_TABLE_HIST_POLITIES_TYPE", polityTypeName.text);
     }
 
     private void SetImage()
@@ -47,8 +47,8 @@ public class PolitySymbolPanel : MonoBehaviour
 
     private void SetId(int polityId, int polityTypeId)
     {
-        string polity = MapManager.Instance.GetPolityById(polityId).Name;
-        string polityType = MapManager.Instance.GetPolityTypeById(polityTypeId).Name;
+        string polity = MapController.Instance.GetPolityById(polityId).Name;
+        string polityType = MapController.Instance.GetPolityTypeById(polityTypeId).Name;
         symbolId.text = Utilities.PascalStrings(polity + "_" + polityType);
     }
 

@@ -37,9 +37,9 @@ public class Polity
         // Random color for the political frontier - this color is unique
         if(color32.r.ToString() == "0" & color32.g.ToString() == "0" & color32.b.ToString() == "0")
         {            
-            if (MapManager.Instance.polityColorList.Count > 0)
+            if (MapController.Instance.polityColorList.Count > 0)
             {
-                color32 = MapManager.Instance.polityColorList.Dequeue();
+                color32 = MapController.Instance.polityColorList.Dequeue();
             }
         }
 

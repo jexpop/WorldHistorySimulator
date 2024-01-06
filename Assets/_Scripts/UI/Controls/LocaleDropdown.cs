@@ -36,6 +36,6 @@ public class LocaleDropdown : MonoBehaviour
 
         // UI actions are run if language is changed
         // This is not perfect solution bacause now I don't know to get new data 
-        EditorUICanvasManager.Instance.polityTypeNameInput.text = "";
+        EditorUICanvasController.Instance.polityTypeNameInput.text = "";
     }
 }

@@ -10,11 +10,11 @@ public class TimeTravelbutton : MonoBehaviour
 
     public void OnTimeTravelEvent()
     {
-        bool globalLayer = EditorUICanvasManager.Instance.layerCheckCollective.isOn;
-        int optionLayer = EditorUICanvasManager.Instance.layersDropdown.value;
+        bool globalLayer = EditorUICanvasController.Instance.layerCheckCollective.isOn;
+        int optionLayer = EditorUICanvasController.Instance.layersDropdown.value;
         float rivers= layerCheckRivers.isOn ? 1f : 0f;
-        MapManager.Instance.CreateRegions(optionLayer, true, rivers);
-        MapManager.Instance.ShowCapitalSymbols();
+        MapController.Instance.CreateRegions(optionLayer, true, rivers);
+        MapController.Instance.ShowCapitalSymbols();
     }
 
 }

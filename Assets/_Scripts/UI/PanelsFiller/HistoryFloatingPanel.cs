@@ -17,7 +17,7 @@ public class HistoryFloatingPanel : MonoBehaviour
     /// <param name="value">Localization key</param>
     public void AddSettlementButton(GameObject button, string table, string value)
     {       
-        LocalizationManager.Instance.AddLocalizeString(button, table, value);
+        LocalizationController.Instance.AddLocalizeString(button, table, value);
         button.transform.SetParent(settlementContent);
     }
 
@@ -40,7 +40,7 @@ public class HistoryFloatingPanel : MonoBehaviour
     /// <param name="historyStage">Parameters of the stage</param>
     public void toggleChangeOwnerEvent(int regionId, int stageId, int settlementId, HistoryStage historyStage)
     {
-        Settlement settlement = MapManager.Instance.GetSettlementById(settlementId);
+        Settlement settlement = MapController.Instance.GetSettlementById(settlementId);
         AddNewStage(regionId, stageId, settlement, settlementId, historyStage);
     }
 

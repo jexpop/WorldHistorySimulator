@@ -4,7 +4,7 @@ using Aron.Weiler;
 using System.Linq;
 using System.IO;
 
-public class MapManager : Singleton<MapManager>
+public class MapController : Singleton<MapController>
 {
     Material _material;
 
@@ -71,7 +71,7 @@ public class MapManager : Singleton<MapManager>
         _material.SetFloat("_DrawRiver", 0f);
 
         /* Capital symbols preload */
-        symbolStreamingPath = ParamResources.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;        
+        symbolStreamingPath = GameManager.Instance.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;        
         DirectoryInfo symbolsDir = new DirectoryInfo(symbolStreamingPath);
         FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
         foreach (FileInfo symbolFilename in symbolsInfo)
@@ -108,33 +108,33 @@ public class MapManager : Singleton<MapManager>
                 Region region = regions[OnlyRGBColorByPosition(prevXY.x, prevXY.y)];
                 
                 // Show a post it note with information of the polity
-                if (EditorUICanvasManager.Instance.uiStatus == UIStatus.Nothing || EditorUICanvasManager.Instance.uiStatus == UIStatus.PostItNote)
+                if (GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing || GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote)
                 {
                     if (region.Type == ParamUI.REGION_NAME_LAND && region.Owner != null)
                     {
-                        EditorUICanvasManager.Instance.uiStatus = UIStatus.PostItNote;
-                        EditorUICanvasManager.Instance.PostItPolityVisibility(mousePos, true, region);
+                        GameManager.Instance.UI_SetUIStatus(UIStatus.PostItNote);
+                        GameManager.Instance.UI_PostItPolityVisibility(mousePos, true, region);
                     }
                     else
                     {
-                        EditorUICanvasManager.Instance.uiStatus = UIStatus.Nothing;
-                        EditorUICanvasManager.Instance.PostItPolityVisibility(mousePos, false);
+                        GameManager.Instance.UI_SetUIStatus(UIStatus.Nothing);
+                        GameManager.Instance.UI_PostItPolityVisibility(mousePos, false);
                     }
                 }
                 
                 // Click in the region
                 if (Input.GetMouseButtonDown(0) && (
-                                            EditorUICanvasManager.Instance.uiStatus == UIStatus.InfoRegion ||
-                                            EditorUICanvasManager.Instance.uiStatus == UIStatus.Nothing ||
-                                            EditorUICanvasManager.Instance.uiStatus == UIStatus.PostItNote))
+                                            GameManager.Instance.UI_GetUIStatus() == UIStatus.InfoRegion ||
+                                            GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing ||
+                                            GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote))
                 {
 
                     // Change UI status if you touch land
                     // PostIt Note is deactivated
                     if (region.Type == ParamUI.REGION_NAME_LAND)
                     {
-                        EditorUICanvasManager.Instance.uiStatus = UIStatus.InfoRegion;
-                        EditorUICanvasManager.Instance.PostItPolityVisibility(mousePos, false);
+                        GameManager.Instance.UI_SetUIStatus(UIStatus.InfoRegion);
+                        GameManager.Instance.UI_PostItPolityVisibility(mousePos, false);
                     }
 
                     // Remove others flag marker
@@ -145,27 +145,27 @@ public class MapManager : Singleton<MapManager>
                     int blueColor = OnlyRGBColorByPosition(x, y).z;
 
                     // Activate Region Panel and move Region Panel in your correct position
-                    Vector2 panelPositionNew = EditorUICanvasManager.Instance.CalculateNewPositionPanel(mousePos);
-                    if (region.Type == ParamUI.REGION_NAME_LAKE || region.Type == ParamUI.REGION_NAME_SEA) { EditorUICanvasManager.Instance.DeactivateRegionPanel(); } else { EditorUICanvasManager.Instance.ActivateRegionPanel(panelPositionNew.x, panelPositionNew.y); }
+                    Vector2 panelPositionNew = GameManager.Instance.UI_CalculateNewPositionPanel(mousePos);
+                    if (region.Type == ParamUI.REGION_NAME_LAKE || region.Type == ParamUI.REGION_NAME_SEA) { GameManager.Instance.UI_DeactivateRegionPanel(); } else { GameManager.Instance.UI_ActivateRegionPanel(panelPositionNew.x, panelPositionNew.y); }
 
                     if (region.Type == ParamUI.REGION_NAME_LAND)
                     {
 
                         // Name and Image Panel, only lands
-                        EditorUICanvasManager.Instance.SetNameAndImageRegionPanel(region.Name, region.Terrain);
+                        GameManager.Instance.UI_SetNameAndImageRegionPanel(region.Name, region.Terrain);
 
                         // For debugging, show color of the owner
                         string debugColor = region.Rgb32.r.ToString() + "-" + region.Rgb32.g.ToString() + "-" + region.Rgb32.b.ToString();
-                        EditorUICanvasManager.Instance.ShowRgbOwner(debugColor);
+                        GameManager.Instance.UI_ShowRgbOwner(debugColor);
 
                         // Info Panel
                         if (region.Settlement == null)
                         {
-                            EditorUICanvasManager.Instance.SetSettlementRegionPanel(true); // Unknown settlement
+                            GameManager.Instance.UI_SetSettlementRegionPanel(true); // Unknown settlement
                         }
                         else
                         {
-                            EditorUICanvasManager.Instance.SetSettlementRegionPanel(true, region.Settlement.Name);
+                            GameManager.Instance.UI_SetSettlementRegionPanel(true, region.Settlement.Name);
                         }
 
                         // Instantiate a flag marker in the center of the region (only lands)
@@ -178,7 +178,7 @@ public class MapManager : Singleton<MapManager>
                 // Mouse Right Button
                 if (Input.GetMouseButton(1))
                 {
-                    EditorUICanvasManager.Instance.DeactivateRegionPanel();
+                    GameManager.Instance.UI_DeactivateRegionPanel();
                     placementObjects.RemoveMapObjects(ParamMap.MAPTAG_FLAG_MARKER);
                 }
  
@@ -426,7 +426,7 @@ public class MapManager : Singleton<MapManager>
     private void CreateRegions(bool isInitial)
     {
         ColorsList(); // Generate the list of colors for the polities                      
-        int timeline = EditorUICanvasManager.Instance.GetCurrentTimeline(false); // Get current timeline        
+        int timeline = GameManager.Instance.UI_GetCurrentTimeline(false); // Get current timeline        
         LoadPolitiesDictionaryFromDB(timeline, 1); // Uptade Polities (Important, before regions)        
         regions = CsvConnection.Instance.GetInfoRegions(timeline, 0); // Initial regions
         ColorizeRegions(); // Colorize all regions of the worldmap
@@ -434,7 +434,7 @@ public class MapManager : Singleton<MapManager>
     public void CreateRegions(int optionLayer, bool timeTravelbutton = false, float drawRiver = 0f)
     {
         ColorsList(); // Generate the list of colors for the polities        
-        int timeline = EditorUICanvasManager.Instance.GetCurrentTimeline(timeTravelbutton); // Get current timeline
+        int timeline = GameManager.Instance.UI_GetCurrentTimeline(timeTravelbutton); // Get current timeline
         UpdateRegionsTimeline(timeline, optionLayer); // Update the regions dictionary to optimize memory used        
         _material.SetFloat("_DrawRiver", drawRiver); // Show rivers
         ColorizeRegions(); // Colorize all regions of the worldmap
@@ -643,7 +643,7 @@ public class MapManager : Singleton<MapManager>
         placementObjects.RemoveMapObjects(ParamMap.MAPTAG_CAPITAL_SYMBOL);
         
         // Current layer selected
-        int currentLevelLayer = EditorUICanvasManager.Instance.layersDropdown.value + 1;
+        int currentLevelLayer = GameManager.Instance.UI_GetLayerValue() + 1;
 
         int isCapital;
         string polityCapital;
@@ -681,7 +681,7 @@ public class MapManager : Singleton<MapManager>
                         default: isCapital = 0; polityCapital = ""; polityTypeCapital = ""; break;
                     }
                     
-                    if (isCapital == 1 & EditorUICanvasManager.Instance.IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
+                    if (isCapital == 1 & GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
                     {
                         Texture2D currentSymbol = GetSymbolTexture(polityCapital, polityTypeCapital);
                         placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region, currentSymbol);                 
