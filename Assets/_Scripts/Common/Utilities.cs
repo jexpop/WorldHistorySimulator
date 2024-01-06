@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
+
 
 public static class Utilities
 {
@@ -73,8 +73,8 @@ public static class Utilities
             byte[] pngBytes = File.ReadAllBytes(path);
 
             //Creates texture and loads byte array data to create image
-            Texture2D tex = new Texture2D(2, 2);
-            tex.LoadImage(pngBytes);
+            Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false); 
+            tex.LoadImage(pngBytes); // revisar loadimage
 
             return tex;
         }

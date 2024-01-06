@@ -88,6 +88,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
 
     // Panel of the regions - Floating panels
     private GameObject tmpEditorRegionPanel, tmpEditorHistoryPanel, tmpPostItNote;
+    private PostItNote postItNote;
+    private RectTransform postItNoteRectTransform;
     private float regionPanelxPositionLast, regionPanelyPositionLast;
 
 
@@ -96,6 +98,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         // Initialise the post it note with polity information
         tmpPostItNote = Instantiate(postItElement);
         tmpPostItNote.transform.SetParent(this.transform.parent);
+        postItNote = tmpPostItNote.GetComponent<PostItNote>();
+        postItNoteRectTransform = tmpPostItNote.GetComponent<RectTransform>();
         tmpPostItNote.SetActive(false);
     }
 
@@ -523,10 +527,10 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             // New position of the PostIt
             Vector2 newPosition = CalculateNewPositionPostItNote(mousePos);
             tmpPostItNote.transform.position = new Vector3(newPosition.x, newPosition.y, tmpPostItNote.transform.position.z);
-
+            
             // Get current stage to fill the PostIt
             HistoryRegionRelation history = GetCurrentStageByRegion(region);
-
+            
             // Get polity names
             Polity polityL4 = history.Stage.PolityParentId_L4==0?null:MapManager.Instance.GetPolityById(history.Stage.PolityParentId_L4);
             Polity polityL3 = history.Stage.PolityParentId_L3 == 0 ? null : MapManager.Instance.GetPolityById(history.Stage.PolityParentId_L3);
@@ -538,42 +542,42 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             {
                 // Polity Type
                 PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L4);
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
+                postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
-                tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL4.Name);
+                postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL4.Name);
                 // Image
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL4.Name, polityType.Name);
-
+                postItNote.SetPolityImage(polityL4.Name, polityType.Name);
+                
                 // Parent 1
                 if (polityL3 != null)
                 {
                     // Polity Type Parent 1
                     PolityType polityTypeL3 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);                    
                     // Parent 1
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(true);
-                    tmpPostItNote.GetComponent<PostItNote>().SetParent("LOC_TABLE_HIST_POLITIES", polityL3.Name);
+                    postItNote.SetParentVisibility(true);
+                    postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL3.Name);
                     // Image Parent 1
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage(polityL3.Name, polityTypeL3.Name);
+                    postItNote.SetParentImage(polityL3.Name, polityTypeL3.Name);
                 }
                 else
                 {
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(false);
+                    postItNote.SetParentVisibility(false);
                 }
-
+                
                 // Parent 2
                 if (polityL2 != null)
                 {
                     // Polity Type Parent 2
                     PolityType polityTypeL2 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
                     // Parent 2
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(true);
-                    tmpPostItNote.GetComponent<PostItNote>().SetParent2("LOC_TABLE_HIST_POLITIES", polityL2.Name);
+                    postItNote.SetParentVisibility2(true);
+                    postItNote.SetParent2("LOC_TABLE_HIST_POLITIES", polityL2.Name);
                     // Image Parent 2
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage2(polityL2.Name, polityTypeL2.Name);
+                    postItNote.SetParentImage2(polityL2.Name, polityTypeL2.Name);
                 }
                 else
                 {
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(false);
+                    postItNote.SetParentVisibility2(false);
                 }
 
                 // Parent 3
@@ -582,14 +586,14 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     // Polity Type Parent 3
                     PolityType polityTypeL3 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
                     // Parent 3
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility3(true);
-                    tmpPostItNote.GetComponent<PostItNote>().SetParent3("LOC_TABLE_HIST_POLITIES", polityL3.Name);
+                    postItNote.SetParentVisibility3(true);
+                    postItNote.SetParent3("LOC_TABLE_HIST_POLITIES", polityL3.Name);
                     // Image Parent 3
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage3(polityL3.Name, polityTypeL3.Name);
+                    postItNote.SetParentImage3(polityL3.Name, polityTypeL3.Name);
                 }
                 else
                 {
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility3(false);
+                    postItNote.SetParentVisibility3(false);
                 }
             }else 
 
@@ -598,11 +602,11 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             {
                 // Polity Type
                 PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
+                postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
-                tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL3.Name);
+                postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL3.Name);
                 // Image
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL3.Name, polityType.Name);
+                postItNote.SetPolityImage(polityL3.Name, polityType.Name);
 
                 // Parent 1
                 if (polityL2 != null)
@@ -610,14 +614,14 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     // Polity Type Parent 1
                     PolityType polityTypeL2 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
                     // Parent 1
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(true);
-                    tmpPostItNote.GetComponent<PostItNote>().SetParent("LOC_TABLE_HIST_POLITIES", polityL2.Name);
+                    postItNote.SetParentVisibility(true);
+                    postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL2.Name);
                     // Image Parent 1
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage(polityL2.Name, polityTypeL2.Name);
+                    postItNote.SetParentImage(polityL2.Name, polityTypeL2.Name);
                 }
                 else
                 {
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(false);
+                    postItNote.SetParentVisibility(false);
                 }
 
                 // Parent 2
@@ -626,17 +630,17 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     // Polity Type Parent 2
                     PolityType polityTypeL1 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
                     // Parent 2
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(true);
-                    tmpPostItNote.GetComponent<PostItNote>().SetParent2("LOC_TABLE_HIST_POLITIES", polityL1.Name);
+                    postItNote.SetParentVisibility2(true);
+                    postItNote.SetParent2("LOC_TABLE_HIST_POLITIES", polityL1.Name);
                     // Image Parent 2
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage2(polityL1.Name, polityTypeL1.Name);
+                    postItNote.SetParentImage2(polityL1.Name, polityTypeL1.Name);
                 }
                 else
                 {
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(false);
+                    postItNote.SetParentVisibility2(false);
                 }
 
-                tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility3(false);
+                postItNote.SetParentVisibility3(false);
             } else 
 
             // Polity Owner L2
@@ -644,11 +648,11 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             {
                 // Polity Type
                 PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L2);
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
+                postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
-                tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL2.Name);
+                postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL2.Name);
                 // Image
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL2.Name, polityType.Name);
+                postItNote.SetPolityImage(polityL2.Name, polityType.Name);
 
                 // Parent 1
                 if (polityL1 != null)
@@ -656,18 +660,18 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                     // Polity Type Parent 1
                     PolityType polityTypeL1 = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
                     // Parent 1
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(true);
-                    tmpPostItNote.GetComponent<PostItNote>().SetParent("LOC_TABLE_HIST_POLITIES", polityL1.Name);
+                    postItNote.SetParentVisibility(true);
+                    postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL1.Name);
                     // Image Parent 1
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentImage(polityL1.Name, polityTypeL1.Name);
+                    postItNote.SetParentImage(polityL1.Name, polityTypeL1.Name);
                 }
                 else
                 {
-                    tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(false);
+                    postItNote.SetParentVisibility(false);
                 }
 
-                tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(false);
-                tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility3(false);
+                postItNote.SetParentVisibility2(false);
+                postItNote.SetParentVisibility3(false);
             } else 
 
             // Polity Owner L1
@@ -675,28 +679,28 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
             {
                 // Polity Type
                 PolityType polityType = MapManager.Instance.GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
+                postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
 
                 // Main polity
-                tmpPostItNote.GetComponent<PostItNote>().SetPolity("LOC_TABLE_HIST_POLITIES", polityL1.Name);
-                tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility(false);
-                tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility2(false);
-                tmpPostItNote.GetComponent<PostItNote>().SetParentVisibility3(false);
+                postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL1.Name);
+                postItNote.SetParentVisibility(false);
+                postItNote.SetParentVisibility2(false);
+                postItNote.SetParentVisibility3(false);
 
                 // Image
-                tmpPostItNote.GetComponent<PostItNote>().SetPolityImage(polityL1.Name, polityType.Name);
+                postItNote.SetPolityImage(polityL1.Name, polityType.Name);
             }
-
+                
             // Policy
             if (history.Stage.PolicyId != 0)
             {
-                tmpPostItNote.GetComponent<PostItNote>().SetPolicyVisibility(true);
+                postItNote.SetPolicyVisibility(true);
                 Polity policy = MapManager.Instance.GetPolityById(history.Stage.PolicyId);
-                tmpPostItNote.GetComponent<PostItNote>().SetPolicy("LOC_TABLE_HIST_POLITIES", policy.Name);
+                postItNote.SetPolicy("LOC_TABLE_HIST_POLITIES", policy.Name);
             }
             else
             {
-                tmpPostItNote.GetComponent<PostItNote>().SetPolicyVisibility(false);
+                postItNote.SetPolicyVisibility(false);
             }
             
         }
@@ -706,8 +710,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         float horizontalHalfScreen = Screen.width / 2;
         float verticalHalfScreen = Screen.height / 2;
 
-        float w = tmpPostItNote.GetComponent<RectTransform>().rect.width;
-        float h = tmpPostItNote.GetComponent<RectTransform>().rect.height;
+        float w = postItNoteRectTransform.rect.width;
+        float h = postItNoteRectTransform.rect.height;
 
         float w_margin = 100;
 
@@ -907,7 +911,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         {
                             // Insert new data
                             string polityTypeName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITYTYPE_NAME_INPUT)).text;                            
-                            MapSqlConnection.Instance.AddPolityType(polityTypeName);
+                            CsvConnection.Instance.AddPolityType(polityTypeName);
 
                             // Status name
                             messageStatusName = polityTypeName;
@@ -920,7 +924,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         {
                             // Insert new data
                             string polityName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_POLITY_NAME_INPUT)).text;
-                            MapSqlConnection.Instance.AddPolity(polityName, check.isOn);
+                            CsvConnection.Instance.AddPolity(polityName, check.isOn);
 
                             // Status name
                             messageStatusName = polityName;
@@ -935,7 +939,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                             string settlementName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_NAME_INPUT)).text;
                             string settlementRegion = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)).text;
                             settlementRegion = int.TryParse(settlementRegion, out int n) == true ? settlementRegion : "0";
-                            MapSqlConnection.Instance.AddSettlement(settlementName, Int32.Parse(settlementRegion));
+                            CsvConnection.Instance.AddSettlement(settlementName, Int32.Parse(settlementRegion));
 
                             // Status name
                             messageStatusName = settlementName;
@@ -950,7 +954,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         message.objectName = messageStatusName;
                         UpdateModStatusMessage(message);
                         // Reload form
-                        int lastId = MapSqlConnection.Instance.GetLastIdAdded(dataType);
+                        int lastId = CsvConnection.Instance.GetLastIdAdded(dataType);
                         ButtonEventToFillInfo(dataType, lastId);
                     }                    
  
@@ -985,8 +989,8 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                         {
                             // Update new current locale data                    
                             LocalizationManager.Instance.UpdateEntry(loc_table, polityLocaleId, polityName);
-                            // Update not string fields
-                            MapSqlConnection.Instance.UpdatePolity(Int32.Parse(idLabel), check.isOn);
+                            // Update csv file
+                            CsvConnection.Instance.UpdatePolity(Int32.Parse(idLabel), polityLocaleId, check.isOn);
                             // Update displayed data
                             FillScrollButtonScript(polityContent, polityLocaleId);
                             ButtonEventToFillInfo(dataType, Int32.Parse(idLabel));
@@ -1005,9 +1009,9 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
                             // Update new current locale data
                             string settlementRegion = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)).text;
                             LocalizationManager.Instance.UpdateEntry(loc_table, settlementLocaleId, settlementName);
-                            // Update not string fields
+                            // Update CSV file
                             settlementRegion = int.TryParse(settlementRegion, out int n) == true ? settlementRegion : "0";
-                            MapSqlConnection.Instance.UpdateSettlement(Int32.Parse(idLabel), Int32.Parse(settlementRegion));
+                            CsvConnection.Instance.UpdateSettlement(Int32.Parse(idLabel), settlementLocaleId, Int32.Parse(settlementRegion));
                             // Update displayed data
                             FillScrollButtonScript(settlementContent, settlementLocaleId);
                             ButtonEventToFillInfo(dataType, Int32.Parse(idLabel));
@@ -1109,7 +1113,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         else
         {
             // Delete data
-            MapSqlConnection.Instance.RemovePolityType(Int32.Parse(polityTypeIdLabel.text));
+            CsvConnection.Instance.RemovePolityType(Int32.Parse(polityTypeIdLabel.text));
 
             // Delete locale data (All languanges)
             string polityTypeLocaleId = MapManager.Instance.GetPolitiesTypeLocaleKeyById(Int32.Parse(polityTypeIdLabel.text));
@@ -1138,7 +1142,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         else
         {
             // Delete data
-            MapSqlConnection.Instance.RemovePolity(Int32.Parse(polityIdLabel.text));
+            CsvConnection.Instance.RemovePolity(Int32.Parse(polityIdLabel.text));
 
             // Delete locale data (All languanges)
             string polityLocaleId = MapManager.Instance.GetPolitiesLocaleKeyById(Int32.Parse(polityIdLabel.text));
@@ -1167,7 +1171,7 @@ public class EditorUICanvasManager : Singleton<EditorUICanvasManager>
         else
         {
             // Delete data
-            MapSqlConnection.Instance.RemoveSettlement(Int32.Parse(settlementIdLabel.text));
+            CsvConnection.Instance.RemoveSettlement(Int32.Parse(settlementIdLabel.text));
 
             // Delete locale data (All languanges)
             string settlementLocaleId = MapManager.Instance.GetSettlementsLocaleKeyById(Int32.Parse(settlementIdLabel.text));

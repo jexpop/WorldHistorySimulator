@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Polity
@@ -23,23 +21,23 @@ public class Polity
     }
 
     /// <summary>
-    /// Mix color (random & database) for the political frontier
+    /// Mix color (random & predefined) for the political frontier
     /// </summary>
-    /// <param name="color">database color</param>
+    /// <param name="color">csv color</param>
     /// <returns>new color</returns>
     private Color32 PolityColorSelect(string color)
     {
         Color32 color32 = new Color32();
         
-        // Colors from database
+        // Colors predefined
         color32.r = byte.Parse(color.Substring(0, 3));
         color32.g = byte.Parse(color.Substring(4, 3));
         color32.b = byte.Parse(color.Substring(8, 3));
-
+        
         // Random color for the political frontier - this color is unique
         if(color32.r.ToString() == "0" & color32.g.ToString() == "0" & color32.b.ToString() == "0")
-        {
-            if(MapManager.Instance.polityColorList.Count > 0)
+        {            
+            if (MapManager.Instance.polityColorList.Count > 0)
             {
                 color32 = MapManager.Instance.polityColorList.Dequeue();
             }

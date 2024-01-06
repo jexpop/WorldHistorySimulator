@@ -1,0 +1,11 @@
+TerrainId;TerrainName;TerrainTypeId
+1;Lake;2
+2;Forest;1
+3;Sea;3
+4;Hills;1
+5;Plain;1
+6;Mountain;1
+7;Marsh;1
+8;Desert;1
+9;River;1
+10;Jungle;1

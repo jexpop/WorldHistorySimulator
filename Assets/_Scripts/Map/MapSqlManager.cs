@@ -5,7 +5,7 @@ using Mono.Data.Sqlite;
 using Aron.Weiler;
 
 
-public class MapSqlConnection : Singleton<MapSqlConnection>
+public class MapSqlManager : Singleton<MapSqlManager>
 {
 
     string conn;
@@ -15,6 +15,10 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     IDataReader cursor;
     readonly string DATABASE_NAME = ParamResources.DB_PATH;
 
+    private void Awake()
+    {
+        ConnectionOpen();
+    }
 
     /// <summary>
     /// Sqlite database path
@@ -62,7 +66,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
         string layerOption = ParamResources.DB_LAYERS_FIELD[option]; 
 
         /*** Main information of the regions ***/
-        ConnectionOpen();
+        //ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT r.RegionId, th.SettlementId, r.Name, r.Red, r.Green, r.Blue, tt.TerrainTypeName, t.TerrainName, ifnull(p.PolityId ,0) FROM Region r INNER JOIN Terrain t ON t.TerrainId=r.TerrainId INNER JOIN TerrainType tt ON tt.TerrainTypeId=t.TerrainTypeId LEFT OUTER JOIN TerritoryHistory th ON th.RegionId=r.RegionId AND th.StartDate <= " + timeline + " AND th.EndDate >= " + timeline + " LEFT OUTER JOIN Polity p ON p.PolityId = " + layerOption;
         dbcmd.CommandText = sqlQuery;
@@ -101,12 +105,12 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                 MapManager.Instance.regionsIdList.Add( regionId );
 
             }                
-            ConnectionClose();
+            //ConnectionClose();
         }
         /***                        ***/
 
         /*** History information ***/
-        ConnectionOpen();
+        //ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT RegionId, " +
                                         "StageId, SettlementId, StartDate, EndDate, " +
@@ -167,7 +171,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                 history.Add(historyRegion);
             }
             regions[tempRegion].History = history;
-            ConnectionClose();
+            //ConnectionClose();
         }
         /***                        ***/
 
@@ -175,7 +179,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     }
     public List<HistoryRegionRelation> GetHistoryByRegionId(int regionId)
     {
-        ConnectionOpen();
+        //ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT StageId, SettlementId, StartDate, EndDate, " +
                                                             "L1_PolityParentId, L2_PolityParentId, L3_PolityParentId,  L4_PolityParentId, " +
@@ -223,7 +227,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                 history.Add(historyRegion);
 
             }
-            ConnectionClose();
+           // ConnectionClose();
         }
             return history;
      }
@@ -234,7 +238,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /// <returns>Polities Type Dictionary</returns>
     public Dictionary<int, PolityType> GetInfoPolitiesType()
     {
-        ConnectionOpen();
+        //ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT PolityTypeId, PolityTypeName FROM PolityType ORDER BY PolityTypeName";
         dbcmd.CommandText = sqlQuery;
@@ -254,7 +258,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                  );
 
             }
-            ConnectionClose();
+            //ConnectionClose();
         }
 
         return politiesType;
@@ -276,7 +280,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
             _ => ""
         };
 
-        ConnectionOpen();
+        //ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT p.PolityId, p.PolityName, ifnull(p.RGB,'999.999.999'), " +
                                 "CASE WHEN py.PolicyName = '"+ ParamResources.DB_IS_COLLECTIVE+ "' THEN TRUE ELSE FALSE END IsCollective, " +
@@ -304,7 +308,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                  );
 
             }
-            ConnectionClose();
+            //ConnectionClose();
         }
 
         return polities;
@@ -317,7 +321,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /// <returns>Lastet ID</returns>
     public int GetLastIdAdded(EditorDataType dataType)
     {
-        ConnectionOpen();
+       // ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         if (dataType == EditorDataType.PolityType)
         {
@@ -340,7 +344,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
             {
                 id = cursor.GetInt32(0);
             }
-            ConnectionClose();
+          //  ConnectionClose();
         }
 
         return id;
@@ -352,7 +356,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /// <returns>Collective ID</returns>
     public int GetCollectiveId()
     {
-        ConnectionOpen();
+      //  ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT PolicyId FROM Policy WHERE PolicyName='" + ParamResources.DB_IS_COLLECTIVE + "' ";
         dbcmd.CommandText = sqlQuery;
@@ -364,7 +368,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
             {
                 id = cursor.GetInt32(0);
             }
-            ConnectionClose();
+        //    ConnectionClose();
         }
 
         return id;
@@ -376,7 +380,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /// <returns>Individual ID</returns>
     public int GetIndividualId()
     {
-        ConnectionOpen();
+     //   ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT PolicyId FROM Policy WHERE PolicyName='" + ParamResources.DB_IS_INDIVIDUAL + "' ";
         dbcmd.CommandText = sqlQuery;
@@ -388,7 +392,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
             {
                 id = cursor.GetInt32(0);
             }
-            ConnectionClose();
+        //    ConnectionClose();
         }
 
         return id;
@@ -400,7 +404,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /// <returns>Polities Dictionary</returns>
     public Dictionary<int, Settlement> GetInfoSettlements()
     {
-        ConnectionOpen();
+        //ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT SettlementId, SettlementName, RegionId FROM Settlement ORDER BY SettlementName";
         dbcmd.CommandText = sqlQuery;
@@ -421,7 +425,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                  );
 
             }
-            ConnectionClose();
+            //ConnectionClose();
         }
 
         return settlements;
@@ -433,7 +437,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /// <returns>Colors</returns>
     public Queue<Color32> GetColors()
     {
-        ConnectionOpen();
+       // ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         sqlQuery = "SELECT R, G, B FROM PolityColorsBaked";
         dbcmd.CommandText = sqlQuery;
@@ -452,7 +456,7 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
                 colors.Add(color);
 
             }
-            ConnectionClose();
+          //  ConnectionClose();
         }
 
         // Random items in the list
@@ -468,11 +472,11 @@ public class MapSqlConnection : Singleton<MapSqlConnection>
     /************************************************/
     private void SentSQLOperation(string sqlQuery)
     {
-        ConnectionOpen();
+       // ConnectionOpen();
         dbcmd = dbconn.CreateCommand();
         dbcmd.CommandText = sqlQuery;
-        dbcmd.ExecuteScalar();
-        ConnectionClose();
+        dbcmd.ExecuteNonQuery();
+       // ConnectionClose();
     }
 
     // Polity type

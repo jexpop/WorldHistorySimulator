@@ -239,7 +239,7 @@ public class StageFloatingPanel : MonoBehaviour
     {
         // Remove old fields messages
         LocalizationManager.Instance.AddLocalizeString(okNameMessage);
-
+        
         // Global Checks
         if (
                 MessageHelper.IsFieldEmpty(dFromDate.text) == true ||
@@ -267,7 +267,7 @@ public class StageFloatingPanel : MonoBehaviour
                 }
                 else
                 {
-                    MapSqlConnection.Instance.AddStage( 
+                    CsvConnection.Instance.AddStage( 
                                                                                     regionId,
                                                                                     settlementId,
                                                                                     Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
@@ -310,7 +310,7 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     isCapital_Policy.isOn == true ? 1 : 0
                         );
                     HistoryRegionRelation history = new HistoryRegionRelation(
-                                                                                    MapSqlConnection.Instance.GetLastIdAdded(EditorDataType.StagePanel),
+                                                                                    CsvConnection.Instance.GetLastIdAdded(EditorDataType.StagePanel),
                                                                                     settlementId,
                                                                                     stage
                         );
@@ -335,7 +335,7 @@ public class StageFloatingPanel : MonoBehaviour
                 }
                 else
                 {
-                    MapSqlConnection.Instance.UpdateStage( 
+                    CsvConnection.Instance.UpdateStage( 
                                                                 stageId,
                                                                 Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
                                                                 Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0')),
@@ -353,7 +353,8 @@ public class StageFloatingPanel : MonoBehaviour
                                                                 isCapital_L4.isOn == true ? 1 : 0,
                                                                 GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
                                                                 GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
-                                                                isCapital_Policy.isOn == true ? 1 : 0
+                                                                isCapital_Policy.isOn == true ? 1 : 0,
+                                                                regionId, settlementId
                                                             );
 
                     // Update data in the dictionary of the stages
@@ -396,7 +397,7 @@ public class StageFloatingPanel : MonoBehaviour
     public void DeleteActionButtonEvent()
     {
         // Delete
-        if (stageId != 0) { MapSqlConnection.Instance.RemoveStage(stageId); }
+        if (stageId != 0) { CsvConnection.Instance.RemoveStage(stageId); }
 
         // Reload data in the dictionary
         HistoryRegionRelation history = MapManager.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x).FirstOrDefault();

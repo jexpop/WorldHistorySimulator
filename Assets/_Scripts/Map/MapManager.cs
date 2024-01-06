@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
-using static UnityEngine.Rendering.HDROutputUtils;
-using UnityEngine.Rendering.Universal;
-
+using System.IO;
 
 public class MapManager : Singleton<MapManager>
 {
@@ -18,6 +16,10 @@ public class MapManager : Singleton<MapManager>
     Texture2D seaTex;
     Texture2D paletteTex;
     Texture2D mainTex;
+
+    // Polity's symbols
+    string symbolStreamingPath;
+    List<SymbolTexture> symbolsTexture = new List<SymbolTexture>();
 
     // Color detection
     Color32 prevColor;
@@ -44,34 +46,50 @@ public class MapManager : Singleton<MapManager>
         
         InitParams();
 
-        // Get Sql data
+        // Get Csv data
         LoadPolitiesTypeDictionaryFromDB();
-        LoadPolitiesDictionaryFromDB(EditorUICanvasManager.Instance.GetCurrentTimeline(false), 1);
         LoadSettlementsDictionaryFromDB();
 
         // Placement objects script
-        placementObjects=gameObject.GetComponentInParent<PlacementObjects>();
+        placementObjects = gameObject.GetComponentInParent<PlacementObjects>();
 
         // Building map
         CreateMap();
-        CreateRegions(0);
+        CreateRegions(true);
 
         // Put capital symbols
         ShowCapitalSymbols();
-
+       
     }
 
     // Material, texture & properties inicialization
     private void InitParams()
-    {        
+    {
+        /* Map textures init */
         _material = GetComponent<Renderer>().material;
         mainTex = _material.GetTexture("_RegionTex") as Texture2D;
         _material.SetFloat("_DrawRiver", 0f);
+
+        /* Capital symbols preload */
+        symbolStreamingPath = ParamResources.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;        
+        DirectoryInfo symbolsDir = new DirectoryInfo(symbolStreamingPath);
+        FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
+        foreach (FileInfo symbolFilename in symbolsInfo)
+        {
+            //Converts desired path into byte array
+            byte[] pngBytes = File.ReadAllBytes(symbolStreamingPath + symbolFilename.Name);
+            //Creates texture and loads byte array data to create image
+            Texture2D symbolTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            symbolTex.LoadImage(pngBytes);
+            // Add image to symbols dictioanry
+            SymbolTexture symbolTexture = new SymbolTexture(symbolFilename.Name, symbolTex);
+            symbolsTexture.Add(symbolTexture);
+        }
     }
 
     void Update()
     {
-
+        
         Vector3 mousePos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hitInfo;
@@ -88,7 +106,7 @@ public class MapManager : Singleton<MapManager>
                 Color32 remapColor = remapArr[x + y * width];
 
                 Region region = regions[OnlyRGBColorByPosition(prevXY.x, prevXY.y)];
-
+                
                 // Show a post it note with information of the polity
                 if (EditorUICanvasManager.Instance.uiStatus == UIStatus.Nothing || EditorUICanvasManager.Instance.uiStatus == UIStatus.PostItNote)
                 {
@@ -103,7 +121,7 @@ public class MapManager : Singleton<MapManager>
                         EditorUICanvasManager.Instance.PostItPolityVisibility(mousePos, false);
                     }
                 }
-
+                
                 // Click in the region
                 if (Input.GetMouseButtonDown(0) && (
                                             EditorUICanvasManager.Instance.uiStatus == UIStatus.InfoRegion ||
@@ -156,7 +174,7 @@ public class MapManager : Singleton<MapManager>
                     }
 
                 }
-
+                
                 // Mouse Right Button
                 if (Input.GetMouseButton(1))
                 {
@@ -187,7 +205,7 @@ public class MapManager : Singleton<MapManager>
             }
 
         }
-
+        
     }
 
     /// <summary>
@@ -196,13 +214,14 @@ public class MapManager : Singleton<MapManager>
     void CreateMap()
     {
         var mainArr = mainTex.GetPixels32();
-        
+        waterArr = new Color32[mainArr.Length];
+
         width = mainTex.width;
         height = mainTex.height;
 
         var main2remap = new Dictionary<Color32, Color32>();
         remapArr = new Color32[mainArr.Length];
-        waterArr = new Color32[mainArr.Length];
+        //waterArr = new Color32[mainArr.Length];
         int idx = 0;
         for (int i = 0; i < mainArr.Length; i++)
         {
@@ -217,7 +236,7 @@ public class MapManager : Singleton<MapManager>
             var remapColor = main2remap[mainColor];
             remapArr[i] = remapColor;
         }
-
+        
         var paletteArr = new Color32[256 * 256];
         for (int i = 0; i < paletteArr.Length; i++)
         {
@@ -230,6 +249,10 @@ public class MapManager : Singleton<MapManager>
         remapTex.SetPixels32(remapArr);
         remapTex.Apply(false);
         _material.SetTexture("_RemapTex", remapTex);
+
+        // Water texture update
+        seaTex = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        seaTex.filterMode = FilterMode.Point;
 
         // Palette texture update
         paletteTex = new Texture2D(256, 256, TextureFormat.RGBA32, false);
@@ -280,40 +303,17 @@ public class MapManager : Singleton<MapManager>
         return new Vector3Int(redColor, greenColor, bluecolor);
     }*/
 
-    /// <summary>
-    /// Get information from database to colorize the regions
-    /// </summary>
-    /// <param name="timeTravelbutton">Event button</param>
-    public void CreateRegions(int optionLayer, bool timeTravelbutton = false, float drawRiver = 0f)
-    {
 
-        // Generate the list of colors for the polities
-        polityColorList = MapSqlConnection.Instance.GetColors();
-
-        // Get current timeline
-        int timeline = EditorUICanvasManager.Instance.GetCurrentTimeline(timeTravelbutton);
-
-        // Uptade Polities (Important, before regions)
-        LoadPolitiesDictionaryFromDB(timeline, optionLayer + 1);
-
-        // Create the list of regions with your information
-        regions = MapSqlConnection.Instance.GetInfoRegions(timeline, optionLayer);
-
-        // rivers ?
-        _material.SetFloat("_DrawRiver", drawRiver);
-
-        // Colorize all regions of the worldmap
-        ColorizeRegions();
-
-    }
-
+    ///********************************************************************************************************************************************///
+    /// REGIONS METHODS 
+    ///********************************************************************************************************************************************///
+    
     /// <summary>
     /// Colorize the regions of the map
     /// </summary>
     /// <param name="singleRegion"></param>
-    void ColorizeRegions(Region singleRegion = null)
+    private void ColorizeRegions(Region singleRegion = null)
     {
-
         // Initial values to colorize all regions or single region
         int ix = 0, iy = 0;
         int ex = width, ey = height;
@@ -381,25 +381,81 @@ public class MapManager : Singleton<MapManager>
         }
 
         // Water texture update
-        seaTex = new Texture2D(width, height, TextureFormat.RGBA32, false);
-        seaTex.filterMode = FilterMode.Point;
         seaTex.SetPixels32(waterArr);
         seaTex.Apply(false);
         _material.SetTexture("_SeaTex", seaTex);
-
+        
         // Palette texture update
         paletteTex.Apply(false);
+    }
 
+    private void UpdateRegionsTimeline(int timeline, int optionLayer)
+    {
+        foreach(int regionId in regionsIdList)
+        {
+            Region region = regions[regionId];
+            List<HistoryRegionRelation> historyList = region.History;
+            if (historyList.Count > 0) // This region has history
+            {
+                HistoryRegionRelation history = historyList.Where(h => h.Stage.StartDate <= timeline & h.Stage.EndDate >= timeline).Select(c => c).FirstOrDefault();
+                if (history != null) // This region has history in selected dates
+                {
+                    Settlement settlement = settlements[history.SettlementId];
+                    regions[regionId].Settlement = settlement;
+                    HistoryStage stage = history.Stage;
+                    int ownerId = optionLayer switch
+                    {
+                        0 => Utilities.EitherInt(stage.PolityParentId_L1, 0),
+                        1 => Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0)),
+                        2 => Utilities.EitherInt(stage.PolityParentId_L3, Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0))),
+                        3 => Utilities.EitherInt(stage.PolityParentId_L4, Utilities.EitherInt(stage.PolityParentId_L3, Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0)))),
+                        _ => 0
+                    };
+                    Polity polity = polities[ownerId];
+                    regions[regionId].Owner = polity;
+
+                    regions[regionId].ColorRecalculate();
+                }
+            }            
+        }
+    }
+
+    /// 
+    /// Get information from csv to colorize the regions
+    ///
+    private void CreateRegions(bool isInitial)
+    {
+        ColorsList(); // Generate the list of colors for the polities                      
+        int timeline = EditorUICanvasManager.Instance.GetCurrentTimeline(false); // Get current timeline        
+        LoadPolitiesDictionaryFromDB(timeline, 1); // Uptade Polities (Important, before regions)        
+        regions = CsvConnection.Instance.GetInfoRegions(timeline, 0); // Initial regions
+        ColorizeRegions(); // Colorize all regions of the worldmap
+    }
+    public void CreateRegions(int optionLayer, bool timeTravelbutton = false, float drawRiver = 0f)
+    {
+        ColorsList(); // Generate the list of colors for the polities        
+        int timeline = EditorUICanvasManager.Instance.GetCurrentTimeline(timeTravelbutton); // Get current timeline
+        UpdateRegionsTimeline(timeline, optionLayer); // Update the regions dictionary to optimize memory used        
+        _material.SetFloat("_DrawRiver", drawRiver); // Show rivers
+        ColorizeRegions(); // Colorize all regions of the worldmap
+    }
+    private void ColorsList()
+    {        
+        polityColorList.Clear();
+        polityColorList.TrimExcess();
+        polityColorList = CsvConnection.Instance.GetColors();
     }
 
     /// <summary>
     /// Modify new color region
     /// </summary>
     /// <param name="regionId">region id</param>
+    /// <param name="owner">owner</param>
     public void ColorizeRegionsById(int regionId, Polity owner)
     {
         // Modify dictionary        
         regions[regionId].Owner = owner;
+
         // Modify new color region
         regions[regionId].ColorRecalculate();
         ColorizeRegions(regions[regionId]);
@@ -415,7 +471,10 @@ public class MapManager : Singleton<MapManager>
         return regions[id];
     }
 
-    /*** Polities type methods ***/
+
+    ///********************************************************************************************************************************************///
+    /// POLITIES TYPE METHODS 
+    ///********************************************************************************************************************************************///
     public Dictionary<int, PolityType> GetPolitiesType()
     {
         return politiesType;
@@ -466,9 +525,11 @@ public class MapManager : Singleton<MapManager>
         }
         return polityTypes.Distinct().ToList();
     }
-    /***                        ***/
 
-    /*** Polities methods ***/
+
+    ///********************************************************************************************************************************************///
+    /// POLITIES METHODS 
+    ///********************************************************************************************************************************************///
     public Dictionary<int, Polity> GetPolities(int policy = 0)
     {
         if (policy == 0)
@@ -477,7 +538,7 @@ public class MapManager : Singleton<MapManager>
         }
         else
         {
-            bool policyValue = policy == MapSqlConnection.Instance.GetCollectiveId() ? true : false;
+            bool policyValue = policy == CsvConnection.Instance.GetCollectiveId() ? true : false;
             return polities.Where(x => x.Value.IsCollective.Equals(policyValue)).ToDictionary(x => x.Key, x => x.Value);
         }
     }
@@ -490,9 +551,11 @@ public class MapManager : Singleton<MapManager>
         string name = polities.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
         return name;
     }
-    /***                        ***/
+   
 
-    /*** Settlements methods ***/
+    ///********************************************************************************************************************************************///
+    /// SETTLEMENTS METHODS 
+    ///********************************************************************************************************************************************///
     public Dictionary<int, Settlement> GetSettlements()
     {
         return settlements;
@@ -506,26 +569,28 @@ public class MapManager : Singleton<MapManager>
         string name = settlements.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
         return name;
     }
-    /***                        ***/
-
+    ///********************************************************************************************************************************************///
+    ///********************************************************************************************************************************************///
+    ///********************************************************************************************************************************************///
+    ///********************************************************************************************************************************************///
 
 
     /// Load data from database to dictionaries
     public void LoadPolitiesTypeDictionaryFromDB()
     {
-        politiesType = MapSqlConnection.Instance.GetInfoPolitiesType();
+        politiesType = CsvConnection.Instance.GetInfoPolitiesType();
     }
     public void LoadPolitiesDictionaryFromDB(int currentTime, int polityLayer)
     {
-        polities = MapSqlConnection.Instance.GetInfoPolities(currentTime.ToString(), polityLayer);
+        polities = CsvConnection.Instance.GetInfoPolities(currentTime.ToString(), polityLayer);
     }
     public void LoadSettlementsDictionaryFromDB()
     {
-        settlements = MapSqlConnection.Instance.GetInfoSettlements();
+        settlements = CsvConnection.Instance.GetInfoSettlements();
     }
     public void LoadHistoryRegionDictionaryFromDB(int regionId)
     {
-        regions[regionId].History = MapSqlConnection.Instance.GetHistoryByRegionId(regionId);
+        regions[regionId].History = CsvConnection.Instance.GetHistoryByRegionId(regionId);
     }
 
     /// CHECKS
@@ -566,11 +631,17 @@ public class MapManager : Singleton<MapManager>
         return result;
     }
 
+    /// SYMBOLS
+    public Texture2D GetSymbolTexture(string polityCapital, string polityTypeCapital)
+    {
+        string currentSymbolName = Utilities.PascalStrings(polityCapital + "_" + polityTypeCapital) + ".png";
+        return symbolsTexture.Where(s => s.Name == currentSymbolName).Select(s => s.Texture).FirstOrDefault();
+    }
     public void ShowCapitalSymbols()
     {
         // Remove previous symbols
         placementObjects.RemoveMapObjects(ParamMap.MAPTAG_CAPITAL_SYMBOL);
-
+        
         // Current layer selected
         int currentLevelLayer = EditorUICanvasManager.Instance.layersDropdown.value + 1;
 
@@ -593,10 +664,10 @@ public class MapManager : Singleton<MapManager>
                             polityCapital = GetPolityById(h.Stage.PolityParentId_L1).Name; 
                             polityTypeCapital= GetPolityTypeById(h.Stage.PolityTypeIdParent_L1).Name;  
                             break;
-                        case 2: 
+                        case 2:
                             isCapital = Utilities.EitherInt(h.Stage.Capital_L2, h.Stage.Capital_L1); 
                             polityCapital = GetPolityById(Utilities.EitherInt(h.Stage.PolityParentId_L2, h.Stage.PolityParentId_L1)).Name; 
-                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(h.Stage.PolityParentId_L2, h.Stage.PolityTypeIdParent_L1)).Name; break;
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L2, h.Stage.PolityTypeIdParent_L1)).Name; break;
                         case 3: 
                             isCapital = Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L3, h.Stage.Capital_L2), h.Stage.Capital_L1); 
                             polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L3, h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name; 
@@ -609,15 +680,13 @@ public class MapManager : Singleton<MapManager>
                             break;
                         default: isCapital = 0; polityCapital = ""; polityTypeCapital = ""; break;
                     }
-
+                    
                     if (isCapital == 1 & EditorUICanvasManager.Instance.IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
-                    {                        
-                        string imagePath = Application.streamingAssetsPath + ParamResources.SYMBOLS_FOLDER + Utilities.PascalStrings(polityCapital + "_" + polityTypeCapital) + ".png";
-                        Texture2D symbolTexture = Utilities.GetTexture2D(imagePath);
-                        
-                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region, symbolTexture);
+                    {
+                        Texture2D currentSymbol = GetSymbolTexture(polityCapital, polityTypeCapital);
+                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region, currentSymbol);                 
                     }
-
+                
                 }
             }
         }

@@ -6,8 +6,7 @@ using UnityEngine.Localization;
 using UnityEngine.AddressableAssets;
 using System.Collections;
 using UnityEngine.Localization.Tables;
-using System.IO;
-
+using System.Collections.Generic;
 
 public class LocalizationManager : Singleton<LocalizationManager>
 {
@@ -237,18 +236,8 @@ public class LocalizationManager : Singleton<LocalizationManager>
     /*** CSV convertion methods ***/
     private void ExpostToCSV(string table, Locale locale)
     {
-        string path = Application.streamingAssetsPath + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + locale.Identifier + ".csv";
-        var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], locale);
-
-        using (StreamWriter writer = new StreamWriter(path, false)) 
-        {
-            foreach (var valuePair in tableCollection)
-            {
-                string line = valuePair.Value.Key.ToString() + ";" + valuePair.Value.Value.ToString();
-                writer.WriteLine(line);
-            }
-        }      
-
+        StringTable tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], locale);
+        CsvConnection.Instance.ExportLocalization(table, locale, tableCollection);
     }
     private void ImportFromCSV()
     {
@@ -275,15 +264,11 @@ public class LocalizationManager : Singleton<LocalizationManager>
         {
             for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
             {
-                string path = Application.streamingAssetsPath + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + LocalizationSettings.AvailableLocales.Locales[i].Identifier + ".csv";
-                using (StreamReader reader = new StreamReader(path))
+                List<string[]> file = new List<string[]>();
+                file = CsvConnection.Instance.GetLanguageTable(table + "_" + LocalizationSettings.AvailableLocales.Locales[i].Identifier + ".csv", ParamResources.LOCALIZATION_PATH, false);
+                foreach (string[] fields in file)
                 {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string[] fields = line.Split(';');
-                        InsertNewEntry(table, fields[0], fields[1], i);
-                    }
+                    InsertNewEntry(table, fields[0], fields[1], i);
                 }
             }
         }

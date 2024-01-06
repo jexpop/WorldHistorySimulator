@@ -19,7 +19,7 @@ public class PostItNote : MonoBehaviour
 
 
     public void SetPolityType(string table, string value)
-    {
+    {        
         LocalizationManager.Instance.AddLocalizeString(polityTypeText, table, value);
     }
 
@@ -65,24 +65,10 @@ public class PostItNote : MonoBehaviour
     }
 
     /// **** SET IMAGES WITH THE SYMBOLS ****///
-    private Texture2D GetImage(string name, string typeName)
-    {
-        // Join words
-        string filename = name + "_" + typeName;
-
-        // Get image's path
-        string imagePath = Application.streamingAssetsPath + ParamResources.SYMBOLS_FOLDER + filename + ".png";
-
-        // Texture
-        Texture2D tex = Utilities.GetTexture2D(Utilities.PascalStrings(imagePath));
-
-        //Return the texture
-        return tex;
-    }
     public void SetPolityImage(string polityName, string polityTypeName)
     {
         // Get the symbol
-        Texture2D tex = GetImage(polityName, polityTypeName);
+        Texture2D tex = MapManager.Instance.GetSymbolTexture(polityName, polityTypeName);
 
         // Transparence
         polityImage.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -93,7 +79,7 @@ public class PostItNote : MonoBehaviour
     public void SetParentImage(string parentName, string parentTypeName)
     {
         // Get the symbol
-        Texture2D tex = GetImage(parentName, parentTypeName);
+        Texture2D tex = MapManager.Instance.GetSymbolTexture(parentName, parentTypeName);
 
         // Transparence
         parentImage.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -104,7 +90,7 @@ public class PostItNote : MonoBehaviour
     public void SetParentImage2(string parentName2, string parentTypeName2)
     {
         // Get the symbol
-        Texture2D tex = GetImage(parentName2, parentTypeName2);
+        Texture2D tex = MapManager.Instance.GetSymbolTexture(parentName2, parentTypeName2);
 
         // Transparence
         parentImage2.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -115,7 +101,7 @@ public class PostItNote : MonoBehaviour
     public void SetParentImage3(string parentName3, string parentTypeName3)
     {
         // Get the symbol
-        Texture2D tex = GetImage(parentName3, parentTypeName3);
+        Texture2D tex = MapManager.Instance.GetSymbolTexture(parentName3, parentTypeName3);
 
         // Transparence
         parentImage3.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);

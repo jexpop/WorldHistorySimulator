@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class Region
 {  
@@ -50,14 +51,12 @@ public class Region
         // If this region has settlement
         if (settlement != 0)
         {
-            Dictionary<int, Settlement> settlements = MapManager.Instance.GetSettlements();
-            this._settlement = settlements[settlement];
+            this._settlement = UpdateSettlement(settlement);
         }
 
         // If this region has owner
         if (owner != 0){
-            Dictionary<int, Polity> polities = MapManager.Instance.GetPolities();
-            this._owner = polities[owner];
+            this._owner = UpdateOwner(owner);
         }
         
         this._rgb32 = RegionColorSelect();
@@ -75,6 +74,18 @@ public class Region
     public void ColorRecalculate()
     {
         this._rgb32 = _owner == null ? ParamColor.COLOR_REGION_LAND : _owner.Rgb32;
+    }
+
+    private Settlement UpdateSettlement(int settlementId)
+    {
+        Dictionary<int, Settlement> settlements = MapManager.Instance.GetSettlements();
+        return settlements[settlementId];
+    }
+
+    private Polity UpdateOwner(int ownerId)
+    {
+        Dictionary<int, Polity> polities = MapManager.Instance.GetPolities();
+        return polities[ownerId];
     }
 
     /// <summary>
