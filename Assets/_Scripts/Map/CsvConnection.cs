@@ -335,7 +335,7 @@ public class CsvConnection : Singleton<CsvConnection>
 
 
             //** Chronology of this region **//
-           List<TerritoryHistoryData> chronologyFull = chronologyTable.Where(c_full => c_full.RegionId == row[0]).Select(c_full => c_full).ToList();
+           List<TerritoryHistoryData> chronologyFull = chronologyTable.Where(c_full => c_full.RegionId == row[0]).OrderBy(c_full => c_full.StartDate).Select(c_full => c_full).ToList();
 
             List<HistoryRegionRelation> history = new List<HistoryRegionRelation>();
             if (chronologyFull != null)
@@ -465,6 +465,12 @@ public class CsvConnection : Singleton<CsvConnection>
             List<string[]> politiesTable = new List<string[]>();
             politiesTable = GetCsvTable(ParamResources.CSV_HISTORY_TABLE_POLITIES, ParamResources.CSV_HISTORY_PATH, true);
             lastId = int.Parse(politiesTable.OrderByDescending(x => int.Parse(x[0], CultureInfo.InvariantCulture)).First()[0], CultureInfo.InvariantCulture);
+        }
+        else if (dataType == EditorDataType.Settlement)
+        {
+            List<string[]> settlementsTable = new List<string[]>();
+            settlementsTable = GetCsvTable(ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS, ParamResources.CSV_HISTORY_PATH, true);
+            lastId = int.Parse(settlementsTable.OrderByDescending(x => int.Parse(x[0], CultureInfo.InvariantCulture)).First()[0], CultureInfo.InvariantCulture);
         }
         else if (dataType == EditorDataType.StagePanel)
         {
@@ -682,7 +688,7 @@ public class CsvConnection : Singleton<CsvConnection>
                                     + qPolicyPolityId + ";"
                                     + qPolicyPolityTypeId + ";"
                                     + qPolicyCapital;
-        int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY, settlementId.ToString());
+        int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY, stageId.ToString());
         LineChanger(newLine, path, line);
     }
 

@@ -439,7 +439,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
         // Load new stages
         LoadStages(currentRegionId);
-
+        
         // Update region panel info
         if(settlementId != 0)
         {
@@ -475,20 +475,16 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             polity.Recolor();
             GameManager.Instance.MAP_ColorizeRegionsById(currentRegionId, polity);
         }
-        else
-        {
-            // Update region in the map
-            GameManager.Instance.MAP_ColorizeRegionsById(currentRegionId, null);
-        }
+        
     }
     private void LoadStages(int regionId)
     {
         Region currentRegion = GameManager.Instance.MAP_GetRegionById(regionId);
         if(currentRegion.History != null)
         {
-            foreach (HistoryRegionRelation history in currentRegion.History)
+            for(int i = 0;i<currentRegion.History.Count;i++)
             {
-                tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>().toggleChangeOwnerEvent(regionId, history.StageId, history.SettlementId, history.Stage);
+                tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>().toggleChangeOwnerEvent(regionId, currentRegion.History[i].StageId, currentRegion.History[i].SettlementId, currentRegion.History[i].Stage);
             }
         }
     }

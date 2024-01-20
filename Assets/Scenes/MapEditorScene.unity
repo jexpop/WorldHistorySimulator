@@ -152,8 +152,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 210.2708, y: 60}
+  m_AnchoredPosition: {x: 0, y: 15}
+  m_SizeDelta: {x: 210.2708, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &12019539
 GameObject:
@@ -26180,6 +26180,7 @@ MonoBehaviour:
   editorMenuSubbutton: {fileID: 1640601710401953585, guid: a2ac6b8f7de0bc4429a811346665028b, type: 3}
   editorHistoryButton: {fileID: 12522888388903480, guid: 2caa2a741940e154fb82fefa32a0a61c, type: 3}
   postItElement: {fileID: 9204123262431888887, guid: 640aa402f4306cf4f9a5f2c421dd4725, type: 3}
+  coordinatesText: {fileID: 0}
   layerCheckCollective: {fileID: 1429719547}
   layersDropdown: {fileID: 943637727}
   terrainTiles:

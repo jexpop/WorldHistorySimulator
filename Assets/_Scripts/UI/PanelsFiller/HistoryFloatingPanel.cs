@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class HistoryFloatingPanel : MonoBehaviour
 {
 
     public Transform settlementContent, stageContent;
 
     public GameObject stageItem;
+
 
 
     /// <summary>
@@ -53,7 +55,7 @@ public class HistoryFloatingPanel : MonoBehaviour
     ///  <param name="settlementId">Current settlement id</param>
     /// <param name="historyStage">Parameters of the stage</param>
     private void AddNewStage(int regionId, int idStage, Settlement settlement, int settlementId, HistoryStage historyStage = null)
-    {
+    {        
         GameObject stage = Instantiate(stageItem);
         StageFloatingPanel stageScript = stage.GetComponent<StageFloatingPanel>();
         stageScript.SetStageId(idStage);
@@ -63,6 +65,5 @@ public class HistoryFloatingPanel : MonoBehaviour
         stageScript.SetHistory(historyStage);
         stage.transform.SetParent(stageContent);
     }
-
 
 }

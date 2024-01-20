@@ -3,7 +3,7 @@ SettlementId;SettlementName;RegionId
 2;Ivernis;6405
 3;Menapia;285
 4;Nagnata;11371
-5;E?ain ?acha;3242
+5;Eṁaın Ṁacha;3242
 6;Britain settlement;0
 7;Camulodunom;221
 8;Camulodunon;221
@@ -14,3 +14,6 @@ SettlementId;SettlementName;RegionId
 13;Isca Dumnoniorum ;3463
 16;Verlamion;9239
 17;Verulamium;9239
+18;Calleva Atrebatum;11471
+19;Glevum;3369
+20;Ratae Corieltauvorum;11279

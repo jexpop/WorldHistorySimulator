@@ -65,6 +65,7 @@ public class LocalizationController : Singleton<LocalizationController>
 #else
         ImportFromCSV();
 #endif
+
     }
 
     /*** Data validations ***/
@@ -184,6 +185,7 @@ public class LocalizationController : Singleton<LocalizationController>
                 ExpostToCSV(table, LocalizationSettings.AvailableLocales.Locales[i]);
             }
 #endif
+
         }
     }    
     public void UpdateEntry(string table, string key, string newValue)
@@ -214,6 +216,7 @@ public class LocalizationController : Singleton<LocalizationController>
 #else
         ExpostToCSV(table, LocalizationSettings.SelectedLocale);
 #endif
+
     }
     public void DeleteEntry(string table, string key)
     {
@@ -229,6 +232,7 @@ public class LocalizationController : Singleton<LocalizationController>
             ExpostToCSV(table, LocalizationSettings.AvailableLocales.Locales[i]);
         }
 #endif
+
     }
     /***                        ***/
 

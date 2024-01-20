@@ -40,7 +40,7 @@ public class GameManager : Singleton<GameManager>
     // UI Controller
     public UIStatus UI_GetUIStatus() { return EditorUICanvasController.Instance.uiStatus; }
     public void UI_SetUIStatus(UIStatus status) { EditorUICanvasController.Instance.uiStatus = status; }
-    public void UI_PostItPolityVisibility(Vector3 mousePos, bool showPostIt, Region region = null) { EditorUICanvasController.Instance.PostItPolityVisibility(mousePos, true, region); }
+    public void UI_PostItPolityVisibility(Vector3 mousePos, bool showPostIt, Region region = null) { EditorUICanvasController.Instance.PostItPolityVisibility(mousePos, showPostIt, region); }
     public Vector2 UI_CalculateNewPositionPanel(Vector3 mousePos) { return EditorUICanvasController.Instance.CalculateNewPositionPanel(mousePos); }
     public void UI_SetNameAndImageRegionPanel(string name, string terrain) { EditorUICanvasController.Instance.SetNameAndImageRegionPanel(name, terrain); }
     public void UI_ShowRgbOwner(string rgb) { EditorUICanvasController.Instance.ShowRgbOwner(rgb); }

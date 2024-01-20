@@ -46,7 +46,7 @@ public class EditorDropdown : MonoBehaviour
         dropdown.ClearOptions();
 
         optionsIds  = new BidirectionalDictionary<int, int>();
-
+        
         int c = 0;
 
         // Optional=true, the first option has not value
@@ -56,7 +56,7 @@ public class EditorDropdown : MonoBehaviour
             c = 1;
             AddLocalizedOption("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_NOT_SELECT);
         }
-
+        
         // Get new options
         if (dataType == EditorDataType.PolityType)
         {
@@ -72,10 +72,10 @@ public class EditorDropdown : MonoBehaviour
             List<OptionsOrdered> polityTypeSortedList = polityTypeOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
 
             // Adding options and localized
-            foreach (OptionsOrdered option in polityTypeSortedList)
+            for(int i = 0; i < polityTypeSortedList.Count;i++)
             {
-                optionsIds.Add(c, option.Key);
-                AddLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", option.KeyName);
+                optionsIds.Add(c, polityTypeSortedList[i].Key);
+                AddLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", polityTypeSortedList[i].KeyName);
                 c++;
             }
         }
@@ -93,10 +93,10 @@ public class EditorDropdown : MonoBehaviour
             List<OptionsOrdered> individualSortedList = individualOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
 
             // Adding options and localized
-            foreach (OptionsOrdered option in individualSortedList)
+            for(int i = 0;i< individualSortedList.Count;i++)
             {
-                optionsIds.Add(c, option.Key);
-                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", option.KeyName);
+                optionsIds.Add(c, individualSortedList[i].Key);
+                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", individualSortedList[i].KeyName);
                 c++;
             }
         }
@@ -114,10 +114,10 @@ public class EditorDropdown : MonoBehaviour
             List<OptionsOrdered> individualSortedList = collectiveOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
 
             // Adding options and localized
-            foreach (OptionsOrdered option in individualSortedList)
+            for(int i = 0; i< individualSortedList.Count; i++)
             {
-                optionsIds.Add(c, option.Key);
-                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", option.KeyName);
+                optionsIds.Add(c, individualSortedList[i].Key);
+                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", individualSortedList[i].KeyName);
                 c++;
             }
         }

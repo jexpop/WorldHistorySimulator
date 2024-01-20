@@ -3,6 +3,7 @@ using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
 using System.IO;
+using System;
 
 public class MapController : Singleton<MapController>
 {
@@ -108,8 +109,10 @@ public class MapController : Singleton<MapController>
                 Region region = regions[OnlyRGBColorByPosition(prevXY.x, prevXY.y)];
                 
                 // Show a post it note with information of the polity
+                // Also show the map coordinates
                 if (GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing || GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote)
                 {
+                    // Post It
                     if (region.Type == ParamUI.REGION_NAME_LAND && region.Owner != null)
                     {
                         GameManager.Instance.UI_SetUIStatus(UIStatus.PostItNote);
