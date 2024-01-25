@@ -31,7 +31,7 @@ public class EditorCameraController : Singleton<EditorCameraController>
 			Vector3 move = new Vector3(pos.x * ParamMap.MAP_PAN_SPEED, pos.y * ParamMap.MAP_PAN_SPEED, 0);
 			transform.Translate(move, Space.Self);
 
-            // Movement within bounds
+			// Movement within bounds
             transform.position = new Vector3(
                   Mathf.Clamp(transform.position.x, ParamMap.MAP_X_MIN, ParamMap.MAP_X_MAX),
                   Mathf.Clamp(transform.position.y, ParamMap.MAP_Y_MIN, ParamMap.MAP_Y_MAX),

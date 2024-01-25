@@ -3,7 +3,7 @@ using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
 using System.IO;
-using System;
+
 
 public class MapController : Singleton<MapController>
 {
@@ -99,6 +99,8 @@ public class MapController : Singleton<MapController>
             Vector3 p = hitInfo.point;
             int x = (int)Mathf.Floor(p.x) + width / 2;
             int y = (int)Mathf.Floor(p.y) + height / 2;
+
+            GameManager.Instance.UI_SetCoordinates(x.ToString(), y.ToString());
 
             // Avoid out of range error
             int marginBox = x + y * width;
@@ -337,26 +339,35 @@ public class MapController : Singleton<MapController>
                 Color32 regionColor;
                 if (singleRegion == null)
                 {// If region is null, we want to colorize all regions
-                    Region region = regions[OnlyRGBColorByPosition(x, y)];
-
-                    // Minimum, maximum coordinates of the region
-                    if (x <= region.XminCoordinates) { region.XminCoordinates = x; }
-                    if (x >= region.XmaxCoordinates) { region.XmaxCoordinates = x; }
-                    if (y <= region.YminCoordinates) { region.YminCoordinates = y; }
-                    if (y >= region.YmaxCoordinates) { region.YmaxCoordinates = y; }
-
-                    mustBeColored = true;
-                    regionColor = region.Rgb32;
-
-                    // Indicator water terrain white-water, black-land
-                    if (region.Type == ParamUI.REGION_NAME_LAND)
+                    if(regions.ContainsKey(OnlyRGBColorByPosition(x, y)))
                     {
-                        waterArr[x + y * width] = ParamColor.COLOR_WHITE;
+                        Region region = regions[OnlyRGBColorByPosition(x, y)];
+
+                        // Minimum, maximum coordinates of the region
+                         if (x <= region.XminCoordinates) { region.XminCoordinates = x; }
+                         if (x >= region.XmaxCoordinates) { region.XmaxCoordinates = x; }
+                         if (y <= region.YminCoordinates) { region.YminCoordinates = y; }
+                         if (y >= region.YmaxCoordinates) { region.YmaxCoordinates = y; }
+
+                        mustBeColored = true;
+                        regionColor = region.Rgb32;
+
+                        // Indicator water terrain white-water, black-land
+                        if (region.Type == ParamUI.REGION_NAME_LAND)
+                        {
+                            waterArr[x + y * width] = ParamColor.COLOR_WHITE;
+                        }
+                        else
+                        {
+                            waterArr[x + y * width] =  ParamColor.COLOR_BLACK;
+                        }
+
                     }
                     else
                     {
-                        waterArr[x + y * width] =  ParamColor.COLOR_BLACK;
+                        regionColor = ParamColor.COLOR_WHITE;
                     }
+
                 }
                 else
                 {// Single region

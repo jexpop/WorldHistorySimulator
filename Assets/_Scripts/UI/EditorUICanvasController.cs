@@ -19,6 +19,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     [Header("Custom map")]
     public Toggle layerCheckCollective;
     public TMP_Dropdown layersDropdown;
+    public TextMeshProUGUI coordinateX;
+    public TextMeshProUGUI coordinateY;
 
 
     [Header("Terrain Tiles")]
@@ -101,6 +103,16 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         postItNote = tmpPostItNote.GetComponent<PostItNote>();
         postItNoteRectTransform = tmpPostItNote.GetComponent<RectTransform>();
         tmpPostItNote.SetActive(false);
+    }
+
+    /// <summary>
+    /// Set coordinates where is the mouse pointer
+    /// </summary>
+    /// <param name="x">x</param>
+    /// <param name="y">y</param>
+    public void SetCoordinates(string x, string y)
+    {
+        coordinateX.text = x; coordinateY.text=y;
     }
 
     /// <summary>

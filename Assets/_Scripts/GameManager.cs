@@ -50,6 +50,7 @@ public class GameManager : Singleton<GameManager>
     public int UI_GetCurrentTimeline(bool button) { return EditorUICanvasController.Instance.GetCurrentTimeline(button); }
     public int UI_GetLayerValue() { return EditorUICanvasController.Instance.layersDropdown.value; }
     public bool UI_IsDateCurrent(int start, int end) { return EditorUICanvasController.Instance.IsDateCurrent(start, end); }
+    public void UI_SetCoordinates(string x, string y) { EditorUICanvasController.Instance.SetCoordinates(x, y); }
 
     // MAP Controller
     public Dictionary<int, PolityType> MAP_GetPolitiesType() { return MapController.Instance.GetPolitiesType(); }
