@@ -10,10 +10,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F02C1484-9C69-D723-52D3-B6FC845E3688}</ProjectGuid>
+    <ProjectGuid>{6387023D-733C-B5DC-63B1-199955D08627}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -50,7 +50,7 @@
     <UnityProjectGenerator>Package</UnityProjectGenerator>
     <UnityProjectGeneratorVersion>2.0.22</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>Legacy</UnityProjectGeneratorStyle>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2023.2.3f1</UnityVersion>
   </PropertyGroup>
@@ -61,87 +61,19 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.2.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_Scripts\Config\ParamUI.cs" />
-    <Compile Include="Assets\_Scripts\Map\Class\HistoryStage.cs" />
-    <Compile Include="Assets\_Scripts\Map\Csv\PolityData.cs" />
-    <Compile Include="Assets\_Scripts\UI\Controls\LocaleDropdown.cs" />
-    <Compile Include="Assets\_Scripts\UI\NotificationSystem\MessageHelper.cs" />
-    <Compile Include="Assets\_Scripts\UI\PanelsFiller\HistoryFloatingPanel.cs" />
-    <Compile Include="Assets\_Scripts\UI\PanelsFiller\StageConfirmDialog.cs" />
-    <Compile Include="Assets\_Scripts\Map\Class\SymbolTexture.cs" />
-    <Compile Include="Assets\_Scripts\Common\MultiKeyDictionary.cs" />
-    <Compile Include="Assets\_Scripts\Map\Csv\TerrainTypeData.cs" />
-    <Compile Include="Assets\_Scripts\UI\LocalizationController.cs" />
-    <Compile Include="Assets\_Scripts\Map\MapBox.cs" />
-    <Compile Include="Assets\_Scripts\Config\ParamMap.cs" />
-    <Compile Include="Assets\_Scripts\UI\PanelsFiller\PostItNote.cs" />
-    <Compile Include="Assets\_Scripts\UI\CursorManager.cs" />
-    <Compile Include="Assets\_Scripts\Map\PlacementObjects.cs" />
-    <Compile Include="Assets\_Scripts\Config\LocalizeParams.cs" />
-    <Compile Include="Assets\_Scripts\Map\Class\Settlement.cs" />
-    <Compile Include="Assets\_Scripts\Map\OnMouseHighlight.cs" />
-    <Compile Include="Assets\_Scripts\Map\Class\PolityType.cs" />
-    <Compile Include="Assets\_Scripts\UI\PanelsFiller\StageFloatingPanel.cs" />
-    <Compile Include="Assets\_Scripts\UI\NotificationSystem\Message.cs" />
-    <Compile Include="Assets\_Scripts\Config\ParamColor.cs" />
-    <Compile Include="Assets\_Scripts\UI\PanelsFiller\PolitySymbolPanel.cs" />
-    <Compile Include="Assets\Test\ColorsTest\DeltaEColor.cs" />
-    <Compile Include="Assets\_Scripts\Config\ParamResources.cs" />
-    <Compile Include="Assets\_Scripts\GameManager.cs" />
-    <Compile Include="Assets\_Scripts\UI\NotificationSystem\SimpleMessage.cs" />
-    <Compile Include="Assets\_Scripts\Map\Class\Polity.cs" />
-    <Compile Include="Assets\Test\ColorsTest\ColorTest.cs" />
-    <Compile Include="Assets\_Scripts\Config\GlobalEnum.cs" />
-    <Compile Include="Assets\_Scripts\Camera\MapCameraController.cs" />
-    <Compile Include="Assets\_Scripts\Common\Utilities.cs" />
-    <Compile Include="Assets\_Scripts\Map\Class\Region.cs" />
-    <Compile Include="Assets\_Scripts\Common\BidirectionalDictionary.cs" />
-    <Compile Include="Assets\_Scripts\Common\Singleton.cs" />
-    <Compile Include="Assets\_Scripts\UI\Controls\ConfirmDialog.cs" />
-    <Compile Include="Assets\_Scripts\UI\Controls\InputField.cs" />
-    <Compile Include="Assets\_Scripts\Map\OnMouseName.cs" />
-    <Compile Include="Assets\_Scripts\UI\Controls\EditorDropdown.cs" />
-    <Compile Include="Assets\_Scripts\UI\Controls\TimeTravelbutton.cs" />
-    <Compile Include="Assets\_Scripts\UI\EditorUICanvasController.cs" />
-    <Compile Include="Assets\_Scripts\Map\Csv\TerrainData.cs" />
-    <Compile Include="Assets\_Scripts\Map\MapController.cs" />
-    <Compile Include="Assets\_Scripts\UI\NotificationSystem\IdentificatorMessage.cs" />
-    <Compile Include="Assets\_Scripts\Common\DontDestroyOnLoad.cs" />
-    <Compile Include="Assets\_Scripts\UI\PanelsFiller\RegionFloatingPanel.cs" />
-    <Compile Include="Assets\_Scripts\UI\Controls\LocalizeDropdown.cs" />
-    <Compile Include="Assets\_Scripts\Map\CsvConnection.cs" />
-    <Compile Include="Assets\_Scripts\Camera\EditorCameraController.cs" />
-    <Compile Include="Assets\_Scripts\Map\Csv\TerritoryHistoryData.cs" />
-    <Compile Include="Assets\_Scripts\Map\Class\HistoryRegionRelation.cs" />
-    <Compile Include="Assets\_Scripts\Map\Csv\PolicyData.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+    <Compile Include="Assets\Plugins\Demigiant\DOTween\Modules\DOTweenModuleEPOOutline.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\Shaders\EditorWorldMap.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\Test\ColorsTest\Colors.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\AddressableAssetsData\link.xml" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Plugins\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\Plugins\Demigiant\DOTween\DOTween.dll" />
+    <None Include="Assets\Plugins\Demigiant\DOTween\readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -594,6 +526,10 @@
     </Reference>
     <Reference Include="ReportGeneratorMerged">
       <HintPath>Library\PackageCache\com.unity.testtools.codecoverage@1.2.4\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">

@@ -51,16 +51,15 @@ public class MapController : Singleton<MapController>
         LoadPolitiesTypeDictionaryFromDB();
         LoadSettlementsDictionaryFromDB();
 
-        // Placement objects script
-        placementObjects = gameObject.GetComponentInParent<PlacementObjects>();
-
         // Building map
         CreateMap();
         CreateRegions(true);
 
-        // Put capital symbols
+        // Placement objects
+        placementObjects = gameObject.GetComponentInParent<PlacementObjects>();
         ShowCapitalSymbols();
-       
+        ShowSettlementMarkers();
+
     }
 
     // Material, texture & properties inicialization
@@ -90,8 +89,9 @@ public class MapController : Singleton<MapController>
 
     void Update()
     {
-        
+ 
         Vector3 mousePos = Input.mousePosition;
+
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
@@ -100,7 +100,8 @@ public class MapController : Singleton<MapController>
             int x = (int)Mathf.Floor(p.x) + width / 2;
             int y = (int)Mathf.Floor(p.y) + height / 2;
 
-            GameManager.Instance.UI_SetCoordinates(x.ToString(), y.ToString());
+            // Show coordinates of the map
+            GameManager.Instance.UI_SetCoordinates(((int)p.x).ToString(), ((int)p.y).ToString());
 
             // Avoid out of range error
             int marginBox = x + y * width;
@@ -110,8 +111,7 @@ public class MapController : Singleton<MapController>
 
                 Region region = regions[OnlyRGBColorByPosition(prevXY.x, prevXY.y)];
                 
-                // Show a post it note with information of the polity
-                // Also show the map coordinates
+                // Show a post it note with information of the polity               
                 if (GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing || GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote)
                 {
                     // Post It
@@ -430,6 +430,13 @@ public class MapController : Singleton<MapController>
 
                     regions[regionId].ColorRecalculate();
                 }
+                else
+                {
+                    // Clear the region if not exist data history
+                    regions[regionId].Settlement = null;
+                    regions[regionId].Owner = null;
+                    regions[regionId].ColorRecalculate();
+                }
             }            
         }
     }
@@ -698,9 +705,35 @@ public class MapController : Singleton<MapController>
                     if (isCapital == 1 & GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
                     {
                         Texture2D currentSymbol = GetSymbolTexture(polityCapital, polityTypeCapital);
-                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region, currentSymbol);                 
+                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region, currentSymbol, region.Settlement.Name);                 
                     }
                 
+                }
+            }
+        }
+
+    }
+
+    /// SETTLEMENT MARKERS
+    public void ShowSettlementMarkers()
+    {
+        // Remove previous markers
+        placementObjects.RemoveMapObjects(ParamMap.MAPTAG_SETTLEMENT_MARKER);
+
+        // Find regions with marker
+        foreach (int id in regionsIdList)
+        {
+            Region region = regions[id];
+            List<HistoryRegionRelation> history = region.History;
+            if (history != null)
+            {
+                foreach (HistoryRegionRelation h in history)
+                {
+                    Settlement settlement = GetSettlementById(h.SettlementId);
+                    if(settlement != null && settlement.RegionId != 0 && settlement.PixelCoordinates != Vector2.zero & GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
+                    {
+                        placementObjects.PutMapObjects(ParamMap.MAPTAG_SETTLEMENT_MARKER, settlement.PixelCoordinates, settlement.Name);
+                    }
                 }
             }
         }

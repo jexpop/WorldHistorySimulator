@@ -25,5 +25,6 @@ public class ParamMap
     // Tags to objects in the map
     public static string MAPTAG_CAPITAL_SYMBOL = "CapitalSymbol";
     public static string MAPTAG_FLAG_MARKER = "FlagMarker";
+    public static string MAPTAG_SETTLEMENT_MARKER = "SettlementMarker";
 
 }

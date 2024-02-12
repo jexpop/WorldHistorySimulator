@@ -44,7 +44,7 @@ public class PlacementObjects : MonoBehaviour
     /// <param name="tag">tag of the object</param>
     /// <param name="region">the object will be put in this region</param>
     /// <param name="texture">optional param to custom images</param>
-    private void PutObjects(string tag, Region region, Texture2D texture = null)
+    private void PutObjects(string tag, Region region, Texture2D texture = null, string name = null)
     {
         GameObject instantiatedObject = Instantiate(objectsDictionary[tag]);
         instantiatedObject.transform.position = new Vector3(region.CoordinatesCenter.x, region.CoordinatesCenter.y, -1);
@@ -52,15 +52,30 @@ public class PlacementObjects : MonoBehaviour
         {
             Sprite symbolSprite= Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 200.0f);
             instantiatedObject.GetComponentInChildren<SpriteRenderer>().sprite = symbolSprite;
+
+            if(name != null)
+            {
+                instantiatedObject.GetComponentInChildren<OnMouseName>().SetTextName(name);
+            }
         }
+    }
+    private void PutObjects(string tag, Vector2Int coordinates, string name)
+    {
+        GameObject instantiatedObject = Instantiate(objectsDictionary[tag]);
+        instantiatedObject.transform.position = new Vector3(coordinates.x, coordinates.y, -1);
+        instantiatedObject.GetComponentInChildren<OnMouseName>().SetTextName(name);
     }
     public void PutMapObjects(string tag, Region region)
     {
         PutObjects(tag, region);
     }
-    public void PutMapObjectsCustomSprites(string tag, Region region, Texture2D texture)
+    public void PutMapObjects(string tag, Vector2Int coordinates, string name)
+    {        
+        PutObjects(tag, coordinates, name);
+    }
+    public void PutMapObjectsCustomSprites(string tag, Region region, Texture2D texture, string name)
     {
-        PutObjects(tag, region, texture);
+        PutObjects(tag, region, texture, name);
     }
 
 }

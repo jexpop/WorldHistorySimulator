@@ -34,7 +34,7 @@ public class GameManager : Singleton<GameManager>
     public void LoadScene(GameScene gameScene)
     {
         // Dynamic load of the scene with the GameScene parameter
-        SceneManager.LoadScene(gameScene.ToString()+"Scene");
+        SceneManager.LoadScene(gameScene.ToString() + "Scene");
     }
 
     // UI Controller

@@ -13,8 +13,8 @@ public class EditorCameraController : Singleton<EditorCameraController>
 	void Update()
 	{
 
-		// Deactivate the movement/zooming in when releasing the action
-		if (!Input.GetMouseButton(1)) isPanning = false;
+        // Deactivate the movement/zooming in when releasing the action
+        if (!Input.GetMouseButton(1)) isPanning = false;
 		if (Input.GetAxis(ParamMap.MAP_MOUSE_SCROLL) == 0f) isZooming = false;
 
 		// Right mouse button is activated (XY movement)

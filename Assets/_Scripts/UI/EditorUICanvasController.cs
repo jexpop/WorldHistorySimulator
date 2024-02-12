@@ -82,6 +82,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     public TextMeshProUGUI settlementIdLabel;
     public TMP_InputField settlementNameInput;
     public TMP_InputField settlementRegionInput;
+    public TMP_InputField settlementPixelXInput;
+    public TMP_InputField settlementPixelYInput;
     public GameObject settlementStatus;
 
     [Header("Polity symbols Data Values")]
@@ -112,7 +114,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     /// <param name="y">y</param>
     public void SetCoordinates(string x, string y)
     {
-        coordinateX.text = x; coordinateY.text=y;
+        coordinateX.text = x; coordinateY.text = y;
     }
 
     /// <summary>
@@ -480,12 +482,18 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     3 => Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(history.Stage.PolityParentId_L4, history.Stage.PolityParentId_L3),history.Stage.PolityParentId_L2), history.Stage.PolityParentId_L1),
                     _ => 0
                 };
+
+                // Update polity of the region
+                Polity polity = delete ? null : GameManager.Instance.MAP_GetPolityById(polityId);
+                polity.Recolor();
+                GameManager.Instance.MAP_ColorizeRegionsById(currentRegionId, polity);
+            }
+            else
+            {
+                // Update region in the map
+                GameManager.Instance.MAP_ColorizeRegionsById(currentRegionId, null);
             }
 
-            // Update region in the map
-            Polity polity = delete ? null : GameManager.Instance.MAP_GetPolityById(polityId);
-            polity.Recolor();
-            GameManager.Instance.MAP_ColorizeRegionsById(currentRegionId, polity);
         }
         
     }
@@ -772,7 +780,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         {
             // Clearing old text
             polityTypeNameInput.text = "";
-            
+
             Dictionary<int, PolityType> politiesType = GameManager.Instance.MAP_GetPolitiesType();
             PolityType polityType = politiesType.Where(x => x.Key.Equals(labelId)).Select(x => x.Value).FirstOrDefault();
             polityTypeIdLabel.text = labelId.ToString();
@@ -814,6 +822,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             // Clearing old text
             settlementNameInput.text = "";
             settlementRegionInput.text = "0";
+            settlementPixelXInput.text = "0";
+            settlementPixelYInput.text = "0";
 
             GameManager.Instance.MAP_LoadSettlementsDictionaryFromDB();
             Dictionary<int, Settlement> settlements = GameManager.Instance.MAP_GetSettlements();
@@ -830,7 +840,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             }
 
             settlementRegionInput.text = settlement.RegionId.ToString();
-            
+            settlementPixelXInput.text = settlement.PixelCoordinates.x.ToString();
+            settlementPixelYInput.text = settlement.PixelCoordinates.y.ToString();
+
         }
         else if (dataType == EditorDataType.PolitySymbols)
         {
@@ -874,7 +886,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         //  Global Checks for every input (Region input is a exception. For this case, the value 0 or empty is all regions) ...
         foreach (TMP_InputField input in inputs)
         {
-            if (input.name!= ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && MessageHelper.IsFieldEmpty(input.text) == true)
+            if (input.tag != ParamUI.TAG_NOTLOCALIZATION && MessageHelper.IsFieldEmpty(input.text) == true)
             {
                 GameManager.Instance.LOC_AddLocalizeString(emptyNameMessage);
                 fChkGlobalIsOk = false;
@@ -889,12 +901,12 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                 {
                     foreach (TMP_InputField input in inputs)
                     {
-                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && GameManager.Instance.LOC_KeyExist(loc_table, input.text))
+                        if (input.tag != ParamUI.TAG_NOTLOCALIZATION && GameManager.Instance.LOC_KeyExist(loc_table, input.text))
                         {// Check duplicate key
                             GameManager.Instance.LOC_AddLocalizeString(duplicatedNameMessage);
                             fChkLocalIsOk = false;
                         }
-                        if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT && GameManager.Instance.LOC_ValueExist(loc_table, input.text, input.text))
+                        if (input.tag != ParamUI.TAG_NOTLOCALIZATION && GameManager.Instance.LOC_ValueExist(loc_table, input.text, input.text))
                         {// Check duplicate locate value (current language)
                             GameManager.Instance.LOC_AddLocalizeString(duplicatedNameMessage);
                             fChkLocalIsOk = false;
@@ -908,7 +920,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                         // Insert new locale data (All languanges)
                         foreach (TMP_InputField input in inputs)
                         {
-                            if (input.name != ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)
+                            if (input.tag != ParamUI.TAG_NOTLOCALIZATION)
                             {
                                 GameManager.Instance.LOC_InsertNewEntry(loc_table, input.text, input.text);
                             }
@@ -946,8 +958,12 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                             // Insert new data
                             string settlementName = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_NAME_INPUT)).text;
                             string settlementRegion = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)).text;
-                            settlementRegion = int.TryParse(settlementRegion, out int n) == true ? settlementRegion : "0";
-                            CsvConnection.Instance.AddSettlement(settlementName, Int32.Parse(settlementRegion));
+                            string settlementX = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_PIXEL_X)).text;
+                            string settlementY = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_PIXEL_Y)).text;
+                            settlementRegion = int.TryParse(settlementRegion, out int sr) == true ? settlementRegion : "0";
+                            settlementX = int.TryParse(settlementX, out int sx) == true ? settlementX : "0";
+                            settlementY = int.TryParse(settlementY, out int sy) == true ? settlementY : "0";
+                            CsvConnection.Instance.AddSettlement(settlementName, Int32.Parse(settlementRegion), Int32.Parse(settlementX), Int32.Parse(settlementY));
 
                             // Status name
                             messageStatusName = settlementName;
@@ -1016,10 +1032,14 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                         {
                             // Update new current locale data
                             string settlementRegion = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_REGION_INPUT)).text;
+                            string settlementX = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_PIXEL_X)).text;
+                            string settlementY = inputs.First(x => x.name.Equals(ParamUI.EDITMENU_SETTLEMENT_PIXEL_Y)).text;
                             GameManager.Instance.LOC_UpdateEntry(loc_table, settlementLocaleId, settlementName);
                             // Update CSV file
-                            settlementRegion = int.TryParse(settlementRegion, out int n) == true ? settlementRegion : "0";
-                            CsvConnection.Instance.UpdateSettlement(Int32.Parse(idLabel), settlementLocaleId, Int32.Parse(settlementRegion));
+                            settlementRegion = int.TryParse(settlementRegion, out int sr) == true ? settlementRegion : "0";
+                            settlementX = int.TryParse(settlementX, out int sx) == true ? settlementX : "0";
+                            settlementY = int.TryParse(settlementY, out int sy) == true ? settlementY : "0";
+                            CsvConnection.Instance.UpdateSettlement(Int32.Parse(idLabel), settlementLocaleId, Int32.Parse(settlementRegion), Int32.Parse(settlementX), Int32.Parse(settlementY));
                             // Update displayed data
                             FillScrollButtonScript(settlementContent, settlementLocaleId);
                             ButtonEventToFillInfo(dataType, Int32.Parse(idLabel));
@@ -1065,7 +1085,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         List<TMP_InputField> inputs = new List<TMP_InputField>
         {
             settlementNameInput,
-            settlementRegionInput
+            settlementRegionInput,
+            settlementPixelXInput,
+            settlementPixelYInput
         };
         SaveActionButtonEvent(EditorDataType.Settlement, settlementMessage, okMessages, settlementEmptyNameMessage, settlementDuplicatedNameMessage, "LOC_TABLE_HIST_SETTLEMENTS", inputs, settlementIdLabel.text);
     }
@@ -1073,6 +1095,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     // CLEAR EVENT
     private void ClearMessages(GameObject status, SimpleMessage okNameMessage)
     {
+
         // Main message texts
         status.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "";
 
@@ -1102,6 +1125,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         settlementIdLabel.text = "0";
         settlementNameInput.text = "";
         settlementRegionInput.text = "";
+        settlementPixelXInput.text = "";
+        settlementPixelYInput.text = "";
 
         ClearMessages(settlementStatus, settlementOkNameMessage);
         ClearMessages(settlementStatus, settlementOkRegionMessage);

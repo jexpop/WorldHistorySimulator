@@ -122,8 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33e39bb9e0878b46b1e9493862afeae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flagMarker: {fileID: 9110044775724399279, guid: 4b8ee970582cc2e40891051460380b9c, type: 3}
-  capitalSymbol: {fileID: 5603419384567816078, guid: 7ece3bf2350bc0e40ae5bfca98c150c7, type: 3}
+  regionsIdList: 
 --- !u!114 &5398463808522636755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,3 +138,4 @@ MonoBehaviour:
   objectsPrefabs:
   - {fileID: 9110044775724399279, guid: 4b8ee970582cc2e40891051460380b9c, type: 3}
   - {fileID: 5603419384567816078, guid: 7ece3bf2350bc0e40ae5bfca98c150c7, type: 3}
+  - {fileID: 9110044775724399279, guid: 0e287a10e87febf498f7380df7c1367b, type: 3}

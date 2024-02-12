@@ -15,6 +15,7 @@ public class TimeTravelbutton : MonoBehaviour
         float rivers= layerCheckRivers.isOn ? 1f : 0f;
         MapController.Instance.CreateRegions(optionLayer, true, rivers);
         MapController.Instance.ShowCapitalSymbols();
+        MapController.Instance.ShowSettlementMarkers();
     }
 
 }

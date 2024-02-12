@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGameScene: 0
+  STREAMING_FOLDER: 
 --- !u!114 &944459122
 MonoBehaviour:
   m_ObjectHideFlags: 0

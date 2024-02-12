@@ -9,6 +9,8 @@ TagManager:
   - EditorStages
   - EditorPolitySymbols
   - CapitalSymbol
+  - NotLocalization
+  - SettlementMarker
   layers:
   - Default
   - TransparentFX

@@ -230,10 +230,14 @@ public class CsvConnection : Singleton<CsvConnection>
             int settlementKey = int.Parse(row[0], NumberStyles.Integer, CultureInfo.InvariantCulture);
             string settlementName = row[1];
             int regionId = int.Parse(row[2], NumberStyles.Integer, CultureInfo.InvariantCulture);
+            int pixelX = int.Parse(row[3], NumberStyles.Integer, CultureInfo.InvariantCulture);
+            int pixelY = int.Parse(row[4], NumberStyles.Integer, CultureInfo.InvariantCulture);
+
+            Vector2Int pixelCoordinates = new Vector2Int(pixelX, pixelY);
 
             settlements.Add(
                                 settlementKey,
-                                new Settlement(settlementName, regionId)
+                                new Settlement(settlementName, regionId, pixelCoordinates)
              );
         }     
 
@@ -567,11 +571,11 @@ public class CsvConnection : Singleton<CsvConnection>
         string line = lastId.ToString() + ";" + polityName + ";" + "000.000.000" + ";" + policy.ToString();
         WriteSingleLine(path, true, line);
     }
-    public void AddSettlement(string settlementName, int regionId)
+    public void AddSettlement(string settlementName, int regionId, int x, int y)
     {
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
         int lastId = GetLastIdAdded(EditorDataType.Settlement) + 1;
-        string line = lastId.ToString() + ";" + settlementName + ";" + regionId;
+        string line = lastId.ToString() + ";" + settlementName + ";" + regionId.ToString() + ";" + x.ToString() + ";" + y.ToString();
         WriteSingleLine(path, true, line);
     }
     public void AddStage(
@@ -634,10 +638,10 @@ public class CsvConnection : Singleton<CsvConnection>
         int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_POLITIES, polityId.ToString());
         LineChanger(newLine, path,line);
     }
-    public void UpdateSettlement(int settlementId, string settlementName, int regionId)
+    public void UpdateSettlement(int settlementId, string settlementName, int regionId, int settlementX, int settlementY)
     {
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
-        string newLine = settlementId.ToString() + ";" + settlementName + ";" + regionId.ToString();
+        string newLine = settlementId.ToString() + ";" + settlementName + ";" + regionId.ToString() + ";" + settlementX.ToString() + ";" + settlementY.ToString();
         int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS, settlementId.ToString());
         LineChanger(newLine, path, line);
     }
