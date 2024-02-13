@@ -688,7 +688,8 @@ public class MapController : Singleton<MapController>
                         case 2:
                             isCapital = Utilities.EitherInt(h.Stage.Capital_L2, h.Stage.Capital_L1); 
                             polityCapital = GetPolityById(Utilities.EitherInt(h.Stage.PolityParentId_L2, h.Stage.PolityParentId_L1)).Name; 
-                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L2, h.Stage.PolityTypeIdParent_L1)).Name; break;
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L2, h.Stage.PolityTypeIdParent_L1)).Name; 
+                            break;
                         case 3: 
                             isCapital = Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L3, h.Stage.Capital_L2), h.Stage.Capital_L1); 
                             polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L3, h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name; 
@@ -702,10 +703,10 @@ public class MapController : Singleton<MapController>
                         default: isCapital = 0; polityCapital = ""; polityTypeCapital = ""; break;
                     }
                     
-                    if (isCapital == 1 & GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
+                    if (isCapital == 1 && GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
                     {
                         Texture2D currentSymbol = GetSymbolTexture(polityCapital, polityTypeCapital);
-                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region, currentSymbol, region.Settlement.Name);                 
+                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region.Settlement.PixelCoordinates, currentSymbol, region.Settlement.Name);                 
                     }
                 
                 }
@@ -720,6 +721,11 @@ public class MapController : Singleton<MapController>
         // Remove previous markers
         placementObjects.RemoveMapObjects(ParamMap.MAPTAG_SETTLEMENT_MARKER);
 
+        // Current layer selected
+        int currentLevelLayer = GameManager.Instance.UI_GetLayerValue() + 1;
+
+        int isCapital;
+
         // Find regions with marker
         foreach (int id in regionsIdList)
         {
@@ -729,8 +735,25 @@ public class MapController : Singleton<MapController>
             {
                 foreach (HistoryRegionRelation h in history)
                 {
+                    switch (currentLevelLayer)
+                    {
+                        case 1:
+                            isCapital = h.Stage.Capital_L1;
+                            break;
+                        case 2:
+                            isCapital = Utilities.EitherInt(h.Stage.Capital_L2, h.Stage.Capital_L1);
+                            break;
+                        case 3:
+                            isCapital = Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L3, h.Stage.Capital_L2), h.Stage.Capital_L1);
+                            break;
+                        case 4:
+                            isCapital = Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L4, h.Stage.Capital_L3), h.Stage.Capital_L2), h.Stage.Capital_L1);
+                            break;
+                        default: isCapital = 0; break;
+                    }
+
                     Settlement settlement = GetSettlementById(h.SettlementId);
-                    if(settlement != null && settlement.RegionId != 0 && settlement.PixelCoordinates != Vector2.zero & GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
+                    if(isCapital == 0 && settlement != null && settlement.RegionId != 0 && settlement.PixelCoordinates != Vector2.zero & GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
                     {
                         placementObjects.PutMapObjects(ParamMap.MAPTAG_SETTLEMENT_MARKER, settlement.PixelCoordinates, settlement.Name);
                     }

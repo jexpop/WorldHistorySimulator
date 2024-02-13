@@ -44,26 +44,22 @@ public class PlacementObjects : MonoBehaviour
     /// <param name="tag">tag of the object</param>
     /// <param name="region">the object will be put in this region</param>
     /// <param name="texture">optional param to custom images</param>
-    private void PutObjects(string tag, Region region, Texture2D texture = null, string name = null)
+    private void PutObjects(string tag, Region region)
     {
         GameObject instantiatedObject = Instantiate(objectsDictionary[tag]);
         instantiatedObject.transform.position = new Vector3(region.CoordinatesCenter.x, region.CoordinatesCenter.y, -1);
-        if(texture != null)
-        {
-            Sprite symbolSprite= Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 200.0f);
-            instantiatedObject.GetComponentInChildren<SpriteRenderer>().sprite = symbolSprite;
-
-            if(name != null)
-            {
-                instantiatedObject.GetComponentInChildren<OnMouseName>().SetTextName(name);
-            }
-        }
     }
-    private void PutObjects(string tag, Vector2Int coordinates, string name)
+    private void PutObjects(string tag, Vector2Int coordinates, string name, Texture2D texture = null)
     {
         GameObject instantiatedObject = Instantiate(objectsDictionary[tag]);
         instantiatedObject.transform.position = new Vector3(coordinates.x, coordinates.y, -1);
         instantiatedObject.GetComponentInChildren<OnMouseName>().SetTextName(name);
+
+        if (texture != null)
+        {
+            Sprite symbolSprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 200.0f);
+            instantiatedObject.GetComponentInChildren<SpriteRenderer>().sprite = symbolSprite;
+        }
     }
     public void PutMapObjects(string tag, Region region)
     {
@@ -73,9 +69,9 @@ public class PlacementObjects : MonoBehaviour
     {        
         PutObjects(tag, coordinates, name);
     }
-    public void PutMapObjectsCustomSprites(string tag, Region region, Texture2D texture, string name)
+    public void PutMapObjectsCustomSprites(string tag, Vector2Int coordinates, Texture2D texture, string name)
     {
-        PutObjects(tag, region, texture, name);
+        PutObjects(tag, coordinates, name, texture);
     }
 
 }
