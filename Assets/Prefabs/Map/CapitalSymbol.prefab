@@ -119,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 6302638748529496884}
   nameText: {fileID: 2465298126360777787}
+  backgroundRectTransform: {fileID: 1553493317497255806}
 --- !u!61 &8872220198484138129
 BoxCollider2D:
   m_ObjectHideFlags: 0

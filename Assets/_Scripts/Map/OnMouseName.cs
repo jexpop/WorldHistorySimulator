@@ -7,6 +7,7 @@ public class OnMouseName : MonoBehaviour
 
     public GameObject _canvas;
     public TextMeshProUGUI nameText;
+    public RectTransform backgroundRectTransform;
 
     private GameObject textGroup;
 
@@ -31,8 +32,9 @@ public class OnMouseName : MonoBehaviour
     }
 
     public void SetTextName(string name)
-    {
+    {        
         LocalizationController.Instance.AddLocalizeString(nameText, "LOC_TABLE_HIST_SETTLEMENTS", name);
+        backgroundRectTransform.sizeDelta = new Vector2(nameText.text.Length * 3.5f, backgroundRectTransform.sizeDelta.y);
     }
 
 }
