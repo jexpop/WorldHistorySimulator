@@ -11,9 +11,14 @@ SettlementId;SettlementName;RegionId;X;Y
 10;Gaul settlement;0;0;0
 11;Portus Ritupis;3501;20;666
 12;Noviomagus Reginorum;9458;-17;660
-13;Isca Dumnoniorum;13266;-53;656
-16;Verlamion;9239;-10;674
-17;Verulamium;9239;-10;674
-18;Calleva Atrebatum;507;-18;666
+13;Isca Dumnoniorum;13266;-54;656
+16;Verlamion;9239;-11;678
+17;Verulamium;9239;-11;678
+18;Calleva Atrebatum;507;-17;668
 19;Glevum;6378;-35;676
 20;Ratae Corieltauvorum;11279;-18;694
+21;Manduessedum;6270;-23;691
+22;Viroconium;3301;-40;696
+23;Lindum Colonia;9250;-8;705
+24;Eboracum;9269;-17;721
+25;Aquae Sulis;9484;-37;666
