@@ -65,10 +65,10 @@ public class PostItNote : MonoBehaviour
     }
 
     /// **** SET IMAGES WITH THE SYMBOLS ****///
-    public void SetPolityImage(string polityName, string polityTypeName)
+    public void SetPolityImage(string symbolFilename)
     {
         // Get the symbol
-        Texture2D tex = MapController.Instance.GetSymbolTexture(polityName, polityTypeName);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(symbolFilename);
 
         // Transparence
         polityImage.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -76,10 +76,10 @@ public class PostItNote : MonoBehaviour
         //Assigns the texture
         polityImage.texture = tex;
     }
-    public void SetParentImage(string parentName, string parentTypeName)
+    public void SetParentImage(string symbolFilename)
     {
         // Get the symbol
-        Texture2D tex = MapController.Instance.GetSymbolTexture(parentName, parentTypeName);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(symbolFilename);
 
         // Transparence
         parentImage.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -87,10 +87,10 @@ public class PostItNote : MonoBehaviour
         //Assigns the texture
         parentImage.texture = tex;
     }
-    public void SetParentImage2(string parentName2, string parentTypeName2)
+    public void SetParentImage2(string symbolFilename)
     {
         // Get the symbol
-        Texture2D tex = MapController.Instance.GetSymbolTexture(parentName2, parentTypeName2);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(symbolFilename);
 
         // Transparence
         parentImage2.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
@@ -98,10 +98,10 @@ public class PostItNote : MonoBehaviour
         //Assigns the texture
         parentImage2.texture = tex;
     }
-    public void SetParentImage3(string parentName3, string parentTypeName3)
+    public void SetParentImage3(string symbolFilename)
     {
         // Get the symbol
-        Texture2D tex = MapController.Instance.GetSymbolTexture(parentName3, parentTypeName3);
+        Texture2D tex = MapController.Instance.GetSymbolTexture(symbolFilename);
 
         // Transparence
         parentImage3.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);

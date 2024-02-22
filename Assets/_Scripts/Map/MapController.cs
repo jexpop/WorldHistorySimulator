@@ -71,20 +71,29 @@ public class MapController : Singleton<MapController>
         _material.SetFloat("_DrawRiver", 0f);
 
         /* Capital symbols preload */
-        symbolStreamingPath = GameManager.Instance.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;        
-        DirectoryInfo symbolsDir = new DirectoryInfo(symbolStreamingPath);
-        FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
-        foreach (FileInfo symbolFilename in symbolsInfo)
+        symbolStreamingPath = GameManager.Instance.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;
+        // Subdirectories
+        string[] directories = Directory.GetDirectories(symbolStreamingPath);
+        for(int i=0; i<directories.Length; i++)
         {
-            //Converts desired path into byte array
-            byte[] pngBytes = File.ReadAllBytes(symbolStreamingPath + symbolFilename.Name);
-            //Creates texture and loads byte array data to create image
-            Texture2D symbolTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-            symbolTex.LoadImage(pngBytes);
-            // Add image to symbols dictioanry
-            SymbolTexture symbolTexture = new SymbolTexture(symbolFilename.Name, symbolTex);
-            symbolsTexture.Add(symbolTexture);
+
+            // Files in the subdirectory
+            DirectoryInfo symbolsDir = new DirectoryInfo(directories[i] + "/");
+            FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
+            foreach (FileInfo symbolFilename in symbolsInfo)
+            {
+                //Converts desired path into byte array
+                byte[] pngBytes = File.ReadAllBytes(directories[i] + "/" + symbolFilename.Name);
+                //Creates texture and loads byte array data to create image
+                Texture2D symbolTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                symbolTex.LoadImage(pngBytes);
+                // Add image to symbols dictioanry
+                SymbolTexture symbolTexture = new SymbolTexture(symbolFilename.Name, symbolTex);
+                symbolsTexture.Add(symbolTexture);
+            }
+
         }
+
     }
 
     void Update()
@@ -110,7 +119,13 @@ public class MapController : Singleton<MapController>
                 Color32 remapColor = remapArr[x + y * width];
 
                 Region region = regions[OnlyRGBColorByPosition(prevXY.x, prevXY.y)];
-                
+
+                // TO DO - Check PostIT hidden in the menu mode
+                if (GameManager.Instance.UI_GetUIStatus() == UIStatus.TopPanel)
+                {
+                    GameManager.Instance.UI_PostItPolityVisibility(mousePos, false);
+                }
+
                 // Show a post it note with information of the polity               
                 if (GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing || GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote)
                 {
@@ -653,9 +668,9 @@ public class MapController : Singleton<MapController>
     }
 
     /// SYMBOLS
-    public Texture2D GetSymbolTexture(string polityCapital, string polityTypeCapital)
+    public Texture2D GetSymbolTexture(string symbolFilename)
     {
-        string currentSymbolName = Utilities.PascalStrings(polityCapital + "_" + polityTypeCapital) + ".png";
+        string currentSymbolName = Utilities.PascalStrings(symbolFilename) + ".png";
         return symbolsTexture.Where(s => s.Name == currentSymbolName).Select(s => s.Texture).FirstOrDefault();
     }
     public void ShowCapitalSymbols()
@@ -705,7 +720,10 @@ public class MapController : Singleton<MapController>
                     
                     if (isCapital == 1 && GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
                     {
-                        Texture2D currentSymbol = GetSymbolTexture(polityCapital, polityTypeCapital);
+                        string startEra = h.Stage.StartDate > 0 ? "A" : "B";
+                        string endEra = h.Stage.EndDate > 0 ? "A" : "B";
+                        string symbolFilename = h.Stage.IsSymbolForDate == 0 ? polityCapital + "_" + polityTypeCapital : polityCapital + "_" + polityTypeCapital + "_" + startEra + h.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + h.Stage.EndDate.ToString().PadLeft(8, '0');
+                        Texture2D currentSymbol = GetSymbolTexture(symbolFilename);
                         placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region.Settlement.PixelCoordinates, currentSymbol, region.Settlement.Name);                 
                     }
                 

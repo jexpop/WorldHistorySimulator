@@ -546,7 +546,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             
             // Get current stage to fill the PostIt
             HistoryRegionRelation history = GetCurrentStageByRegion(region);
-            
+            string startEra = history.Stage.StartDate > 0 ? "A" : "B";
+            string endEra = history.Stage.EndDate > 0 ? "A": "B";
+
             // Get polity names
             Polity polityL4 = history.Stage.PolityParentId_L4==0?null:GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L4);
             Polity polityL3 = history.Stage.PolityParentId_L3 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L3);
@@ -561,8 +563,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                 postItNote.SetPolityType("LOC_TABLE_HIST_POLITIES_TYPE", polityType.Name);
                 // Main polity
                 postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL4.Name);
-                // Image
-                postItNote.SetPolityImage(polityL4.Name, polityType.Name);
+                // Image 
+                string symbolFilenameL4 = history.Stage.IsSymbolForDate == 0 ? polityL4.Name + "_" + polityType.Name : polityL4.Name + "_" + polityType.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                postItNote.SetPolityImage(symbolFilenameL4);
                 
                 // Parent 1
                 if (polityL3 != null)
@@ -573,7 +576,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     postItNote.SetParentVisibility(true);
                     postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL3.Name);
                     // Image Parent 1
-                    postItNote.SetParentImage(polityL3.Name, polityTypeL3.Name);
+                    string symbolFilenameL41 = history.Stage.IsSymbolForDate == 0 ? polityL3.Name + "_" + polityTypeL3.Name : polityL3.Name + "_" + polityTypeL3.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                    postItNote.SetParentImage(symbolFilenameL41);
                 }
                 else
                 {
@@ -589,7 +593,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     postItNote.SetParentVisibility2(true);
                     postItNote.SetParent2("LOC_TABLE_HIST_POLITIES", polityL2.Name);
                     // Image Parent 2
-                    postItNote.SetParentImage2(polityL2.Name, polityTypeL2.Name);
+                    string symbolFilenameL42 = history.Stage.IsSymbolForDate == 0 ? polityL2.Name + "_" + polityTypeL2.Name : polityL2.Name + "_" + polityTypeL2.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                    postItNote.SetParentImage2(symbolFilenameL42);
                 }
                 else
                 {
@@ -605,7 +610,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     postItNote.SetParentVisibility3(true);
                     postItNote.SetParent3("LOC_TABLE_HIST_POLITIES", polityL3.Name);
                     // Image Parent 3
-                    postItNote.SetParentImage3(polityL3.Name, polityTypeL3.Name);
+                    string symbolFilenameL43 = history.Stage.IsSymbolForDate == 0 ? polityL3.Name + "_" + polityTypeL3.Name : polityL3.Name + "_" + polityTypeL3.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                    postItNote.SetParentImage3(symbolFilenameL43);
                 }
                 else
                 {
@@ -622,7 +628,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                 // Main polity
                 postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL3.Name);
                 // Image
-                postItNote.SetPolityImage(polityL3.Name, polityType.Name);
+                string symbolFilenameL3 = history.Stage.IsSymbolForDate == 0 ? polityL3.Name + "_" + polityType.Name : polityL3.Name + "_" + polityType.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                postItNote.SetPolityImage(symbolFilenameL3);
 
                 // Parent 1
                 if (polityL2 != null)
@@ -633,7 +640,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     postItNote.SetParentVisibility(true);
                     postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL2.Name);
                     // Image Parent 1
-                    postItNote.SetParentImage(polityL2.Name, polityTypeL2.Name);
+                    string symbolFilenameL31 = history.Stage.IsSymbolForDate == 0 ? polityL2.Name + "_" + polityTypeL2.Name : polityL2.Name + "_" + polityTypeL2.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                    postItNote.SetParentImage(symbolFilenameL31);
                 }
                 else
                 {
@@ -649,7 +657,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     postItNote.SetParentVisibility2(true);
                     postItNote.SetParent2("LOC_TABLE_HIST_POLITIES", polityL1.Name);
                     // Image Parent 2
-                    postItNote.SetParentImage2(polityL1.Name, polityTypeL1.Name);
+                    string symbolFilenameL32 = history.Stage.IsSymbolForDate == 0 ? polityL1.Name + "_" + polityTypeL1.Name : polityL1.Name + "_" + polityTypeL1.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                    postItNote.SetParentImage2(symbolFilenameL32);
                 }
                 else
                 {
@@ -668,7 +677,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                 // Main polity
                 postItNote.SetPolity("LOC_TABLE_HIST_POLITIES", polityL2.Name);
                 // Image
-                postItNote.SetPolityImage(polityL2.Name, polityType.Name);
+                string symbolFilenameL2 = history.Stage.IsSymbolForDate == 0 ? polityL2.Name + "_" + polityType.Name : polityL2.Name + "_" + polityType.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                postItNote.SetPolityImage(symbolFilenameL2);
 
                 // Parent 1
                 if (polityL1 != null)
@@ -679,7 +689,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     postItNote.SetParentVisibility(true);
                     postItNote.SetParent("LOC_TABLE_HIST_POLITIES", polityL1.Name);
                     // Image Parent 1
-                    postItNote.SetParentImage(polityL1.Name, polityTypeL1.Name);
+                    string symbolFilenameL21 = history.Stage.IsSymbolForDate == 0 ? polityL1.Name + "_" + polityTypeL1.Name : polityL1.Name + "_" + polityTypeL1.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                    postItNote.SetParentImage(symbolFilenameL21);
                 }
                 else
                 {
@@ -702,9 +713,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                 postItNote.SetParentVisibility(false);
                 postItNote.SetParentVisibility2(false);
                 postItNote.SetParentVisibility3(false);
-
                 // Image
-                postItNote.SetPolityImage(polityL1.Name, polityType.Name);
+                string symbolFilenameL1 = history.Stage.IsSymbolForDate == 0 ? polityL1.Name + "_" + polityType.Name : polityL1.Name + "_" + polityType.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                postItNote.SetPolityImage(symbolFilenameL1);
             }
                 
             // Policy

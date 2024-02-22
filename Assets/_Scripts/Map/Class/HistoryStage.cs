@@ -18,6 +18,7 @@ public class HistoryStage
     private int _policyId;
     private int _policyTypeId;
     private int _policyCapital;
+    private int _isSymbolForDate;
 
     public int StartDate { get { return _startDate; } set { _startDate = value; } }
     public int EndDate { get { return _endDate; } set { _endDate = value; } }
@@ -36,6 +37,7 @@ public class HistoryStage
     public int PolicyId { get { return _policyId; } set { _policyId = value; } }
     public int PolicyTypeId { get { return _policyTypeId; } set { _policyTypeId = value; } }
     public int PolicyCapital { get { return _policyCapital; } set { _policyCapital = value; } }
+    public int IsSymbolForDate { get { return _isSymbolForDate; } set { _isSymbolForDate = value; } }
 
 
     public HistoryStage(
@@ -43,7 +45,7 @@ public class HistoryStage
                                         int polityParentId_L1, int polityParentId_L2, int polityParentId_L3, int polityParentId_L4, 
                                         int polityTypeIdParent_L1, int polityTypeIdParent_L2, int polityTypeIdParent_L3, int polityTypeIdParent_L4, 
                                         int capital_L1, int capital_L2, int capital_L3, int capital_L4,
-                                        int policyPolityId, int policyPolityTypeId, int policyCapital)
+                                        int policyPolityId, int policyPolityTypeId, int policyCapital, int isSymbolForDate)
     {
         this._startDate = startDate;
         this._endDate = endDate;
@@ -62,6 +64,7 @@ public class HistoryStage
         this._policyId = policyPolityId;
         this._policyTypeId = policyPolityTypeId;
         this._policyCapital = policyCapital;
+        this._isSymbolForDate = isSymbolForDate;
     }
 
 }

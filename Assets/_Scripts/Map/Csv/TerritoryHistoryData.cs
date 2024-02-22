@@ -6,7 +6,7 @@ public class TerritoryHistoryData
     private string _l1_PolityParentId, _l2_PolityParentId, _l3_PolityParentId, _l4_PolityParentId,
         _l1_PolityTypeIdParent, _l2_PolityTypeIdParent, _l3_PolityTypeIdParent, _l4_PolityTypeIdParent,
         _l1_PolityCapital, _l2_PolityCapital, _l3_PolityCapital, _l4_PolityCapital,
-        _policyPolityId, _policyPolityTypeId, _policyCapital;
+        _policyPolityId, _policyPolityTypeId, _policyCapital, _isSymbolForDate;
 
     public string StageId { get { return _stageId; } set { _stageId = value; } }
     public string RegionId { get { return _regionId; } set { _regionId = value; } }
@@ -28,12 +28,13 @@ public class TerritoryHistoryData
     public string PolicyPolityId { get { return _policyPolityId; } set { _policyPolityId = value; } }
     public string PolicyPolityTypeId { get { return _policyPolityTypeId; } set { _policyPolityTypeId = value; } }
     public string PolicyCapital { get { return _policyCapital; } set { _policyCapital = value; } }
+    public string IsSymbolForDate { get { return   _isSymbolForDate; } set { _isSymbolForDate = value; } }
 
     public TerritoryHistoryData(string stageId, string regionId, string settlementId, int startDate, int endDate,
         string l1_PolityParentId, string l2_PolityParentId, string l3_PolityParentId, string l4_PolityParentId,
         string l1_PolityTypeIdParent, string l2_PolityTypeIdParent, string l3_PolityTypeIdParent, string l4_PolityTypeIdParent,
         string l1_PolityCapital, string l2_PolityCapital, string l3_PolityCapital, string l4_PolityCapital,
-        string policyPolityId, string policyPolityTypeId, string policyCapital) 
+        string policyPolityId, string policyPolityTypeId, string policyCapital, string isSymbolForDate) 
     {
         this._stageId = stageId;
         this._regionId = regionId;
@@ -55,6 +56,7 @@ public class TerritoryHistoryData
         this._policyPolityId = policyPolityId;
         this._policyPolityTypeId = policyPolityTypeId;
         this._policyCapital = policyCapital;
+        this.IsSymbolForDate = isSymbolForDate;
     }
 
 }

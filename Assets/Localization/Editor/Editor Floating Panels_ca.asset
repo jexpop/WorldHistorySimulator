@@ -66,6 +66,10 @@ MonoBehaviour:
     m_Localized: Nom del assentament
     m_Metadata:
       m_Items: []
+  - m_Id: 154680373320663040
+    m_Localized: "S\xEDmbol"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

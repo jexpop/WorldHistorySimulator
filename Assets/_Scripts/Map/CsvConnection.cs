@@ -119,7 +119,7 @@ public class CsvConnection : Singleton<CsvConnection>
             int endDate = int.Parse(row[4], NumberStyles.Integer, CultureInfo.InvariantCulture);
 
             TerritoryHistoryData chronologyData =
-                new TerritoryHistoryData(row[0], row[1], row[2], startDate, endDate, row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19]);
+                new TerritoryHistoryData(row[0], row[1], row[2], startDate, endDate, row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19], row[20]);
 
             chronology.Add(chronologyData);
         }
@@ -367,12 +367,15 @@ public class CsvConnection : Singleton<CsvConnection>
                     int policyPolityId = string.IsNullOrWhiteSpace(ch.PolicyPolityId) ? 0 : int.Parse(ch.PolicyPolityId, NumberStyles.Integer, CultureInfo.InvariantCulture);
                     int policyPolityTypeId = string.IsNullOrWhiteSpace(ch.PolicyPolityTypeId) ? 0 : int.Parse(ch.PolicyPolityTypeId, NumberStyles.Integer, CultureInfo.InvariantCulture);
                     int policyCapital = string.IsNullOrWhiteSpace(ch.PolicyCapital) ? 0 : int.Parse(ch.PolicyCapital, NumberStyles.Integer, CultureInfo.InvariantCulture);
+                    int isSymbolForDate= string.IsNullOrWhiteSpace(ch.IsSymbolForDate) ? 0 : int.Parse(ch.IsSymbolForDate, NumberStyles.Integer, CultureInfo.InvariantCulture);
+
                     HistoryStage stage = new HistoryStage(
                                         startDate, endDate,
                                         polityParentId_L1, polityParentId_L2, polityParentId_L3, polityParentId_L4,
                                         polityTypeIdParent_L1, polityTypeIdParent_L2, polityTypeIdParent_L3, polityTypeIdParent_L4,
                                         capital_L1, capital_L2, capital_L3, capital_L4,
-                                        policyPolityId, policyPolityTypeId, policyCapital
+                                        policyPolityId, policyPolityTypeId, policyCapital,
+                                        isSymbolForDate
                     );
                     HistoryRegionRelation historyRegion = new HistoryRegionRelation(stageId, stageSettlementId, stage);
                     history.Add(historyRegion);
@@ -434,12 +437,15 @@ public class CsvConnection : Singleton<CsvConnection>
                 int policyPolityId = string.IsNullOrWhiteSpace(ch.PolicyPolityId) ? 0 : int.Parse(ch.PolicyPolityId, NumberStyles.Integer, CultureInfo.InvariantCulture);
                 int policyPolityTypeId = string.IsNullOrWhiteSpace(ch.PolicyPolityTypeId) ? 0 : int.Parse(ch.PolicyPolityTypeId, NumberStyles.Integer, CultureInfo.InvariantCulture);
                 int policyCapital = string.IsNullOrWhiteSpace(ch.PolicyCapital) ? 0 : int.Parse(ch.PolicyCapital, NumberStyles.Integer, CultureInfo.InvariantCulture);
+                int isSymbolForDate = string.IsNullOrWhiteSpace(ch.IsSymbolForDate) ? 0 : int.Parse(ch.IsSymbolForDate, NumberStyles.Integer, CultureInfo.InvariantCulture);
+
                 HistoryStage stage = new HistoryStage(
                                     startDate, endDate,
                                     polityParentId_L1, polityParentId_L2, polityParentId_L3, polityParentId_L4,
                                     polityTypeIdParent_L1, polityTypeIdParent_L2, polityTypeIdParent_L3, polityTypeIdParent_L4,
                                     capital_L1, capital_L2, capital_L3, capital_L4,
-                                    policyPolityId, policyPolityTypeId, policyCapital
+                                    policyPolityId, policyPolityTypeId, policyCapital,
+                                    isSymbolForDate
                 );
                 HistoryRegionRelation historyRegion = new HistoryRegionRelation(stageId, stageSettlementId, stage);
                 history.Add(historyRegion);
@@ -584,7 +590,7 @@ public class CsvConnection : Singleton<CsvConnection>
                         int polityParentId_L1, int polityParentId_L2, int polityParentId_L3, int polityParentId_L4,
                         int polityTypeIdParent_L1, int polityTypeIdParent_L2, int polityTypeIdParent_L3, int polityTypeIdParent_L4,
                         int polityCapital_L1, int polityCapital_L2, int polityCapital_L3, int polityCapital_L4,
-                        int policyPolityId, int policyPolityTypeId, int policyCapital)
+                        int policyPolityId, int policyPolityTypeId, int policyCapital, int isSymbolForDate)
     {
         string qPolityParentId_L1 = polityParentId_L1 == 0 ? "" : polityParentId_L1.ToString();
         string qPolityParentId_L2 = polityParentId_L2 == 0 ? "" : polityParentId_L2.ToString();
@@ -601,6 +607,7 @@ public class CsvConnection : Singleton<CsvConnection>
         string qPolicyPolityId = policyPolityId == 0 ? "" : policyPolityId.ToString();
         string qPolicyPolityTypeId = policyPolityTypeId == 0 ? "" : policyPolityTypeId.ToString();
         string qPolicyCapital = policyCapital == 0 ? "" : policyCapital.ToString();
+        string qIsSymbolForDate = isSymbolForDate == 0 ? "0" : "1";
 
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
         int lastId = GetLastIdAdded(EditorDataType.StagePanel) + 1;
@@ -623,7 +630,8 @@ public class CsvConnection : Singleton<CsvConnection>
                             + qPolityCapital_L4 + ";"
                             + qPolicyPolityId + ";"
                             + qPolicyPolityTypeId + ";"
-                            + qPolicyCapital;
+                            + qPolicyCapital + ";"
+                            + qIsSymbolForDate;
         WriteSingleLine(path, true, line);
     }
 
@@ -652,7 +660,7 @@ public class CsvConnection : Singleton<CsvConnection>
                         int polityTypeIdParent_L1, int polityTypeIdParent_L2, int polityTypeIdParent_L3, int polityTypeIdParent_L4,
                         int polityCapital_L1, int polityCapital_L2, int polityCapital_L3, int polityCapital_L4,
                         int policyPolityId, int policyPolityTypeId, int policyCapital,
-                        int regionId, int settlementId
+                        int regionId, int settlementId, int isSymbolForDate
         )
     {
         string qPolityParentId_L1 = polityParentId_L1 == 0 ? "" : polityParentId_L1.ToString();
@@ -670,6 +678,7 @@ public class CsvConnection : Singleton<CsvConnection>
         string qPolicyPolityId = policyPolityId == 0 ? "" : policyPolityId.ToString();
         string qPolicyPolityTypeId = policyPolityTypeId == 0 ? "" : policyPolityTypeId.ToString();
         string qPolicyCapital = policyCapital == 0 ? "" : policyCapital.ToString();
+        string qIsSymbolForDate = isSymbolForDate == 0 ? "0" : "1";
 
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY;
         string newLine = stageId.ToString() + ";"
@@ -691,7 +700,8 @@ public class CsvConnection : Singleton<CsvConnection>
                                     + qPolityCapital_L4 + ";"
                                     + qPolicyPolityId + ";"
                                     + qPolicyPolityTypeId + ";"
-                                    + qPolicyCapital;
+                                    + qPolicyCapital + ";"
+                                    + qIsSymbolForDate;
         int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY, stageId.ToString());
         LineChanger(newLine, path, line);
     }

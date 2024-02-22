@@ -63,6 +63,10 @@ MonoBehaviour:
     m_Key: SettlementName
     m_Metadata:
       m_Items: []
+  - m_Id: 154680373320663040
+    m_Key: Symbol
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

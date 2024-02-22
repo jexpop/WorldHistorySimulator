@@ -13,6 +13,7 @@ public class StageFloatingPanel : MonoBehaviour
     [Header("Dates of the stage")]
     public TMP_InputField dFromDate, mFromDate, yFromDate;
     public TMP_InputField dToDate, mToDate, yToDate;
+    public Toggle isSymbolForDate;
 
     [Header("Components of the owner's parent Level 1")]
     public TMP_Dropdown parentTypeDropdown_L1;
@@ -119,6 +120,9 @@ public class StageFloatingPanel : MonoBehaviour
             mToDate.text = toDate.Substring(toDateLength, 2).TrimStart(new Char[] { '0' });
             yToDate.text = toDate.Substring(0, toDateLength).TrimStart(new Char[] { '0' });
 
+            // Symbol date
+            isSymbolForDate.isOn = historyStage.IsSymbolForDate == 1 ? true : false;
+
             // Parent 
             parentTypeDropdown_L1.value = GetDropdownValue(parentTypeEditorDropdown_L1, historyStage.PolityTypeIdParent_L1, false, false);
 
@@ -157,6 +161,9 @@ public class StageFloatingPanel : MonoBehaviour
             dToDate.text = "31";
             mToDate.text = "12";
             yToDate.text = currentYear.Substring(0, yearLength).TrimStart(new Char[] { '0' });
+
+            // Symbol date
+            isSymbolForDate.isOn = false;
 
             // Parent
             parentTypeEditorDropdown_L1.LoadOptions(false);
@@ -286,7 +293,8 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     isCapital_L4.isOn == true ? 1 : 0,
                                                                                     GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
                                                                                     GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
-                                                                                    isCapital_Policy.isOn == true ? 1 : 0
+                                                                                    isCapital_Policy.isOn == true ? 1 : 0,
+                                                                                    isSymbolForDate.isOn == true ? 1 : 0
                                                                                 );
                     
                     // Add data in the dictionary of the stages
@@ -307,7 +315,8 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     isCapital_L4.isOn == true ? 1 : 0,
                                                                                     GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
                                                                                     GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
-                                                                                    isCapital_Policy.isOn == true ? 1 : 0
+                                                                                    isCapital_Policy.isOn == true ? 1 : 0,
+                                                                                    isSymbolForDate.isOn == true ? 1 : 0
                         );
                     HistoryRegionRelation history = new HistoryRegionRelation(
                                                                                     CsvConnection.Instance.GetLastIdAdded(EditorDataType.StagePanel),
@@ -354,7 +363,8 @@ public class StageFloatingPanel : MonoBehaviour
                                                                 GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
                                                                 GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
                                                                 isCapital_Policy.isOn == true ? 1 : 0,
-                                                                regionId, settlementId
+                                                                regionId, settlementId,
+                                                                isSymbolForDate.isOn == true ? 1 : 0
                                                             );
 
                     // Update data in the dictionary of the stages
@@ -376,6 +386,7 @@ public class StageFloatingPanel : MonoBehaviour
                     stage.PolicyId = GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true);
                     stage.PolicyTypeId = GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true);
                     stage.PolicyCapital = isCapital_Policy.isOn == true ? 1 : 0;
+                    stage.IsSymbolForDate = isSymbolForDate.isOn == true ? 1 : 0;
 
                     // Refreshing data                   
                     if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
