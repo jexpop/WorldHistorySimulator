@@ -70,6 +70,7 @@ public class MapController : Singleton<MapController>
         mainTex = _material.GetTexture("_RegionTex") as Texture2D;
         _material.SetFloat("_DrawRiver", 0f);
 
+
         /* Capital symbols preload */
         symbolStreamingPath = GameManager.Instance.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;
         // Subdirectories
@@ -82,19 +83,25 @@ public class MapController : Singleton<MapController>
             FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
             foreach (FileInfo symbolFilename in symbolsInfo)
             {
-                //Converts desired path into byte array
-                byte[] pngBytes = File.ReadAllBytes(directories[i] + "/" + symbolFilename.Name);
-                //Creates texture and loads byte array data to create image
-                Texture2D symbolTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                symbolTex.LoadImage(pngBytes);
-                // Add image to symbols dictioanry
-                SymbolTexture symbolTexture = new SymbolTexture(symbolFilename.Name, symbolTex);
-                symbolsTexture.Add(symbolTexture);
+                AddCapitalSymobl(directories[i] + "/", symbolFilename.Name);
             }
 
         }
 
     }
+
+    private void AddCapitalSymobl(string symbolPpath, string symbolName)
+    {
+        //Converts desired path into byte array
+        byte[] pngBytes = File.ReadAllBytes(symbolPpath + symbolName);
+        //Creates texture and loads byte array data to create image
+        Texture2D symbolTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        symbolTex.LoadImage(pngBytes);
+        // Add image to symbols dictioanry
+        SymbolTexture symbolTexture = new SymbolTexture(symbolName, symbolTex);
+        symbolsTexture.Add(symbolTexture);
+    }
+
 
     void Update()
     {

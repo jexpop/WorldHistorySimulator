@@ -11,7 +11,6 @@ public class PolitySymbolPanel : MonoBehaviour
 
     public TextMeshProUGUI polityName;
     public TextMeshProUGUI polityTypeName;
-    public RawImage symbolImage;
     public TMP_InputField symbolId;
 
 
@@ -21,7 +20,6 @@ public class PolitySymbolPanel : MonoBehaviour
         SetPolity(polityId);
         SetPolityType(polityTypeId);
         SetId(polityId, polityTypeId);
-        SetImage();
     }
 
     private void SetPolity(int polityId)
@@ -34,15 +32,6 @@ public class PolitySymbolPanel : MonoBehaviour
     {
         polityTypeName.text = MapController.Instance.GetPolityTypeById(polityTypeId).Name;
         LocalizationController.Instance.AddLocalizeString(polityTypeName, "LOC_TABLE_HIST_POLITIES_TYPE", polityTypeName.text);
-    }
-
-    private void SetImage()
-    {
-        // Get image's path
-        string imagePath = Application.streamingAssetsPath + ParamResources.SYMBOLS_FOLDER + symbolId.text + ".png";
-
-        //Assigns the texture
-        symbolImage.texture = Utilities.GetTexture2D(imagePath);
     }
 
     private void SetId(int polityId, int polityTypeId)

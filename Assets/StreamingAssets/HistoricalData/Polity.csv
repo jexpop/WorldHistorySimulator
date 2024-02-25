@@ -40,7 +40,7 @@ PolityId;PolityName;RGB;PolicyId
 42;West Breifne;000.000.000;1
 43;Ciannachta;000.000.000;1
 44;Brega;000.000.000;1
-45;Meath;000.000.000;1
+45;Mide;000.000.000;1
 46;Osraige;000.000.000;1
 47;Munster;000.000.000;1
 48;Dublin;000.000.000;1
@@ -91,3 +91,6 @@ PolityId;PolityName;RGB;PolicyId
 94;Caledonii;000.000.000;1
 95;Lugi;000.000.000;1
 96;Dál Riata;000.000.000;1
+97;Britannia Inferior;000.000.000;1
+98;Flavia Caesariensis;000.000.000;1
+99;Western Rome;000.000.000;1

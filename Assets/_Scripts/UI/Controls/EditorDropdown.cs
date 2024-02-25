@@ -19,7 +19,7 @@ public class EditorDropdown : MonoBehaviour
 
     private BidirectionalDictionary<int, int> optionsIds;
 
-
+    
     private class OptionsOrdered
     {
         private int _key;
@@ -38,7 +38,7 @@ public class EditorDropdown : MonoBehaviour
         }
     }
 
-
+    
     private void GetOptions(bool optional)
     {
 
@@ -88,7 +88,7 @@ public class EditorDropdown : MonoBehaviour
                 OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name));
                 individualOptionsOrdered.Add(optionOrdered);
             }
-
+            
             // Order the list
             List<OptionsOrdered> individualSortedList = individualOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
 
@@ -150,5 +150,5 @@ public class EditorDropdown : MonoBehaviour
         LoadOptions(optional);
         return optionsIds; 
     }
-
+        
 }
