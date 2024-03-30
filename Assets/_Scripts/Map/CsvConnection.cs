@@ -447,6 +447,7 @@ public class CsvConnection : Singleton<CsvConnection>
                                     policyPolityId, policyPolityTypeId, policyCapital,
                                     isSymbolForDate
                 );
+            
                 HistoryRegionRelation historyRegion = new HistoryRegionRelation(stageId, stageSettlementId, stage);
                 history.Add(historyRegion);
             }

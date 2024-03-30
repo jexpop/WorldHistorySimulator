@@ -3976,7 +3976,7 @@ GameObject:
   - component: {fileID: 8027333196389103385}
   m_Layer: 5
   m_Name: EditorStagePanel
-  m_TagString: EditorStages
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

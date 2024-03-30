@@ -113,4 +113,29 @@ public static class Utilities
         }
     }
 
+    /// <summary>
+    /// Convert format date (YYYYMMDD) to (DD/MM/YYYY)
+    /// </summary>
+    /// <param name="date">YYYYMMDD</param>
+    /// <returns>DD/MM/YYYY</returns>
+    public static string FormatedDate(int date)
+    {
+        string dateText = date.ToString();
+
+        string newDateText = "";
+        if (dateText[..1] == "-")
+        {
+            int dataLong = dateText.Length - 1;
+            dateText ="-"+dateText.Substring(1, dataLong).PadLeft(8, '0');
+            newDateText = "aec " + dateText.Substring(7, 2) + "/" + dateText.Substring(5, 2) + "/" + dateText.Substring(1, 4).TrimStart('0');
+        }
+        else
+        {
+            dateText = dateText.PadLeft(8, '0');
+            newDateText = dateText.Substring(6, 2) + "/" + dateText.Substring(4, 2) + "/" + dateText.Substring(0, 4).TrimStart('0');
+        }
+
+        return newDateText;
+    }
+
 }

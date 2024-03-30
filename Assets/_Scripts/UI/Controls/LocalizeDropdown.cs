@@ -31,6 +31,12 @@ public class LocalizeDropdown : MonoBehaviour
         dropdownOptions.Add(localized);
     }
 
+    public void ClearOptionsList()
+    {
+        dropdownOptions.Clear();
+    }
+
+
     Locale currentLocale;
     private void ChangedLocale(Locale newLocale)
     {

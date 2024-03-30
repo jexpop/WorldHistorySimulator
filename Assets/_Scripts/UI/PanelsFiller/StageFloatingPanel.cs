@@ -87,6 +87,7 @@ public class StageFloatingPanel : MonoBehaviour
 
     private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option)
     {
+
         if (isForward)
         {
             return dropdown.GetOptionsIds(option).Forward[id];
@@ -274,6 +275,7 @@ public class StageFloatingPanel : MonoBehaviour
                 }
                 else
                 {
+
                     CsvConnection.Instance.AddStage( 
                                                                                     regionId,
                                                                                     settlementId,
@@ -296,7 +298,7 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     isCapital_Policy.isOn == true ? 1 : 0,
                                                                                     isSymbolForDate.isOn == true ? 1 : 0
                                                                                 );
-                    
+
                     // Add data in the dictionary of the stages
                     HistoryStage stage = new HistoryStage(
                                                                                     Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
@@ -324,7 +326,7 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     stage
                         );
                     MapController.Instance.GetRegionById(regionId).History.Add(history);
-                    
+
                     // Refreshing data                   
                     if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                     {
@@ -366,7 +368,7 @@ public class StageFloatingPanel : MonoBehaviour
                                                                 regionId, settlementId,
                                                                 isSymbolForDate.isOn == true ? 1 : 0
                                                             );
-
+                   
                     // Update data in the dictionary of the stages
                     HistoryStage stage = MapController.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x.Stage).FirstOrDefault();
                     stage.StartDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
@@ -387,7 +389,7 @@ public class StageFloatingPanel : MonoBehaviour
                     stage.PolicyTypeId = GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true);
                     stage.PolicyCapital = isCapital_Policy.isOn == true ? 1 : 0;
                     stage.IsSymbolForDate = isSymbolForDate.isOn == true ? 1 : 0;
-
+                    
                     // Refreshing data                   
                     if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                     {

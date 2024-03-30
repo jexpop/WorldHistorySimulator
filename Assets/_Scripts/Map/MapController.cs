@@ -420,7 +420,7 @@ public class MapController : Singleton<MapController>
         seaTex.SetPixels32(waterArr);
         seaTex.Apply(false);
         _material.SetTexture("_SeaTex", seaTex);
-        
+
         // Palette texture update
         paletteTex.Apply(false);
     }

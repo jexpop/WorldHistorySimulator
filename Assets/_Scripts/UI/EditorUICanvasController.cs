@@ -92,6 +92,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
     // Panel of the regions - Floating panels
     private GameObject tmpEditorRegionPanel, tmpEditorHistoryPanel, tmpPostItNote;
+    private HistoryFloatingPanel tmpHistoryFloatingPanel;
     private PostItNote postItNote;
     private RectTransform postItNoteRectTransform;
     private float regionPanelxPositionLast, regionPanelyPositionLast;
@@ -105,6 +106,13 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         postItNote = tmpPostItNote.GetComponent<PostItNote>();
         postItNoteRectTransform = tmpPostItNote.GetComponent<RectTransform>();
         tmpPostItNote.SetActive(false);
+
+        // Initialise history panel editor
+        tmpEditorHistoryPanel = Instantiate(editorHistoryPanel);
+        tmpEditorHistoryPanel.transform.SetParent(this.transform.parent);
+        tmpEditorHistoryPanel.SetActive(false);
+        tmpHistoryFloatingPanel = tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>();
+
     }
 
     /// <summary>
@@ -380,19 +388,15 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     /// </summary>
     public void ToggleChangeOwner(int currentRegionId)
     {
-        if (tmpEditorHistoryPanel == null)
+        
+        tmpEditorHistoryPanel.SetActive(!tmpEditorHistoryPanel.activeInHierarchy);
+
+        if (tmpEditorHistoryPanel.activeInHierarchy)
         {
-
-            // New panel
-            tmpEditorHistoryPanel = Instantiate(editorHistoryPanel);
-
-            // Set parent
-            tmpEditorHistoryPanel.transform.SetParent(this.transform.parent);
-
             // Set status
             uiStatus = UIStatus.OwnerSelection;
             tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_CLOSE);
-                        
+
             // Get/Set size of the panels       
             float xPanel = tmpEditorRegionPanel.transform.position.x;
             float yPanel = tmpEditorRegionPanel.transform.position.y;
@@ -404,12 +408,21 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             float y = yPanel < Screen.height / 2 ? yPanel + hPanel : yPanel - hPanel;
             tmpEditorHistoryPanel.transform.position = new Vector3(x, y, zPanel);
 
+            bool isFisrtSettlement = true;
+
             // Building list of settlements
             foreach (KeyValuePair<int, Settlement> s in GameManager.Instance.MAP_GetSettlements())
             {
-                if(s.Value.RegionId==currentRegionId || s.Value.RegionId == 0)
+                if (s.Value.RegionId == currentRegionId || s.Value.RegionId == 0)
                 {
                     Settlement currentSettlement = s.Value;
+
+                    // First settlement for default
+                    if (isFisrtSettlement)
+                    {
+                        tmpHistoryFloatingPanel.OnClickButtonEvent(currentRegionId, s);
+                        isFisrtSettlement = false;
+                    }                    
 
                     // Instantiate buttons
                     GameObject button = Instantiate(editorHistoryButton);
@@ -418,10 +431,10 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                     string settlementName = currentSettlement.Name;
 
                     // Add the new button
-                    tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>().AddSettlementButton(button, "LOC_TABLE_HIST_SETTLEMENTS", settlementName);
-
+                    tmpHistoryFloatingPanel.AddSettlementButton(button, "LOC_TABLE_HIST_SETTLEMENTS", settlementName);
+        
                     //*// OnClick() event //*//                
-                    button.GetComponent<Button>().onClick.AddListener(delegate { tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>().OnClickButtonEvent(currentRegionId, s); });
+                    button.GetComponent<Button>().onClick.AddListener(delegate { tmpHistoryFloatingPanel.OnClickButtonEvent(currentRegionId, s); });
                 }
             }
 
@@ -431,25 +444,19 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         }
         else
         {
-            // Destroy panel
-            Destroy(tmpEditorHistoryPanel);
             // Set status
             uiStatus = UIStatus.InfoRegion;
             // The text of the button
             tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
+            // Clean Buttons
+            tmpHistoryFloatingPanel.CleanAllButtons(false);
         }
+
     }
     public void RefleshingHistory(int currentRegionId, bool delete, int settlementId = 0)
     {
         // Reload database
         GameManager.Instance.MAP_LoadHistoryRegionDictionaryFromDB(currentRegionId);
-
-        // Clean old stages
-        GameObject[] editorStages = GameObject.FindGameObjectsWithTag(ParamUI.TAG_EDITOR_STAGES);
-        foreach(GameObject stage in editorStages)
-        {
-            Destroy(stage);
-        }
 
         // Load new stages
         LoadStages(currentRegionId);
@@ -499,12 +506,15 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     }
     private void LoadStages(int regionId)
     {
+        // Clean Buttons
+        tmpHistoryFloatingPanel.CleanAllButtons(true);
+
         Region currentRegion = GameManager.Instance.MAP_GetRegionById(regionId);
         if(currentRegion.History != null)
         {
             for(int i = 0;i<currentRegion.History.Count;i++)
             {
-                tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>().toggleChangeOwnerEvent(regionId, currentRegion.History[i].StageId, currentRegion.History[i].SettlementId, currentRegion.History[i].Stage);
+                tmpHistoryFloatingPanel.toggleChangeOwnerEvent(regionId, currentRegion.History[i].StageId, currentRegion.History[i].SettlementId, currentRegion.History[i].Stage);
             }
         }
     }

@@ -1,15 +1,33 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class HistoryFloatingPanel : MonoBehaviour
 {
 
     public Transform settlementContent, stageContent;
 
-    public GameObject stageItem;
+    public GameObject stageItem, editorStageButton;
+    
 
-
+    /// <summary>
+    /// Remove all buttons when you close the panel
+    /// </summary>
+    public void CleanAllButtons(bool onlyStages)
+    {
+        if(!onlyStages)
+        {
+            for (int c = 0; c < settlementContent.childCount; c++)
+            {
+                Destroy(settlementContent.GetChild(c).gameObject);
+            }
+        }
+        for (int c = 0; c < stageContent.childCount; c++)
+        {
+            Destroy(stageContent.GetChild(c).gameObject);
+        }
+    }
 
     /// <summary>
     /// Add the list of the settlements
@@ -42,8 +60,19 @@ public class HistoryFloatingPanel : MonoBehaviour
     /// <param name="historyStage">Parameters of the stage</param>
     public void toggleChangeOwnerEvent(int regionId, int stageId, int settlementId, HistoryStage historyStage)
     {
+        // Instantiate stage's buttons
+        GameObject button = Instantiate(editorStageButton);
+
+        // Add  text to the button
+        button.GetComponentInChildren<TextMeshProUGUI>().text = Utilities.FormatedDate(historyStage.StartDate) + " - " + Utilities.FormatedDate(historyStage.EndDate);
+
+        // Add the button into the parent
+        button.transform.SetParent(stageContent);
+
+        //*// OnClick() event //*//
         Settlement settlement = MapController.Instance.GetSettlementById(settlementId);
-        AddNewStage(regionId, stageId, settlement, settlementId, historyStage);
+        button.GetComponent<Button>().onClick.AddListener(delegate { AddNewStage(regionId, stageId, settlement, settlementId, historyStage); });
+
     }
 
     /// <summary>
@@ -56,14 +85,12 @@ public class HistoryFloatingPanel : MonoBehaviour
     /// <param name="historyStage">Parameters of the stage</param>
     private void AddNewStage(int regionId, int idStage, Settlement settlement, int settlementId, HistoryStage historyStage = null)
     {        
-        GameObject stage = Instantiate(stageItem);
-        StageFloatingPanel stageScript = stage.GetComponent<StageFloatingPanel>();
+        StageFloatingPanel stageScript = stageItem.GetComponent<StageFloatingPanel>();
         stageScript.SetStageId(idStage);
         stageScript.SetRegionId(regionId);
         stageScript.SetSettlementId(settlementId);
         stageScript.SetSettlementName("LOC_TABLE_HIST_SETTLEMENTS", settlement.Name);
         stageScript.SetHistory(historyStage);
-        stage.transform.SetParent(stageContent);
     }
 
 }

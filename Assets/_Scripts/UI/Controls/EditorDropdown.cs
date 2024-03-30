@@ -44,9 +44,10 @@ public class EditorDropdown : MonoBehaviour
 
         // Clear old options
         dropdown.ClearOptions();
-
         optionsIds  = new BidirectionalDictionary<int, int>();
-        
+        localizeDropdown.ClearOptionsList();
+
+
         int c = 0;
 
         // Optional=true, the first option has not value
@@ -99,6 +100,7 @@ public class EditorDropdown : MonoBehaviour
                 AddLocalizedOption("LOC_TABLE_HIST_POLITIES", individualSortedList[i].KeyName);
                 c++;
             }
+
         }
         else if (dataType == EditorDataType.CollectivePolity)
         {
@@ -121,6 +123,7 @@ public class EditorDropdown : MonoBehaviour
                 c++;
             }
         }
+        
     }
 
     private void AddLocalizedOption(string table, string entry)
