@@ -91,8 +91,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     public GameObject contentPolitySymbols;
 
     // Panel of the regions - Floating panels
-    private GameObject tmpEditorRegionPanel, tmpEditorHistoryPanel, tmpPostItNote;
+    private GameObject tmpEditorHistoryPanel, tmpPostItNote;
     private HistoryFloatingPanel tmpHistoryFloatingPanel;
+    private RegionFloatingPanel tmpRegionFloatingPanel;
     private PostItNote postItNote;
     private RectTransform postItNoteRectTransform;
     private float regionPanelxPositionLast, regionPanelyPositionLast;
@@ -106,6 +107,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         postItNote = tmpPostItNote.GetComponent<PostItNote>();
         postItNoteRectTransform = tmpPostItNote.GetComponent<RectTransform>();
         tmpPostItNote.SetActive(false);
+
+        // Region panel component
+        tmpRegionFloatingPanel = editorRegionPanel.GetComponent<RegionFloatingPanel>();
 
         // Initialise history panel editor
         tmpEditorHistoryPanel = Instantiate(editorHistoryPanel);
@@ -312,14 +316,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     /// <param name="y">new position Y</param>
     public void ActivateRegionPanel(float x, float y)
     {
-        // Destroy the latest region panel
-        Destroy(tmpEditorRegionPanel);
-
-        // New panel
-        tmpEditorRegionPanel = Instantiate(editorRegionPanel);
-
-        // Set parent
-        tmpEditorRegionPanel.transform.SetParent(this.transform.parent);
+        editorRegionPanel.SetActive(true);
 
         // Set status
         uiStatus = UIStatus.InfoRegion;
@@ -327,18 +324,17 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         // Move panel
         regionPanelxPositionLast = x;
         regionPanelyPositionLast = y;
-        tmpEditorRegionPanel.transform.position = new Vector3(x, y, tmpEditorRegionPanel.transform.position.z);
+        editorRegionPanel.transform.position = new Vector3(x, y, editorRegionPanel.transform.position.z);
     }
     /// <summary>
     /// Deactivate the region panel
     /// </summary>
     public void DeactivateRegionPanel()
     {
+        editorRegionPanel.SetActive(false);
+
         // Set status
         uiStatus = UIStatus.Nothing;
-
-        // Destroy the region panel
-        Destroy(tmpEditorRegionPanel);
     }
     /// <summary>
     /// Set the name and terrain's sprite of the region (ID)
@@ -347,11 +343,11 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     public void SetNameAndImageRegionPanel(string name, string terrain)
     {
         // Name
-        tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetRegionValue(name);
+        tmpRegionFloatingPanel.SetRegionValue(name);
 
         // Sprite
         Sprite terrainTile = terrainTiles.FirstOrDefault(o => o.name.Equals(terrain));
-        tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetTerrainImage(terrainTile);
+        tmpRegionFloatingPanel.SetTerrainImage(terrainTile);
     }
     /// <summary>
     /// For debugging, show color of the owner
@@ -359,7 +355,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     /// <param name="rgb">color</param>
     public void ShowRgbOwner(string rgb)
     {
-        tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().ShowOwnerColor(rgb);
+        tmpRegionFloatingPanel.ShowOwnerColor(rgb);
     }
     /// <summary>
     /// Show the setllements of the region and button 'Stages of History'
@@ -370,17 +366,17 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     {
         if (setllement == null)
         {
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetSettlementValue("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_UNKNOWN);
+            tmpRegionFloatingPanel.SetSettlementValue("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_UNKNOWN);
         }
         else
         {
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetSettlementValue("LOC_TABLE_HIST_SETTLEMENTS", setllement);
+            tmpRegionFloatingPanel.SetSettlementValue("LOC_TABLE_HIST_SETTLEMENTS", setllement);
         }
 
         if (button)
         {
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetButtonClick();
+            tmpRegionFloatingPanel.SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
+            tmpRegionFloatingPanel.SetButtonClick();
         }
     }
     /// <summary>
@@ -388,21 +384,20 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     /// </summary>
     public void ToggleChangeOwner(int currentRegionId)
     {
-        
         tmpEditorHistoryPanel.SetActive(!tmpEditorHistoryPanel.activeInHierarchy);
 
         if (tmpEditorHistoryPanel.activeInHierarchy)
         {
             // Set status
             uiStatus = UIStatus.OwnerSelection;
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_CLOSE);
+            tmpRegionFloatingPanel.SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_CLOSE);
 
             // Get/Set size of the panels       
-            float xPanel = tmpEditorRegionPanel.transform.position.x;
-            float yPanel = tmpEditorRegionPanel.transform.position.y;
-            float zPanel = tmpEditorRegionPanel.transform.position.z;
-            float wPanel = tmpEditorRegionPanel.GetComponent<RectTransform>().rect.width;
-            float hPanel = tmpEditorRegionPanel.GetComponent<RectTransform>().rect.height;
+            float xPanel = editorRegionPanel.transform.position.x;
+            float yPanel = editorRegionPanel.transform.position.y;
+            float zPanel = editorRegionPanel.transform.position.z;
+            float wPanel = editorRegionPanel.GetComponent<RectTransform>().rect.width;
+            float hPanel = editorRegionPanel.GetComponent<RectTransform>().rect.height;
             float wHPanel = tmpEditorHistoryPanel.GetComponent<RectTransform>().rect.width;
             float x = xPanel < Screen.width / 2 ? xPanel : xPanel - wPanel - wHPanel;
             float y = yPanel < Screen.height / 2 ? yPanel + hPanel : yPanel - hPanel;
@@ -447,7 +442,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             // Set status
             uiStatus = UIStatus.InfoRegion;
             // The text of the button
-            tmpEditorRegionPanel.GetComponent<RegionFloatingPanel>().SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
+            tmpRegionFloatingPanel.SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
             // Clean Buttons
             tmpHistoryFloatingPanel.CleanAllButtons(false);
         }

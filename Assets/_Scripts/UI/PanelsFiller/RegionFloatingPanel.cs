@@ -12,10 +12,12 @@ public class RegionFloatingPanel : MonoBehaviour
     public Image terrainImage;
     public TextMeshProUGUI RGB;
 
+    private Button tmpRegionHistoryButton;
 
-    public void DeactivatePanel()
+
+    void Awake()
     {
-        EditorUICanvasController.Instance.DeactivateRegionPanel();
+        tmpRegionHistoryButton = regionHistoryButton.GetComponent<Button>();
     }
 
     public void SetRegionValue(string value)
@@ -33,7 +35,9 @@ public class RegionFloatingPanel : MonoBehaviour
 
     public void SetButtonClick()
     {
-        regionHistoryButton.GetComponent<Button>().onClick.AddListener(delegate { EditorUICanvasController.Instance.ToggleChangeOwner(Int32.Parse(regionPanelValue.text)); });
+        // Add new listener but removing old listeners
+        tmpRegionHistoryButton.onClick.RemoveAllListeners();
+        tmpRegionHistoryButton.onClick.AddListener(delegate { EditorUICanvasController.Instance.ToggleChangeOwner(Int32.Parse(regionPanelValue.text)); });
     }
 
     public void SetTerrainImage(Sprite sprite)
