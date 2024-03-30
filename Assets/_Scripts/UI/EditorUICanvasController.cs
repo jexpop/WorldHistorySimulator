@@ -91,7 +91,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     public GameObject contentPolitySymbols;
 
     // Panel of the regions - Floating panels
-    private GameObject tmpEditorHistoryPanel, tmpPostItNote;
+    private GameObject tmpPostItNote;
     private HistoryFloatingPanel tmpHistoryFloatingPanel;
     private RegionFloatingPanel tmpRegionFloatingPanel;
     private PostItNote postItNote;
@@ -108,14 +108,15 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         postItNoteRectTransform = tmpPostItNote.GetComponent<RectTransform>();
         tmpPostItNote.SetActive(false);
 
-        // Region panel component
+        // Floating panels components
         tmpRegionFloatingPanel = editorRegionPanel.GetComponent<RegionFloatingPanel>();
+        tmpHistoryFloatingPanel = editorHistoryPanel.GetComponent<HistoryFloatingPanel>();
 
         // Initialise history panel editor
-        tmpEditorHistoryPanel = Instantiate(editorHistoryPanel);
+        /*tmpEditorHistoryPanel = Instantiate(editorHistoryPanel);
         tmpEditorHistoryPanel.transform.SetParent(this.transform.parent);
         tmpEditorHistoryPanel.SetActive(false);
-        tmpHistoryFloatingPanel = tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>();
+        tmpHistoryFloatingPanel = tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>();*/
 
     }
 
@@ -384,9 +385,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     /// </summary>
     public void ToggleChangeOwner(int currentRegionId)
     {
-        tmpEditorHistoryPanel.SetActive(!tmpEditorHistoryPanel.activeInHierarchy);
+        editorHistoryPanel.SetActive(!editorHistoryPanel.activeInHierarchy);
 
-        if (tmpEditorHistoryPanel.activeInHierarchy)
+        if (editorHistoryPanel.activeInHierarchy)
         {
             // Set status
             uiStatus = UIStatus.OwnerSelection;
@@ -396,12 +397,12 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             float xPanel = editorRegionPanel.transform.position.x;
             float yPanel = editorRegionPanel.transform.position.y;
             float zPanel = editorRegionPanel.transform.position.z;
-            float wPanel = editorRegionPanel.GetComponent<RectTransform>().rect.width;
-            float hPanel = editorRegionPanel.GetComponent<RectTransform>().rect.height;
-            float wHPanel = tmpEditorHistoryPanel.GetComponent<RectTransform>().rect.width;
+            float wPanel = tmpRegionFloatingPanel.GetRectTransform().rect.width;
+            float hPanel = tmpRegionFloatingPanel.GetRectTransform().rect.height;
+            float wHPanel = tmpHistoryFloatingPanel.GetRectTransform().rect.width;
             float x = xPanel < Screen.width / 2 ? xPanel : xPanel - wPanel - wHPanel;
             float y = yPanel < Screen.height / 2 ? yPanel + hPanel : yPanel - hPanel;
-            tmpEditorHistoryPanel.transform.position = new Vector3(x, y, zPanel);
+            editorHistoryPanel.transform.position = new Vector3(x, y, zPanel);
 
             bool isFisrtSettlement = true;
 

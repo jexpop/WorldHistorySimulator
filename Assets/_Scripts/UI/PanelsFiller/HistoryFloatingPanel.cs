@@ -9,7 +9,22 @@ public class HistoryFloatingPanel : MonoBehaviour
     public Transform settlementContent, stageContent;
 
     public GameObject stageItem, editorStageButton;
-    
+
+    private RectTransform rectTransformComponent;
+
+    private StageFloatingPanel stageScript;
+
+
+    void Awake()
+    {
+        rectTransformComponent = GetComponent<RectTransform>();
+        stageScript = stageItem.GetComponent<StageFloatingPanel>();
+    }
+
+    public RectTransform GetRectTransform()
+    {
+        return rectTransformComponent;
+    }
 
     /// <summary>
     /// Remove all buttons when you close the panel
@@ -20,11 +35,13 @@ public class HistoryFloatingPanel : MonoBehaviour
         {
             for (int c = 0; c < settlementContent.childCount; c++)
             {
+                settlementContent.GetChild(c).GetComponent<Button>().onClick.RemoveAllListeners();
                 Destroy(settlementContent.GetChild(c).gameObject);
             }
         }
         for (int c = 0; c < stageContent.childCount; c++)
         {
+            stageContent.GetChild(c).GetComponent<Button>().onClick.RemoveAllListeners();
             Destroy(stageContent.GetChild(c).gameObject);
         }
     }
@@ -85,7 +102,6 @@ public class HistoryFloatingPanel : MonoBehaviour
     /// <param name="historyStage">Parameters of the stage</param>
     private void AddNewStage(int regionId, int idStage, Settlement settlement, int settlementId, HistoryStage historyStage = null)
     {        
-        StageFloatingPanel stageScript = stageItem.GetComponent<StageFloatingPanel>();
         stageScript.SetStageId(idStage);
         stageScript.SetRegionId(regionId);
         stageScript.SetSettlementId(settlementId);

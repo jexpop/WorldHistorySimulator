@@ -13,11 +13,18 @@ public class RegionFloatingPanel : MonoBehaviour
     public TextMeshProUGUI RGB;
 
     private Button tmpRegionHistoryButton;
+    private RectTransform rectTransformComponent;
 
 
     void Awake()
     {
+        rectTransformComponent = GetComponent<RectTransform>();
         tmpRegionHistoryButton = regionHistoryButton.GetComponent<Button>();
+    }
+
+    public RectTransform GetRectTransform()
+    {
+        return rectTransformComponent;
     }
 
     public void SetRegionValue(string value)
