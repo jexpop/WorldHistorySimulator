@@ -112,12 +112,6 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         tmpRegionFloatingPanel = editorRegionPanel.GetComponent<RegionFloatingPanel>();
         tmpHistoryFloatingPanel = editorHistoryPanel.GetComponent<HistoryFloatingPanel>();
 
-        // Initialise history panel editor
-        /*tmpEditorHistoryPanel = Instantiate(editorHistoryPanel);
-        tmpEditorHistoryPanel.transform.SetParent(this.transform.parent);
-        tmpEditorHistoryPanel.SetActive(false);
-        tmpHistoryFloatingPanel = tmpEditorHistoryPanel.GetComponent<HistoryFloatingPanel>();*/
-
     }
 
     /// <summary>
