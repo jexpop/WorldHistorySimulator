@@ -7,6 +7,7 @@ using UnityEngine.AddressableAssets;
 using System.Collections;
 using UnityEngine.Localization.Tables;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class LocalizationController : Singleton<LocalizationController>
 {
@@ -48,6 +49,7 @@ public class LocalizationController : Singleton<LocalizationController>
         yield return settlementsTable_en;
         settlementsTable_es = LocalizationSettings.StringDatabase.GetTableAsync(LocalizeParams.DIC_LOCATION_TABLES["LOC_TABLE_HIST_SETTLEMENTS"], LocalizationSettings.AvailableLocales.Locales[LocalizeParams.LocaleSpanish]);
         yield return settlementsTable_es;
+
 
         // Prevent the tables from being unloaded and the changes lost
         Addressables.ResourceManager.Acquire(politiesTypeTable_ca);

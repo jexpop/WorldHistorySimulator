@@ -6,6 +6,7 @@ using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 using UnityEngine.UI;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 
 public enum GameScene{
@@ -60,6 +61,7 @@ public class GameManager : Singleton<GameManager>
     public string MAP_GetPolitiesLocaleKeyById(int id) { return MapController.Instance.GetPolitiesLocaleKeyById(id); }
     public string MAP_GetSettlementsLocaleKeyById(int id) { return MapController.Instance.GetSettlementsLocaleKeyById(id); }
     public Region MAP_GetRegionById(int id) { return MapController.Instance.GetRegionById(id); }
+    public Region MAP_GetRegionByPosition(int x, int y) { return MapController.Instance.GetRegionByPosition(x, y); }
     public Polity MAP_GetPolityById(int id) { return MapController.Instance.GetPolityById(id); }
     public PolityType MAP_GetPolityTypeById(int id) { return MapController.Instance.GetPolityTypeById(id); }
     public void MAP_ColorizeRegionsById(int regionId, Polity owner) { MapController.Instance.ColorizeRegionsById(regionId, owner); }
@@ -71,6 +73,13 @@ public class GameManager : Singleton<GameManager>
     public List<int> MAP_GetPolityTypesByPolicy(int policyId) { return MapController.Instance.GetPolityTypesByPolicy(policyId); }
     public bool MAP_PolityTypeIsRelated(int polityTypeId) { return MapController.Instance.PolityTypeIsRelated(polityTypeId); }
     public bool MAP_PolityIsRelated(int polityId) { return MapController.Instance.PolityIsRelated(polityId); }
+    public Color32 MAP_GetRemapColorByPosition(int x, int y) { return MapController.Instance.GetRemapColorByPosition(x, y); }
+    public void MAP_RemoveMapObjects(string name) { MapController.Instance.RemoveMapObjects(name); }
+    public void MAP_PutMapObjects(string name, Region region) { MapController.Instance.PutMapObjects(name, region); }
+    public Vector3Int MAP_OnlyRGBColorByPosition(int x, int y) { return MapController.Instance.OnlyRGBColorByPosition(x, y); }
+    public void MAP_ChangeColor(Color32 remapColor, Color32 showColor) { MapController.Instance.ChangeColor(remapColor, showColor); }
+    public void MAP_ApplyPaletteTexture(bool updateMipmaps) { MapController.Instance.ApplyPaletteTexture(updateMipmaps); }
+
 
     // LOCALIZATION Controller
     public void LOC_AddLocalizeString(TextMeshProUGUI text, string table, string key) { LocalizationController.Instance.AddLocalizeString(text, table, key); }

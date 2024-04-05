@@ -1,8 +1,8 @@
 using TMPro;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
-public class OnMouseName : MonoBehaviour
+
+public class OnMouseName : MouseController
 {
 
     public GameObject _canvas;
@@ -32,8 +32,8 @@ public class OnMouseName : MonoBehaviour
     }
 
     public void SetTextName(string name)
-    {        
-        LocalizationController.Instance.AddLocalizeString(nameText, "LOC_TABLE_HIST_SETTLEMENTS", name);
+    {
+        LocalizationSetTextName(nameText, name);
         backgroundRectTransform.sizeDelta = new Vector2(nameText.text.Length * 3.5f, backgroundRectTransform.sizeDelta.y);
     }
 
