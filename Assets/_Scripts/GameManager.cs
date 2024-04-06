@@ -6,7 +6,6 @@ using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 using UnityEngine.UI;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 
 public enum GameScene{

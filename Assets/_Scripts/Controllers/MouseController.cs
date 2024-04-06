@@ -29,11 +29,28 @@ public class MouseController : Singleton<MouseController>
 
     private void Update()
     {
+
+        // Actions when the mouse is over a region
         Vector3Int currentMousePosition = Vector3Int.FloorToInt(Input.mousePosition);
         if (lastCursorMovement != currentMousePosition) 
         {
-            lastCursorMovement = currentMousePosition;
-            RegionDetect(currentMousePosition);
+                lastCursorMovement = currentMousePosition;
+                MouseOverdRegion(currentMousePosition);
+        }
+
+        // Select region
+        if (Input.GetMouseButtonDown(0) && (
+                            GameManager.Instance.UI_GetUIStatus() == UIStatus.InfoRegion ||
+                            GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing ||
+                            GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote))
+        {
+            MouseButtonLeft();
+        }
+
+        // Right button actions
+        if (Input.GetMouseButton(1))
+        {
+            MouseButtonRight();
         }
 
 
@@ -61,7 +78,7 @@ public class MouseController : Singleton<MouseController>
         GameManager.Instance.LOC_AddLocalizeString(nameText, "LOC_TABLE_HIST_SETTLEMENTS", name);
     }
 
-    private void RegionDetect(Vector3Int currentMousePosition)
+    private void MouseOverdRegion(Vector3 currentMousePosition)
     {
         Ray ray = Camera.main.ScreenPointToRay(currentMousePosition);
         RaycastHit hitInfo;
@@ -103,17 +120,47 @@ public class MouseController : Singleton<MouseController>
                         GameManager.Instance.UI_PostItPolityVisibility(currentMousePosition, false);
                     }
                 }
-                
-                // Click in the region
-                if (Input.GetMouseButtonDown(0) && (
-                                            GameManager.Instance.UI_GetUIStatus() == UIStatus.InfoRegion ||
-                                            GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing ||
-                                            GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote))
-                {
 
-                    // Change UI status if you touch land
-                    // PostIt Note is deactivated
-                    if (region.Type == ParamUI.REGION_NAME_LAND)
+                if (!selectAny || !prevColor.Equals(remapColor))
+                {
+                    if (selectAny)
+                    {
+                        GameManager.Instance.MAP_ChangeColor(prevColor, region.Rgb32);
+
+                    }
+                    selectAny = true;
+                    prevColor = remapColor;
+                    prevXY = new Vector2Int(x, y);
+
+                    // Define the color to the highlight to the land regions
+                    Region regionHighlight = GameManager.Instance.MAP_GetRegionByPosition(x, y);
+                    if (regionHighlight.Type == ParamUI.REGION_NAME_LAND)
+                    {
+                        GameManager.Instance.MAP_ChangeColor(remapColor, ParamColor.COLOR_REGION_HIGHLIGHT);
+                    }
+
+                    GameManager.Instance.MAP_ApplyPaletteTexture(false);
+                }
+            }
+
+        }
+    }
+
+    private void MouseButtonLeft()
+    {
+        Vector3 currentMousePosition = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(currentMousePosition);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            Vector3 p = hitInfo.point;
+            int x = (int)Mathf.Floor(p.x) + ParamMap.MAP_SIZE_WIDTH / 2;
+            int y = (int)Mathf.Floor(p.y) + ParamMap.MAP_SIZE_HIGHT / 2;
+
+            // Change UI status if you touch land
+            // PostIt Note is deactivated
+            Region region = GameManager.Instance.MAP_GetRegionByPosition(prevXY.x, prevXY.y);
+            if (region.Type == ParamUI.REGION_NAME_LAND)
                     {
                         GameManager.Instance.UI_SetUIStatus(UIStatus.InfoRegion);
                         GameManager.Instance.UI_PostItPolityVisibility(currentMousePosition, false);
@@ -155,40 +202,13 @@ public class MouseController : Singleton<MouseController>
                         GameManager.Instance.MAP_PutMapObjects(ParamMap.MAPTAG_FLAG_MARKER, region);
 
                     }
-
-                }
-                
-                // Mouse Right Button
-                if (Input.GetMouseButton(1))
-                {
-                    GameManager.Instance.UI_DeactivateRegionPanel();
-                    GameManager.Instance.MAP_RemoveMapObjects(ParamMap.MAPTAG_FLAG_MARKER);
-                }
- 
-                if ( !selectAny || !prevColor.Equals(remapColor) )
-                {
-                    if (selectAny)
-                    {
-                        GameManager.Instance.MAP_ChangeColor(prevColor, region.Rgb32);
-
-                    }
-                    selectAny = true;
-                    prevColor = remapColor;
-                    prevXY = new Vector2Int(x, y);
-
-                    // Define the color to the highlight to the land regions
-                    Region regionHighlight = GameManager.Instance.MAP_GetRegionByPosition(x, y);
-                    if (regionHighlight.Type == ParamUI.REGION_NAME_LAND)
-                    {
-                        GameManager.Instance.MAP_ChangeColor(remapColor, ParamColor.COLOR_REGION_HIGHLIGHT);
-                    }
-
-                    GameManager.Instance.MAP_ApplyPaletteTexture(false);
-                }
             }
-
-        }
     }
 
+    private void MouseButtonRight()
+    {
+            GameManager.Instance.UI_DeactivateRegionPanel();
+            GameManager.Instance.MAP_RemoveMapObjects(ParamMap.MAPTAG_FLAG_MARKER); 
+    }
 
 }

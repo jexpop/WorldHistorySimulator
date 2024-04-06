@@ -1,20 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\controllers\\mousecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\mousecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\controllers\\mapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\mapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -22,50 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\GameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\GameManager.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\GameManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\GameManager.cs",
-              "ViewState": "AQIAAEUAAAAAAAAAAABAwFAAAAB2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T13:28:28.152Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MapController.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MapController.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\MapController.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MapController.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\MapController.cs",
-              "ViewState": "AQIAAL8AAAAAAAAAAAAkwMkAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T12:43:08.17Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MouseController.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MouseController.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\MouseController.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MouseController.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\MouseController.cs",
-              "ViewState": "AQIAAKcAAAAAAAAAAAA1wLoAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T12:29:03.29Z",
-              "EditorCaption": ""
             }
           ]
         }
