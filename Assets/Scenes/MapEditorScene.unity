@@ -788,6 +788,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3431169517632583088, guid: a584aa7985c6cd74f9e53566cd6d950a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1868905353}
+    - target: {fileID: 3431169517632583088, guid: a584aa7985c6cd74f9e53566cd6d950a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DeactivateRegionPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3431169517632583088, guid: a584aa7985c6cd74f9e53566cd6d950a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EditorUICanvasController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 9204123262431888887, guid: a584aa7985c6cd74f9e53566cd6d950a, type: 3}
       propertyPath: m_Name
       value: EditorRegionPanel

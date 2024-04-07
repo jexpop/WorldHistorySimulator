@@ -30,28 +30,32 @@ public class MouseController : Singleton<MouseController>
     private void Update()
     {
 
-        // Actions when the mouse is over a region
-        Vector3Int currentMousePosition = Vector3Int.FloorToInt(Input.mousePosition);
-        if (lastCursorMovement != currentMousePosition) 
+        if(GameManager.Instance.UI_GetUIStatus() != UIStatus.OwnerSelection)
         {
+            // Actions when the mouse is over a region
+            Vector3Int currentMousePosition = Vector3Int.FloorToInt(Input.mousePosition);
+            if (lastCursorMovement != currentMousePosition)
+            {
                 lastCursorMovement = currentMousePosition;
                 MouseOverdRegion(currentMousePosition);
+            }
+
+            // Select region
+            if (Input.GetMouseButtonDown(0) && (
+                                GameManager.Instance.UI_GetUIStatus() == UIStatus.InfoRegion ||
+                                GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing ||
+                                GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote))
+            {
+                MouseButtonLeft();
+            }
+
+            // Right button actions
+            if (Input.GetMouseButton(1))
+            {
+                MouseButtonRight();
+            }
         }
 
-        // Select region
-        if (Input.GetMouseButtonDown(0) && (
-                            GameManager.Instance.UI_GetUIStatus() == UIStatus.InfoRegion ||
-                            GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing ||
-                            GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote))
-        {
-            MouseButtonLeft();
-        }
-
-        // Right button actions
-        if (Input.GetMouseButton(1))
-        {
-            MouseButtonRight();
-        }
 
 
         /*if (isWaiting)
@@ -208,7 +212,6 @@ public class MouseController : Singleton<MouseController>
     private void MouseButtonRight()
     {
             GameManager.Instance.UI_DeactivateRegionPanel();
-            GameManager.Instance.MAP_RemoveMapObjects(ParamMap.MAPTAG_FLAG_MARKER); 
     }
 
 }

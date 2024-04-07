@@ -39,14 +39,13 @@ public class EditorDropdown : MonoBehaviour
     }
 
     
-    private void GetOptions(bool optional)
+    private void GetOptions(bool optional, int regionFilter=0)
     {
 
         // Clear old options
         dropdown.ClearOptions();
         optionsIds  = new BidirectionalDictionary<int, int>();
         localizeDropdown.ClearOptionsList();
-
 
         int c = 0;
 
@@ -123,7 +122,32 @@ public class EditorDropdown : MonoBehaviour
                 c++;
             }
         }
-        
+        if (dataType == EditorDataType.Settlement)
+        {
+
+            // List to order the options
+            List<OptionsOrdered> settlementOptionsOrdered = new List<OptionsOrdered>();
+            foreach (KeyValuePair<int, Settlement> s in MapController.Instance.GetSettlements())
+            {
+                if(s.Value.RegionId == regionFilter || s.Value.RegionId == 0)
+                {
+                    OptionsOrdered optionOrdered = new OptionsOrdered(s.Key, s.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_SETTLEMENTS", s.Value.Name));
+                    settlementOptionsOrdered.Add(optionOrdered);
+                }
+            }
+
+            // Order the list
+            List<OptionsOrdered> settlementSortedList = settlementOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
+
+            // Adding options and localized
+            for (int i = 0; i < settlementSortedList.Count; i++)
+            {
+                optionsIds.Add(c, settlementSortedList[i].Key);
+                AddLocalizedOption("LOC_TABLE_HIST_SETTLEMENTS", settlementSortedList[i].KeyName);
+                c++;
+            }
+        }
+
     }
 
     private void AddLocalizedOption(string table, string entry)
@@ -142,9 +166,9 @@ public class EditorDropdown : MonoBehaviour
         return localizedString.GetLocalizedString();
     }
 
-    public void LoadOptions(bool optional)
+    public void LoadOptions(bool optional, int regionFilter=0)
     {
-        GetOptions(optional);
+        GetOptions(optional, regionFilter);
         localizeDropdown.LoadOptions();
     }
 

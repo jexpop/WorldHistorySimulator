@@ -10,6 +10,11 @@ public class StageFloatingPanel : MonoBehaviour
 
     public TextMeshProUGUI settlementNameLabel;
 
+    [Header("Components of the copy to other region")]
+    public TMP_InputField copyRegionId;
+    public TMP_Dropdown settlementDropdown;
+    public EditorDropdown settlementEditorDropdown;
+
     [Header("Dates of the stage")]
     public TMP_InputField dFromDate, mFromDate, yFromDate;
     public TMP_InputField dToDate, mToDate, yToDate;
@@ -208,14 +213,14 @@ public class StageFloatingPanel : MonoBehaviour
         bool result = startDate <= endDate ? true : false;
         return result;
     }
-    private bool DatesExist(int idStage = 0)
+    private bool DatesExist(int checkedRegion, int idStage = 0)
     {// For negative dates it doesn't check ok - TODO Check it
         int newStartDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
         int newEndDate = Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'));
 
         bool exist = false;
 
-        Region region = MapController.Instance.GetRegionById(regionId);
+        Region region = MapController.Instance.GetRegionById(checkedRegion);
         List<HistoryRegionRelation> regionHistory = region.History;
         if (regionHistory != null)
         {
@@ -238,12 +243,19 @@ public class StageFloatingPanel : MonoBehaviour
 
 
     /*** Action Button events ***/
+    // COPY BUTTON
+    public void CopyActionButtonEvent()
+    {
+        int settlementId = GetDropdownValue(settlementEditorDropdown, settlementDropdown.value, true, true);
+        int regionId = Int32.Parse(copyRegionId.text);
+        SaveActionEvent(stageOkMessage, true, regionId, settlementId);
+    }
     // SAVE BUTTON
     public void SaveActionButtonEvent()
     {
         SaveActionEvent(stageOkMessage);
     }
-    private void SaveActionEvent(SimpleMessage okNameMessage)
+    private void SaveActionEvent(SimpleMessage okNameMessage, bool isCopy=false, int region=0, int settlement=0)
     {
         // Remove old fields messages
         LocalizationController.Instance.AddLocalizeString(okNameMessage);
@@ -265,20 +277,23 @@ public class StageFloatingPanel : MonoBehaviour
             LocalizationController.Instance.AddLocalizeString(koDatesMessage);
         }
         else
-        {            
+        {
+            int regionNew = region == 0 ? regionId : region;
+            int settlementNew = settlement == 0 ? settlementId : settlement;
+
             // If all ok  then insert/modify data            
-            if (stageId == 0)
+            if (stageId == 0 || isCopy == true)
             {
-                if (DatesExist())
+                if (DatesExist(regionNew))
                 {// Check duplicate dates
                     LocalizationController.Instance.AddLocalizeString(duplicatedDatesMessage);
                 }
                 else
                 {
 
-                    CsvConnection.Instance.AddStage( 
-                                                                                    regionId,
-                                                                                    settlementId,
+                    CsvConnection.Instance.AddStage(
+                                                                                    regionNew,
+                                                                                    settlementNew,
                                                                                     Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
                                                                                     Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0')),
                                                                                     GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false),
@@ -320,22 +335,28 @@ public class StageFloatingPanel : MonoBehaviour
                                                                                     isCapital_Policy.isOn == true ? 1 : 0,
                                                                                     isSymbolForDate.isOn == true ? 1 : 0
                         );
+
                     HistoryRegionRelation history = new HistoryRegionRelation(
                                                                                     CsvConnection.Instance.GetLastIdAdded(EditorDataType.StagePanel),
-                                                                                    settlementId,
+                                                                                    settlementNew,
                                                                                     stage
                         );
-                    MapController.Instance.GetRegionById(regionId).History.Add(history);
 
-                    // Refreshing data                   
-                    if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
+                    MapController.Instance.GetRegionById(regionNew).History.Add(history);
+
+                    if(isCopy == false)
                     {
-                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false, settlementId);
+                        // Refreshing data                   
+                        if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
+                        {
+                            EditorUICanvasController.Instance.RefleshingHistory(regionNew, false, settlementNew);
+                        }
+                        else
+                        {
+                            EditorUICanvasController.Instance.RefleshingHistory(regionNew, false);
+                        }
                     }
-                    else
-                    {
-                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false);
-                    }                  
+               
                 }           
             }
             else

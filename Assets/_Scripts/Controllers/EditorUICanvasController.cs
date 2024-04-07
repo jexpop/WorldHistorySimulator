@@ -330,6 +330,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
         // Set status
         uiStatus = UIStatus.Nothing;
+
+        GameManager.Instance.MAP_RemoveMapObjects(ParamMap.MAPTAG_FLAG_MARKER);
     }
     /// <summary>
     /// Set the name and terrain's sprite of the region (ID)

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using System;
 
 public class InputField : UIBehaviour
 {
@@ -8,12 +9,20 @@ public class InputField : UIBehaviour
 
     public GameObject label;
 
+    public GameObject relatedDropdown;
+    private EditorDropdown relatedEditorDropdown;
+
 
     protected override void Awake()
     {
         base.Awake();
         _field = GetComponent<TMP_InputField>();
         _field.onFocusSelectAll = true;
+
+        if(relatedDropdown != null)
+        {
+            relatedEditorDropdown = relatedDropdown.GetComponent<EditorDropdown>();
+        }
     }
 
     protected override void Start()
@@ -32,6 +41,12 @@ public class InputField : UIBehaviour
         {
             _field.placeholder.GetComponent<TextMeshProUGUI>().text = label.GetComponent<TextMeshProUGUI>().text; 
         }        
+
+        if(relatedDropdown != null)
+        {
+            relatedEditorDropdown.LoadOptions(false, Int32.Parse(_field.text));
+        }
+
     }
 
     protected override void OnEnable()
