@@ -36,92 +36,73 @@ public class EditorDropdown : MonoBehaviour
             this._keyName= keyName;
             this._localeName= localeName;
         }
+    }  
+
+    private void AddLocalizedOption(string table, string entry)
+    {
+        LocalizedString localizedString = new LocalizedString();
+        localizedString.TableReference = LocalizeParams.DIC_LOCATION_TABLES[table];
+        localizedString.TableEntryReference = entry;
+        localizeDropdown.SetOptionsList(localizedString);
     }
 
-    
-    private void GetOptions(bool optional, int regionFilter=0)
+    private string GetLocalizedOption(string table, string entry)
     {
+        LocalizedString localizedString = new LocalizedString();
+        localizedString.TableReference = LocalizeParams.DIC_LOCATION_TABLES[table];
+        localizedString.TableEntryReference = entry;
+        return localizedString.GetLocalizedString();
+    }
 
-        // Clear old options
+    public BidirectionalDictionary<int,int> GetOptionsIds(bool optional, int filter=0) 
+    {
+        LoadOptions(optional, filter);
+        return optionsIds; 
+    }
+    public BidirectionalDictionary<int, int> GetOptionsIds(bool optional, string filter = " ")
+    {
+        LoadOptions(optional, filter);
+        return optionsIds;
+    }
+
+    // Load Options
+    public void LoadOptions(bool optional, int regionFilter)
+    {
+        GetOptions(optional, regionFilter);
+        localizeDropdown.LoadOptions();
+    }
+    public void LoadOptions(bool optional, string stringFilter)
+    {
+        GetOptions(optional, stringFilter);
+        localizeDropdown.LoadOptions();
+    }
+
+    // Get options
+    private void ClearOldOptions()
+    {
         dropdown.ClearOptions();
-        optionsIds  = new BidirectionalDictionary<int, int>();
+        optionsIds = new BidirectionalDictionary<int, int>();
         localizeDropdown.ClearOptionsList();
-
-        int c = 0;
-
+    }
+    private int FirstOptionCheck(bool optional)
+    {
         // Optional=true, the first option has not value
+        int c = 0;
         if (optional)
         {
             optionsIds.Add(c, 0);
             c = 1;
             AddLocalizedOption("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_NOT_SELECT);
         }
-        
+        return c;
+    }
+    private void GetOptions(bool optional, int regionFilter)
+    {
+        ClearOldOptions();
+        int c = 0;
+        c = FirstOptionCheck(optional);
+
         // Get new options
-        if (dataType == EditorDataType.PolityType)
-        {
-            // List to order the options
-            List<OptionsOrdered> polityTypeOptionsOrdered = new List<OptionsOrdered>();
-            foreach (KeyValuePair<int, PolityType> pt in MapController.Instance.GetPolitiesType())
-            {
-                OptionsOrdered optionOrdered = new OptionsOrdered(pt.Key, pt.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", pt.Value.Name));
-                polityTypeOptionsOrdered.Add(optionOrdered);
-            }
-
-            // Order the list
-            List<OptionsOrdered> polityTypeSortedList = polityTypeOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
-
-            // Adding options and localized
-            for(int i = 0; i < polityTypeSortedList.Count;i++)
-            {
-                optionsIds.Add(c, polityTypeSortedList[i].Key);
-                AddLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", polityTypeSortedList[i].KeyName);
-                c++;
-            }
-        }
-        else if (dataType == EditorDataType.IndividualPolity)
-        {
-            // List to order the options
-            List<OptionsOrdered> individualOptionsOrdered = new List<OptionsOrdered>();
-            foreach (KeyValuePair<int, Polity> p in MapController.Instance.GetPolities(CsvConnection.Instance.GetIndividualId()))
-            {
-                OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name));
-                individualOptionsOrdered.Add(optionOrdered);
-            }
-            
-            // Order the list
-            List<OptionsOrdered> individualSortedList = individualOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
-
-            // Adding options and localized
-            for(int i = 0;i< individualSortedList.Count;i++)
-            {
-                optionsIds.Add(c, individualSortedList[i].Key);
-                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", individualSortedList[i].KeyName);
-                c++;
-            }
-
-        }
-        else if (dataType == EditorDataType.CollectivePolity)
-        {
-            // List to order the options
-            List<OptionsOrdered> collectiveOptionsOrdered = new List<OptionsOrdered>();
-            foreach (KeyValuePair<int, Polity> p in MapController.Instance.GetPolities(CsvConnection.Instance.GetCollectiveId()))
-            {
-                OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name));
-                collectiveOptionsOrdered.Add(optionOrdered);
-            }
-
-            // Order the list
-            List<OptionsOrdered> individualSortedList = collectiveOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
-
-            // Adding options and localized
-            for(int i = 0; i< individualSortedList.Count; i++)
-            {
-                optionsIds.Add(c, individualSortedList[i].Key);
-                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", individualSortedList[i].KeyName);
-                c++;
-            }
-        }
         if (dataType == EditorDataType.Settlement)
         {
 
@@ -129,7 +110,7 @@ public class EditorDropdown : MonoBehaviour
             List<OptionsOrdered> settlementOptionsOrdered = new List<OptionsOrdered>();
             foreach (KeyValuePair<int, Settlement> s in MapController.Instance.GetSettlements())
             {
-                if(s.Value.RegionId == regionFilter || s.Value.RegionId == 0)
+                if (s.Value.RegionId == regionFilter | s.Value.RegionId == 0)
                 {
                     OptionsOrdered optionOrdered = new OptionsOrdered(s.Key, s.Value.Name, GetLocalizedOption("LOC_TABLE_HIST_SETTLEMENTS", s.Value.Name));
                     settlementOptionsOrdered.Add(optionOrdered);
@@ -149,33 +130,92 @@ public class EditorDropdown : MonoBehaviour
         }
 
     }
-
-    private void AddLocalizedOption(string table, string entry)
+    private void GetOptions(bool optional, string stringFilter)
     {
-        LocalizedString localizedString = new LocalizedString();
-        localizedString.TableReference = LocalizeParams.DIC_LOCATION_TABLES[table];
-        localizedString.TableEntryReference = entry;
-        localizeDropdown.SetOptionsList(localizedString);
-    }
-
-    private string GetLocalizedOption(string table, string entry)
-    {
-        LocalizedString localizedString = new LocalizedString();
-        localizedString.TableReference = LocalizeParams.DIC_LOCATION_TABLES[table];
-        localizedString.TableEntryReference = entry;
-        return localizedString.GetLocalizedString();
-    }
-
-    public void LoadOptions(bool optional, int regionFilter=0)
-    {
-        GetOptions(optional, regionFilter);
-        localizeDropdown.LoadOptions();
-    }
-
-    public BidirectionalDictionary<int,int> GetOptionsIds(bool optional) 
-    {
-        LoadOptions(optional);
-        return optionsIds; 
-    }
+        ClearOldOptions();
+        int c = 0;
+        c = FirstOptionCheck(optional);
         
+        // Get new options
+        if (dataType == EditorDataType.PolityType)
+        {
+            // List to order the options
+            List<OptionsOrdered> polityTypeOptionsOrdered = new List<OptionsOrdered>();
+            foreach (KeyValuePair<int, PolityType> pt in MapController.Instance.GetPolitiesType())
+            {
+                string localizedName = GetLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", pt.Value.Name);
+                string compareName=Utilities.RemoveDiacritics(localizedName).ToLower();
+                if (compareName.IndexOf(stringFilter.ToLower()) > -1)
+                {
+                    OptionsOrdered optionOrdered = new OptionsOrdered(pt.Key, pt.Value.Name, localizedName);
+                    polityTypeOptionsOrdered.Add(optionOrdered);
+                }
+            }
+
+            // Order the list
+            List<OptionsOrdered> polityTypeSortedList = polityTypeOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
+
+            // Adding options and localized
+            for (int i = 0; i < polityTypeSortedList.Count; i++)
+            {
+                optionsIds.Add(c, polityTypeSortedList[i].Key);
+                AddLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", polityTypeSortedList[i].KeyName);
+                c++;
+            }
+        }
+        else if (dataType == EditorDataType.IndividualPolity)
+        {
+            // List to order the options
+            List<OptionsOrdered> individualOptionsOrdered = new List<OptionsOrdered>();
+            foreach (KeyValuePair<int, Polity> p in MapController.Instance.GetPolities(CsvConnection.Instance.GetIndividualId()))
+            {
+                string localizedName = GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name);
+                string compareName = Utilities.RemoveDiacritics(localizedName).ToLower();
+                if (compareName.IndexOf(stringFilter.ToLower()) > -1)
+                {
+                    OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, localizedName);
+                    individualOptionsOrdered.Add(optionOrdered);
+                }
+            }
+
+            // Order the list
+            List<OptionsOrdered> individualSortedList = individualOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
+
+            // Adding options and localized
+            for (int i = 0; i < individualSortedList.Count; i++)
+            {
+                optionsIds.Add(c, individualSortedList[i].Key);
+                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", individualSortedList[i].KeyName);
+                c++;
+            }
+
+        }
+        else if (dataType == EditorDataType.CollectivePolity)
+        {
+            // List to order the options
+            List<OptionsOrdered> collectiveOptionsOrdered = new List<OptionsOrdered>();
+            foreach (KeyValuePair<int, Polity> p in MapController.Instance.GetPolities(CsvConnection.Instance.GetCollectiveId()))
+            {
+                string localizedName = GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name);
+                string compareName = Utilities.RemoveDiacritics(localizedName).ToLower();
+                if (compareName.IndexOf(stringFilter.ToLower()) > -1)
+                {
+                    OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, localizedName);
+                    collectiveOptionsOrdered.Add(optionOrdered);
+                }
+            }
+
+            // Order the list
+            List<OptionsOrdered> individualSortedList = collectiveOptionsOrdered.OrderBy(o => o.LocaleName).ToList();
+
+            // Adding options and localized
+            for (int i = 0; i < individualSortedList.Count; i++)
+            {
+                optionsIds.Add(c, individualSortedList[i].Key);
+                AddLocalizedOption("LOC_TABLE_HIST_POLITIES", individualSortedList[i].KeyName);
+                c++;
+            }
+        }
+    }
+
 }

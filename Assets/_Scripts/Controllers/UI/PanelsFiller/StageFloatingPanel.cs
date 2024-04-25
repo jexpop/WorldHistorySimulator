@@ -90,18 +90,31 @@ public class StageFloatingPanel : MonoBehaviour
     }
 
 
-    private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option)
+    private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option, int filter=0)
     {
 
         if (isForward)
         {
-            return dropdown.GetOptionsIds(option).Forward[id];
+            return dropdown.GetOptionsIds(option, filter).Forward[id];
         }
         else
         {
-            return dropdown.GetOptionsIds(option).Reverse[id];
+            return dropdown.GetOptionsIds(option, filter).Reverse[id];
         }
         
+    }
+    private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option, string filter = " ")
+    {
+
+        if (isForward)
+        {
+            return dropdown.GetOptionsIds(option, filter).Forward[id];
+        }
+        else
+        {
+            return dropdown.GetOptionsIds(option, filter).Reverse[id];
+        }
+
     }
 
 
@@ -130,17 +143,17 @@ public class StageFloatingPanel : MonoBehaviour
             isSymbolForDate.isOn = historyStage.IsSymbolForDate == 1 ? true : false;
 
             // Parent 
-            parentTypeDropdown_L1.value = GetDropdownValue(parentTypeEditorDropdown_L1, historyStage.PolityTypeIdParent_L1, false, false);
+            parentTypeDropdown_L1.value = GetDropdownValue(parentTypeEditorDropdown_L1, historyStage.PolityTypeIdParent_L1, false, false, " ");
 
-            parentTypeDropdown_L2.value = GetDropdownValue(parentTypeEditorDropdown_L2, historyStage.PolityTypeIdParent_L2, false, true);
-            parentTypeDropdown_L3.value = GetDropdownValue(parentTypeEditorDropdown_L3, historyStage.PolityTypeIdParent_L3, false, true);
-            parentTypeDropdown_L4.value = GetDropdownValue(parentTypeEditorDropdown_L4, historyStage.PolityTypeIdParent_L4, false, true);
+            parentTypeDropdown_L2.value = GetDropdownValue(parentTypeEditorDropdown_L2, historyStage.PolityTypeIdParent_L2, false, true, " ");
+            parentTypeDropdown_L3.value = GetDropdownValue(parentTypeEditorDropdown_L3, historyStage.PolityTypeIdParent_L3, false, true, " ");
+            parentTypeDropdown_L4.value = GetDropdownValue(parentTypeEditorDropdown_L4, historyStage.PolityTypeIdParent_L4, false, true, " ");
 
-            parentDropdown_L1.value = GetDropdownValue(parentEditorDropdown_L1, historyStage.PolityParentId_L1, false, false);
+            parentDropdown_L1.value = GetDropdownValue(parentEditorDropdown_L1, historyStage.PolityParentId_L1, false, false, " ");
 
-            parentDropdown_L2.value = GetDropdownValue(parentEditorDropdown_L2, historyStage.PolityParentId_L2, false, true);
-            parentDropdown_L3.value = GetDropdownValue(parentEditorDropdown_L3, historyStage.PolityParentId_L3, false, true);
-            parentDropdown_L4.value = GetDropdownValue(parentEditorDropdown_L4, historyStage.PolityParentId_L4, false, true);
+            parentDropdown_L2.value = GetDropdownValue(parentEditorDropdown_L2, historyStage.PolityParentId_L2, false, true, " ");
+            parentDropdown_L3.value = GetDropdownValue(parentEditorDropdown_L3, historyStage.PolityParentId_L3, false, true, " ");
+            parentDropdown_L4.value = GetDropdownValue(parentEditorDropdown_L4, historyStage.PolityParentId_L4, false, true, " ");
 
             isCapital_L1.isOn=historyStage.Capital_L1==1?true:false;
             isCapital_L2.isOn = historyStage.Capital_L2 == 1 ? true : false;
@@ -148,8 +161,8 @@ public class StageFloatingPanel : MonoBehaviour
             isCapital_L4.isOn = historyStage.Capital_L4 == 1 ? true : false;
 
             // Policy
-            policyTypeDropdown.value = GetDropdownValue(policyTypeEditorDropdown, historyStage.PolicyTypeId, false, true);
-            policyDropdown.value = GetDropdownValue(policyEditorDropdown, historyStage.PolicyId, false, true);
+            policyTypeDropdown.value = GetDropdownValue(policyTypeEditorDropdown, historyStage.PolicyTypeId, false, true, " ");
+            policyDropdown.value = GetDropdownValue(policyEditorDropdown, historyStage.PolicyId, false, true, " ");
             isCapital_Policy.isOn = historyStage.PolicyCapital == 1 ? true : false;
 
         }
@@ -172,14 +185,14 @@ public class StageFloatingPanel : MonoBehaviour
             isSymbolForDate.isOn = false;
 
             // Parent
-            parentTypeEditorDropdown_L1.LoadOptions(false);
-            parentTypeEditorDropdown_L2.LoadOptions(true);
-            parentTypeEditorDropdown_L3.LoadOptions(true);
-            parentTypeEditorDropdown_L4.LoadOptions(true);
-            parentEditorDropdown_L1.LoadOptions(false);
-            parentEditorDropdown_L2.LoadOptions(true);
-            parentEditorDropdown_L3.LoadOptions(true);
-            parentEditorDropdown_L4.LoadOptions(true);
+            parentTypeEditorDropdown_L1.LoadOptions(false, "");
+            parentTypeEditorDropdown_L2.LoadOptions(true, "");
+            parentTypeEditorDropdown_L3.LoadOptions(true, "");
+            parentTypeEditorDropdown_L4.LoadOptions(true, "");
+            parentEditorDropdown_L1.LoadOptions(false, "");
+            parentEditorDropdown_L2.LoadOptions(true, "");
+            parentEditorDropdown_L3.LoadOptions(true, "");
+            parentEditorDropdown_L4.LoadOptions(true, "");
             parentTypeDropdown_L1.value = 0;
             parentTypeDropdown_L2.value = 0;
             parentTypeDropdown_L3.value = 0;
@@ -194,8 +207,8 @@ public class StageFloatingPanel : MonoBehaviour
             isCapital_L4.isOn = false;
 
             // Policy
-            policyTypeEditorDropdown.LoadOptions(true);
-            policyEditorDropdown.LoadOptions(true);
+            policyTypeEditorDropdown.LoadOptions(true, "");
+            policyEditorDropdown.LoadOptions(true, "");
             policyTypeDropdown.value = 0;
             policyDropdown.value = 0;
             isCapital_Policy.isOn = false;
@@ -246,8 +259,8 @@ public class StageFloatingPanel : MonoBehaviour
     // COPY BUTTON
     public void CopyActionButtonEvent()
     {
-        int settlementId = GetDropdownValue(settlementEditorDropdown, settlementDropdown.value, true, true);
         int regionId = Int32.Parse(copyRegionId.text);
+        int settlementId = GetDropdownValue(settlementEditorDropdown, settlementDropdown.value-1, true, false, regionId);
         SaveActionEvent(stageOkMessage, true, regionId, settlementId);
     }
     // SAVE BUTTON
@@ -291,49 +304,45 @@ public class StageFloatingPanel : MonoBehaviour
                 else
                 {
 
+                    // Data
+                    int tmpFromDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
+                    int tmpToDate = Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'));
+                    int tmpParentEditorDropdown_L1 = GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false, " ");
+                    int tmpParentEditorDropdown_L2 = GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true, " ");
+                    int tmpParentEditorDropdown_L3 = GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true, " ");
+                    int tmpParentEditorDropdown_L4 = GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true, " ");
+                    int tmpParentTypeEditorDropdown_L1 = GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false, " ");
+                    int tmpParentTypeEditorDropdown_L2 = GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true, " ");
+                    int tmpParentTypeEditorDropdown_L3 = GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true, " ");
+                    int tmpParentTypeEditorDropdown_L4 = GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true, " ");
+                    int tmpIsCapital_L1 = isCapital_L1.isOn == true ? 1 : 0;
+                    int tmpIsCapital_L2 = isCapital_L2.isOn == true ? 1 : 0;
+                    int tmpIsCapital_L3 = isCapital_L3.isOn == true ? 1 : 0;
+                    int tmpIsCapital_L4 = isCapital_L4.isOn == true ? 1 : 0;
+                    int tmpPolicyEditorDropdown = GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true, " ");
+                    int tmpPolicyTypeEditorDropdown = GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true, " ");
+                    int tmpIsCapital_Policy = isCapital_Policy.isOn == true ? 1 : 0;
+                    int tmpIsSymbolForDate = isSymbolForDate.isOn == true ? 1 : 0;
+
                     CsvConnection.Instance.AddStage(
                                                                                     regionNew,
                                                                                     settlementNew,
-                                                                                    Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
-                                                                                    Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0')),
-                                                                                    GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false),
-                                                                                    GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true),
-                                                                                    GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true),
-                                                                                    GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true),
-                                                                                    isCapital_L1.isOn == true ? 1 : 0,
-                                                                                    isCapital_L2.isOn == true ? 1 : 0,
-                                                                                    isCapital_L3.isOn == true ? 1 : 0,
-                                                                                    isCapital_L4.isOn == true ? 1 : 0,
-                                                                                    GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
-                                                                                    GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
-                                                                                    isCapital_Policy.isOn == true ? 1 : 0,
-                                                                                    isSymbolForDate.isOn == true ? 1 : 0
+                                                                                    tmpFromDate, tmpToDate,
+                                                                                    tmpParentEditorDropdown_L1, tmpParentEditorDropdown_L2, tmpParentEditorDropdown_L3, tmpParentEditorDropdown_L4,
+                                                                                    tmpParentTypeEditorDropdown_L1, tmpParentTypeEditorDropdown_L2, tmpParentTypeEditorDropdown_L3, tmpParentTypeEditorDropdown_L4,
+                                                                                    tmpIsCapital_L1, tmpIsCapital_L2, tmpIsCapital_L3, tmpIsCapital_L4,
+                                                                                    tmpPolicyEditorDropdown, tmpPolicyTypeEditorDropdown,
+                                                                                    tmpIsCapital_Policy, tmpIsSymbolForDate
                                                                                 );
 
                     // Add data in the dictionary of the stages
                     HistoryStage stage = new HistoryStage(
-                                                                                    Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
-                                                                                    Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0')),
-                                                                                    GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false),
-                                                                                    GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true),
-                                                                                    GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true),
-                                                                                    GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true),
-                                                                                    GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true),
-                                                                                    isCapital_L1.isOn == true ? 1 : 0,
-                                                                                    isCapital_L2.isOn == true ? 1 : 0,
-                                                                                    isCapital_L3.isOn == true ? 1 : 0,
-                                                                                    isCapital_L4.isOn == true ? 1 : 0,
-                                                                                    GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
-                                                                                    GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
-                                                                                    isCapital_Policy.isOn == true ? 1 : 0,
-                                                                                    isSymbolForDate.isOn == true ? 1 : 0
+                                                                                    tmpFromDate, tmpToDate,
+                                                                                    tmpParentEditorDropdown_L1, tmpParentEditorDropdown_L2, tmpParentEditorDropdown_L3, tmpParentEditorDropdown_L4,
+                                                                                    tmpParentTypeEditorDropdown_L1, tmpParentTypeEditorDropdown_L2, tmpParentTypeEditorDropdown_L3, tmpParentTypeEditorDropdown_L4,
+                                                                                    tmpIsCapital_L1, tmpIsCapital_L2, tmpIsCapital_L3, tmpIsCapital_L4,
+                                                                                    tmpPolicyEditorDropdown, tmpPolicyTypeEditorDropdown,
+                                                                                    tmpIsCapital_Policy, tmpIsSymbolForDate
                         );
 
                     HistoryRegionRelation history = new HistoryRegionRelation(
@@ -367,50 +376,60 @@ public class StageFloatingPanel : MonoBehaviour
                 }
                 else
                 {
+
+                    // Data
+                    int tmpFromDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
+                    int tmpToDate = Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'));
+                    int tmpParentEditorDropdown_L1 = GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false, " ");
+                    int tmpParentEditorDropdown_L2 = GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true, " ");
+                    int tmpParentEditorDropdown_L3 = GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true, " ");
+                    int tmpParentEditorDropdown_L4 = GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true, " ");
+                    int tmpParentTypeEditorDropdown_L1 = GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false, " ");
+                    int tmpParentTypeEditorDropdown_L2 = GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true, " ");
+                    int tmpParentTypeEditorDropdown_L3 = GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true, " ");
+                    int tmpParentTypeEditorDropdown_L4 = GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true, " ");
+                    int tmpIsCapital_L1 = isCapital_L1.isOn == true ? 1 : 0;
+                    int tmpIsCapital_L2 = isCapital_L2.isOn == true ? 1 : 0;
+                    int tmpIsCapital_L3 = isCapital_L3.isOn == true ? 1 : 0;
+                    int tmpIsCapital_L4 = isCapital_L4.isOn == true ? 1 : 0;
+                    int tmpPolicyEditorDropdown = GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true, " ");
+                    int tmpPolicyTypeEditorDropdown = GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true, " ");
+                    int tmpIsCapital_Policy = isCapital_Policy.isOn == true ? 1 : 0;
+                    int tmpIsSymbolForDate = isSymbolForDate.isOn == true ? 1 : 0;
+
                     CsvConnection.Instance.UpdateStage( 
                                                                 stageId,
-                                                                Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')),
-                                                                Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0')),
-                                                                GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false),
-                                                                GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true),
-                                                                GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true),
-                                                                GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true),
-                                                                GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false),
-                                                                GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true),
-                                                                GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true),
-                                                                GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true),
-                                                                isCapital_L1.isOn == true ? 1 : 0,
-                                                                isCapital_L2.isOn == true ? 1 : 0,
-                                                                isCapital_L3.isOn == true ? 1 : 0,
-                                                                isCapital_L4.isOn == true ? 1 : 0,
-                                                                GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true),
-                                                                GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true),
-                                                                isCapital_Policy.isOn == true ? 1 : 0,
+                                                                tmpFromDate, tmpToDate,
+                                                                tmpParentEditorDropdown_L1, tmpParentEditorDropdown_L2, tmpParentEditorDropdown_L3, tmpParentEditorDropdown_L4,
+                                                                tmpParentTypeEditorDropdown_L1, tmpParentTypeEditorDropdown_L2, tmpParentTypeEditorDropdown_L3, tmpParentTypeEditorDropdown_L4,
+                                                                tmpIsCapital_L1, tmpIsCapital_L2, tmpIsCapital_L3, tmpIsCapital_L4,
+                                                                tmpPolicyEditorDropdown, tmpPolicyTypeEditorDropdown,
+                                                                tmpIsCapital_Policy,
                                                                 regionId, settlementId,
-                                                                isSymbolForDate.isOn == true ? 1 : 0
+                                                                tmpIsSymbolForDate
                                                             );
                    
                     // Update data in the dictionary of the stages
                     HistoryStage stage = MapController.Instance.GetRegionById(regionId).History.Where(x => x.StageId.Equals(stageId)).Select(x => x.Stage).FirstOrDefault();
-                    stage.StartDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
-                    stage.EndDate = Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'));
-                    stage.PolityParentId_L1 = GetDropdownValue(parentEditorDropdown_L1, parentDropdown_L1.value, true, false);
-                    stage.PolityParentId_L2 = GetDropdownValue(parentEditorDropdown_L2, parentDropdown_L2.value, true, true);
-                    stage.PolityParentId_L3 = GetDropdownValue(parentEditorDropdown_L3, parentDropdown_L3.value, true, true);
-                    stage.PolityParentId_L4 = GetDropdownValue(parentEditorDropdown_L4, parentDropdown_L4.value, true, true);
-                    stage.PolityTypeIdParent_L1 = GetDropdownValue(parentTypeEditorDropdown_L1, parentTypeDropdown_L1.value, true, false);
-                    stage.PolityTypeIdParent_L2 = GetDropdownValue(parentTypeEditorDropdown_L2, parentTypeDropdown_L2.value, true, true);
-                    stage.PolityTypeIdParent_L3 = GetDropdownValue(parentTypeEditorDropdown_L3, parentTypeDropdown_L3.value, true, true);
-                    stage.PolityTypeIdParent_L4 = GetDropdownValue(parentTypeEditorDropdown_L4, parentTypeDropdown_L4.value, true, true);
-                    stage.Capital_L1 = isCapital_L1.isOn == true ? 1 : 0;
-                    stage.Capital_L2 = isCapital_L2.isOn == true ? 1 : 0;
-                    stage.Capital_L3 = isCapital_L3.isOn == true ? 1 : 0;
-                    stage.Capital_L4 = isCapital_L4.isOn == true ? 1 : 0;
-                    stage.PolicyId = GetDropdownValue(policyEditorDropdown, policyDropdown.value, true, true);
-                    stage.PolicyTypeId = GetDropdownValue(policyTypeEditorDropdown, policyTypeDropdown.value, true, true);
-                    stage.PolicyCapital = isCapital_Policy.isOn == true ? 1 : 0;
-                    stage.IsSymbolForDate = isSymbolForDate.isOn == true ? 1 : 0;
-                    
+                    stage.StartDate = tmpFromDate;
+                    stage.EndDate = tmpToDate;
+                    stage.PolityParentId_L1 = tmpParentEditorDropdown_L1;
+                    stage.PolityParentId_L2 = tmpParentEditorDropdown_L2;
+                    stage.PolityParentId_L3 = tmpParentEditorDropdown_L3;
+                    stage.PolityParentId_L4 = tmpParentEditorDropdown_L4;
+                    stage.PolityTypeIdParent_L1 = tmpParentTypeEditorDropdown_L1;
+                    stage.PolityTypeIdParent_L2 = tmpParentTypeEditorDropdown_L2;
+                    stage.PolityTypeIdParent_L3 = tmpParentTypeEditorDropdown_L3;
+                    stage.PolityTypeIdParent_L4 = tmpParentTypeEditorDropdown_L4;
+                    stage.Capital_L1 = tmpIsCapital_L1;
+                    stage.Capital_L2 = tmpIsCapital_L2;
+                    stage.Capital_L3 = tmpIsCapital_L3;
+                    stage.Capital_L4 = tmpIsCapital_L4;
+                    stage.PolicyId = tmpPolicyEditorDropdown;
+                    stage.PolicyTypeId = tmpPolicyTypeEditorDropdown;
+                    stage.PolicyCapital = tmpIsCapital_Policy;
+                    stage.IsSymbolForDate = tmpIsSymbolForDate;
+
                     // Refreshing data                   
                     if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                     {

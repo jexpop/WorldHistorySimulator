@@ -44,7 +44,16 @@ public class InputField : UIBehaviour
 
         if(relatedDropdown != null)
         {
-            relatedEditorDropdown.LoadOptions(false, Int32.Parse(_field.text));
+            int fieldNumeric = 0;
+            if(int.TryParse(_field.text, out fieldNumeric))
+            {
+                relatedEditorDropdown.LoadOptions(true, fieldNumeric);
+            }
+            else
+            {
+                relatedEditorDropdown.LoadOptions(true, _field.text);
+            }
+             
         }
 
     }
