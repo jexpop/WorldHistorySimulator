@@ -1,20 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\controllers\\ui\\panelsfiller\\stagefloatingpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\ui\\panelsfiller\\stagefloatingpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\assets\\_scripts\\controllers\\ui\\controls\\editordropdown.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\ui\\controls\\editordropdown.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\assets\\_scripts\\controllers\\ui\\controls\\inputfield.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\ui\\controls\\inputfield.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -22,48 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "StageFloatingPanel.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\StageFloatingPanel.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\StageFloatingPanel.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\StageFloatingPanel.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\StageFloatingPanel.cs",
-              "ViewState": "AQIAAHQBAAAAAAAAAIA0wIsBAACKAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T21:48:02.291Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "EditorDropdown.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\Controls\\EditorDropdown.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\UI\\Controls\\EditorDropdown.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\Controls\\EditorDropdown.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\UI\\Controls\\EditorDropdown.cs",
-              "ViewState": "AQIAACsAAAAAAAAAAAAwwDkAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T19:58:56.228Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "InputField.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\Controls\\InputField.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\UI\\Controls\\InputField.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\Controls\\InputField.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\UI\\Controls\\InputField.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAIA3wDEAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-25T19:58:10.018Z"
             }
           ]
         }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -134,7 +133,7 @@ public class EditorDropdown : MonoBehaviour
     {
         ClearOldOptions();
         int c = 0;
-        c = FirstOptionCheck(optional);
+        if(stringFilter == "") { c = FirstOptionCheck(optional); }        
         
         // Get new options
         if (dataType == EditorDataType.PolityType)
@@ -145,7 +144,7 @@ public class EditorDropdown : MonoBehaviour
             {
                 string localizedName = GetLocalizedOption("LOC_TABLE_HIST_POLITIES_TYPE", pt.Value.Name);
                 string compareName=Utilities.RemoveDiacritics(localizedName).ToLower();
-                if (compareName.IndexOf(stringFilter.ToLower()) > -1)
+                if (compareName.IndexOf(stringFilter.ToLower()) > -1 | stringFilter==" ")
                 {
                     OptionsOrdered optionOrdered = new OptionsOrdered(pt.Key, pt.Value.Name, localizedName);
                     polityTypeOptionsOrdered.Add(optionOrdered);
@@ -171,7 +170,7 @@ public class EditorDropdown : MonoBehaviour
             {
                 string localizedName = GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name);
                 string compareName = Utilities.RemoveDiacritics(localizedName).ToLower();
-                if (compareName.IndexOf(stringFilter.ToLower()) > -1)
+                if (compareName.IndexOf(stringFilter.ToLower()) > -1 | stringFilter == " ")
                 {
                     OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, localizedName);
                     individualOptionsOrdered.Add(optionOrdered);
@@ -198,11 +197,11 @@ public class EditorDropdown : MonoBehaviour
             {
                 string localizedName = GetLocalizedOption("LOC_TABLE_HIST_POLITIES", p.Value.Name);
                 string compareName = Utilities.RemoveDiacritics(localizedName).ToLower();
-                if (compareName.IndexOf(stringFilter.ToLower()) > -1)
+                if (compareName.IndexOf(stringFilter.ToLower()) > -1 | stringFilter == " ")
                 {
                     OptionsOrdered optionOrdered = new OptionsOrdered(p.Key, p.Value.Name, localizedName);
                     collectiveOptionsOrdered.Add(optionOrdered);
-                }
+                }   
             }
 
             // Order the list
