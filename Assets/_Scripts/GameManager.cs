@@ -78,7 +78,8 @@ public class GameManager : Singleton<GameManager>
     public Vector3Int MAP_OnlyRGBColorByPosition(int x, int y) { return MapController.Instance.OnlyRGBColorByPosition(x, y); }
     public void MAP_ChangeColor(Color32 remapColor, Color32 showColor) { MapController.Instance.ChangeColor(remapColor, showColor); }
     public void MAP_ApplyPaletteTexture(bool updateMipmaps) { MapController.Instance.ApplyPaletteTexture(updateMipmaps); }
-
+    public void MAP_CapitalSymbolLoad() { MapController.Instance.CapitalSymbolLoad(); }
+    
 
     // LOCALIZATION Controller
     public void LOC_AddLocalizeString(TextMeshProUGUI text, string table, string key) { LocalizationController.Instance.AddLocalizeString(text, table, key); }

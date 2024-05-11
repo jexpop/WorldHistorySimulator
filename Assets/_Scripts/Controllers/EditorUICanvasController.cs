@@ -1276,5 +1276,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     }
     /***                        ***/
 
+    public void ReloadCapitalSymbols()
+    {
+        GameManager.Instance.MAP_CapitalSymbolLoad();
+    }
 
 }

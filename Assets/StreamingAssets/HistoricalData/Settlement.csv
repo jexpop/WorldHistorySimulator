@@ -21,8 +21,8 @@ SettlementId;SettlementName;RegionId;X;Y
 22;Viroconium;3301;-40;696
 23;Lindum Colonia;9250;-8;705
 24;Eboracum;9269;-17;721
-25;Aquae Sulis;9484;-37;666
-26;Durotrigum;3463;-39;356
+25;Aquae Sulis;3369;-37;666
+26;Durotrigum;3463;-39;656
 27;Venta Belgarum;6489;-21;661
 28;Sorviodunum;6351;-28;663
 29;Durovernum Cantiacorum;3501;16;665
@@ -39,3 +39,41 @@ SettlementId;SettlementName;RegionId;X;Y
 40;Alauna Carvetiorum;11332;-53;734
 41;Isurium;9332;-24;723
 42;Caer Ligualid;11332;-51;738
+43;Caer Baddan;3369;-37;666
+44;Petuaria Parisorum;11297;-7;715
+45;Caer Petuar;11297;-7;715
+46;Garth Madryn;253;-52;680
+47;Segontium;6363;-65;703
+48;Caernarfon;6363;-65;703
+49;Cair Segeint;6363;-65;703
+50;Caer Lind Colun;9250;-8;705
+51;Duroliponte;11253;3;684
+52;Cair Grauth;11253;3;684
+53;Durovernum;3501;16;665
+54;Cantwarabyrig;3501;16;665
+55;Tamium;377;-49;671
+56;Caer Teim;377;-49;671
+57;Maridunum;407;-66;677
+58;Caer Merddyn;407;-66;677
+59;Deva Victrix;3205;-44;705
+60;Caer Legion;3205;-44;705
+61;Chichester;9458;-17;660
+62;Caer Ceri;6221;-28;676
+63;Caer Colun;221;15;679
+64;Danum;11382;-18;712
+65;Caer Daun;11382;-18;712
+66;Loidis;11382;-20;714
+67;Caer Durnac;3463;-39;656
+68;Caer Draitou;9484;-52;663
+69;Vinovia;11270;-26;736
+70;Cataractonium;11270;-24;733
+71;Caer Uisc;13266;-54;656
+72;Caer Glout;6378;-35;676
+73;Magnae Dobunnorum;3241;-43;682
+74;Caer Fawydd;3241;-43;682
+75;Caer Lerion;11279;-18;694
+76;Letocetum;11345;-28;695
+77;Caer Luit coyt;11345;-28;695
+78;Caer Londein;6103;-1;672
+79;Mamucium;6318;-34;711
+80;Caer Maunguid;6318;-34;711

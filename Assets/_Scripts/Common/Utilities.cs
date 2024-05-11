@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -38,8 +39,26 @@ public static class Utilities
     public static bool Range(int start, int stop, int check)
     {
         bool result = false;
-        for (int i = start; i <= stop; i++) { if(i==check) { result = true; } }
+
+        // negative range        
+        if (start < 0 & check < 0)
+        {
+            int neg_start = stop < 0 ? stop : 0;
+            neg_start = Mathf.Abs(neg_start);
+            int neg_stop = start;
+            neg_stop = Mathf.Abs(neg_stop);
+            for (int i = neg_start; i <= neg_stop; i++) { if (i == Mathf.Abs(check)) { result = true; } }
+        }
+
+        // positive range
+        if(start<0) { start = 0; }
+        if (stop > 0)
+        {
+            for (int i = start; i <= stop; i++) { if (i == check) { result = true; } }
+        }
+
         return result;
+
     }
 
     /// <summary>

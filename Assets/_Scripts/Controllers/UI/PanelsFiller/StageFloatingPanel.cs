@@ -130,7 +130,19 @@ public class StageFloatingPanel : MonoBehaviour
     public void SetHistory(HistoryStage historyStage = null)
     {
         string fromDate, toDate;
-   
+
+        // Clear filters
+        parentTypeFilter_L1.text = "";
+        parentTypeFilter_L2.text = "";
+        parentTypeFilter_L3.text = "";
+        parentTypeFilter_L4.text = "";
+        parentFilter_L1.text = "";
+        parentFilter_L2.text = "";
+        parentFilter_L3.text = "";
+        parentFilter_L4.text = "";
+        policyTypeFilter.text = "";
+        policyFilter.text = "";
+
         if (historyStage != null)
         {
             // Dates
@@ -234,7 +246,7 @@ public class StageFloatingPanel : MonoBehaviour
         return result;
     }
     private bool DatesExist(int checkedRegion, int idStage = 0)
-    {// For negative dates it doesn't check ok - TODO Check it
+    {
         int newStartDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
         int newEndDate = Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'));
 
@@ -266,17 +278,17 @@ public class StageFloatingPanel : MonoBehaviour
     // COPY BUTTON
     public void CopyActionButtonEvent()
     {
-        // Clear other inputfields
-        parentTypeFilter_L1.text = " ";
-        parentTypeFilter_L2.text = " ";
-        parentTypeFilter_L3.text = " ";
-        parentTypeFilter_L4.text = " ";
-        parentFilter_L1.text = " ";
-        parentFilter_L2.text = " ";
-        parentFilter_L3.text = " ";
-        parentFilter_L4.text = " ";
-        policyTypeFilter.text = " ";
-        policyFilter.text = " ";
+        // Clear other filters
+        parentTypeFilter_L1.text = "";
+        parentTypeFilter_L2.text = "";
+        parentTypeFilter_L3.text = "";
+        parentTypeFilter_L4.text = "";
+        parentFilter_L1.text = "";
+        parentFilter_L2.text = "";
+        parentFilter_L3.text = "";
+        parentFilter_L4.text = "";
+        policyTypeFilter.text = "";
+        policyFilter.text = "";
 
         int regionId = Int32.Parse(copyRegionId.text);
         int settlementId = GetDropdownValue(settlementEditorDropdown, settlementDropdown.value-1, true, false, regionId);
@@ -372,7 +384,10 @@ public class StageFloatingPanel : MonoBehaviour
 
                     MapController.Instance.GetRegionById(regionNew).History.Add(history);
 
-                    if(isCopy == false)
+                    // Refreshing UI stage
+                    SetHistory(stage);
+
+                    if (isCopy == false)
                     {
                         // Refreshing data                   
                         if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
@@ -389,7 +404,7 @@ public class StageFloatingPanel : MonoBehaviour
             }
             else
             { // Update new data
-                if (DatesExist(stageId))
+                if (DatesExist(regionNew, stageId))
                 {// Check duplicate dates
                     LocalizationController.Instance.AddLocalizeString(duplicatedDatesMessage);
                 }
@@ -448,6 +463,9 @@ public class StageFloatingPanel : MonoBehaviour
                     stage.PolicyTypeId = tmpPolicyTypeEditorDropdown;
                     stage.PolicyCapital = tmpIsCapital_Policy;
                     stage.IsSymbolForDate = tmpIsSymbolForDate;
+
+                    // Refreshing UI stage
+                    SetHistory(stage);
 
                     // Refreshing data                   
                     if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))

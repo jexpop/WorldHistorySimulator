@@ -83,6 +83,14 @@ MonoBehaviour:
     m_Key: PolitySymbolsEdit
     m_Metadata:
       m_Items: []
+  - m_Id: 242875294061477888
+    m_Key: Tasks Editor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 242880910360363008
+    m_Key: Reload Symbols
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

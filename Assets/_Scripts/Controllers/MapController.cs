@@ -68,20 +68,7 @@ public class MapController : Singleton<MapController>
 
         /* Capital symbols preload */
         symbolStreamingPath = GameManager.Instance.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;
-        // Subdirectories
-        string[] directories = Directory.GetDirectories(symbolStreamingPath);
-        for(int i=0; i<directories.Length; i++)
-        {
-
-            // Files in the subdirectory
-            DirectoryInfo symbolsDir = new DirectoryInfo(directories[i] + "/");
-            FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
-            foreach (FileInfo symbolFilename in symbolsInfo)
-            {
-                AddCapitalSymobl(directories[i] + "/", symbolFilename.Name);
-            }
-
-        }
+        CapitalSymbolLoad();
 
     }
 
@@ -95,6 +82,26 @@ public class MapController : Singleton<MapController>
         // Add image to symbols dictioanry
         SymbolTexture symbolTexture = new SymbolTexture(symbolName, symbolTex);
         symbolsTexture.Add(symbolTexture);
+    }
+
+    public void CapitalSymbolLoad()
+    {        
+        // Subdirectories
+        string[] directories = Directory.GetDirectories(symbolStreamingPath);
+
+        symbolsTexture.Clear();
+        for (int i = 0; i < directories.Length; i++)
+        {
+
+            // Files in the subdirectory
+            DirectoryInfo symbolsDir = new DirectoryInfo(directories[i] + "/");
+            FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
+            foreach (FileInfo symbolFilename in symbolsInfo)
+            {
+                AddCapitalSymobl(directories[i] + "/", symbolFilename.Name);
+            }
+
+        }
     }
 
     /// <summary>
