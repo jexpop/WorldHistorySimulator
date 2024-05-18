@@ -545,9 +545,10 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             // New position of the PostIt
             Vector2 newPosition = CalculateNewPositionPostItNote(mousePos);
             tmpPostItNote.transform.position = new Vector3(newPosition.x, newPosition.y, tmpPostItNote.transform.position.z);
-            
+
             // Get current stage to fill the PostIt
             HistoryRegionRelation history = GetCurrentStageByRegion(region);
+
             string startEra = history.Stage.StartDate > 0 ? "A" : "B";
             string endEra = history.Stage.EndDate > 0 ? "A": "B";
 
@@ -556,7 +557,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             Polity polityL3 = history.Stage.PolityParentId_L3 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L3);
             Polity polityL2 = history.Stage.PolityParentId_L2 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L2);
             Polity polityL1 = history.Stage.PolityParentId_L1 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L1);
-            
+
             // Polity Owner L4
             if (polityL4 == region.Owner)
             {
@@ -604,15 +605,16 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                 }
 
                 // Parent 3
-                if (polityL3 != null)
+                if (polityL1 != null)
                 {
                     // Polity Type Parent 3
-                    PolityType polityTypeL3 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L3);
+                    PolityType polityTypeL1 = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolityTypeIdParent_L1);
                     // Parent 3
                     postItNote.SetParentVisibility3(true);
-                    postItNote.SetParent3("LOC_TABLE_HIST_POLITIES", polityL3.Name);
+                    postItNote.SetParent3("LOC_TABLE_HIST_POLITIES", polityL1.Name);
+
                     // Image Parent 3
-                    string symbolFilenameL43 = history.Stage.IsSymbolForDate == 0 ? polityL3.Name + "_" + polityTypeL3.Name : polityL3.Name + "_" + polityTypeL3.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                    string symbolFilenameL43 = history.Stage.IsSymbolForDate == 0 ? polityL1.Name + "_" + polityTypeL1.Name : polityL1.Name + "_" + polityTypeL1.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
                     postItNote.SetParentImage3(symbolFilenameL43);
                 }
                 else

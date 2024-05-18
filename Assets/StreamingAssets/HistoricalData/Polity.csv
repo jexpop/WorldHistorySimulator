@@ -48,7 +48,7 @@ PolityId;PolityName;RGB;PolicyId
 50;Cruithin;000.000.000;1
 51;Dumnonii;000.000.000;1
 52;Durotriges;000.000.000;1
-53;Belgae;000.000.000;2
+53;Belgae;000.000.000;1
 54;Regni;000.000.000;1
 55;Cantiaci;000.000.000;1
 56;Atrebates;000.000.000;1
@@ -124,3 +124,7 @@ PolityId;PolityName;RGB;PolicyId
 127;Pagenses;000.000.000;1
 128;Caer Lerion;000.000.000;1
 129;Caer Londein;000.000.000;1
+130;Caer Went;000.000.000;1
+131;Caer Gwinntguic;000.000.000;1
+132;Caer Celemion;000.000.000;1
+133;Maeatae;000.000.000;1
