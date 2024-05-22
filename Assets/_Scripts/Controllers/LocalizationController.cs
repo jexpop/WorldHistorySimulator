@@ -219,6 +219,8 @@ public class LocalizationController : Singleton<LocalizationController>
         ExpostToCSV(table, LocalizationSettings.SelectedLocale);
 #endif
 
+        enabled = false;
+
     }
     public void DeleteEntry(string table, string key)
     {

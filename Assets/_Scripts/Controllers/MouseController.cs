@@ -44,13 +44,14 @@ public class MouseController : Singleton<MouseController>
             if (Input.GetMouseButtonDown(0) && (
                                 GameManager.Instance.UI_GetUIStatus() == UIStatus.InfoRegion ||
                                 GameManager.Instance.UI_GetUIStatus() == UIStatus.Nothing ||
-                                GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote))
+                                GameManager.Instance.UI_GetUIStatus() == UIStatus.PostItNote) 
+                                && GUIUtility.hotControl == 0)
             {
                 MouseButtonLeft();
             }
 
             // Right button actions
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1) && GUIUtility.hotControl == 0)
             {
                 MouseButtonRight();
             }
