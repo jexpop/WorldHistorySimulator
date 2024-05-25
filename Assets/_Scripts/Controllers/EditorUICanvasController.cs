@@ -96,6 +96,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     private RegionFloatingPanel tmpRegionFloatingPanel;
     private PostItNote postItNote;
     private RectTransform postItNoteRectTransform;
+    private RectTransform regionPanelRectTransform;
     private float regionPanelxPositionLast, regionPanelyPositionLast;
 
 
@@ -111,6 +112,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         // Floating panels components
         tmpRegionFloatingPanel = editorRegionPanel.GetComponent<RegionFloatingPanel>();
         tmpHistoryFloatingPanel = editorHistoryPanel.GetComponent<HistoryFloatingPanel>();
+
+        // Rect Transforms
+        regionPanelRectTransform = editorRegionPanel.GetComponent<RectTransform>();
 
     }
 
@@ -389,8 +393,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             uiStatus = UIStatus.OwnerSelection;
             tmpRegionFloatingPanel.SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.GENERIC_CLOSE);
 
-            // Get/Set size of the panels       
-            float xPanel = editorRegionPanel.transform.position.x;
+            // Get/Set size of the panels      -- Fixed panel, now it's not necessary 
+            /*float xPanel = editorRegionPanel.transform.position.x;
             float yPanel = editorRegionPanel.transform.position.y;
             float zPanel = editorRegionPanel.transform.position.z;
             float wPanel = tmpRegionFloatingPanel.GetRectTransform().rect.width;
@@ -398,7 +402,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             float wHPanel = tmpHistoryFloatingPanel.GetRectTransform().rect.width;
             float x = xPanel < Screen.width / 2 ? xPanel : xPanel - wPanel - wHPanel;
             float y = yPanel < Screen.height / 2 ? yPanel + hPanel : yPanel - hPanel;
-            editorHistoryPanel.transform.position = new Vector3(x, y, zPanel);
+            editorHistoryPanel.transform.position = new Vector3(x, y, zPanel);*/
 
             bool isFisrtSettlement = true;
 
@@ -518,15 +522,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     public Vector2 CalculateNewPositionPanel(Vector3 mousePos)
     {
         float horizontalHalfScreen = Screen.width / 2;
-        float verticalHalfScreen = Screen.height / 2;
 
-        float horizontalQuarterScreen = Screen.width / 4;
-        float verticalQuarterScreen = Screen.height / 4;
-
-        float horizontalMargin = horizontalQuarterScreen / 3;
-
-        float panelXPositionNew = mousePos.x < horizontalHalfScreen ? Screen.width - horizontalMargin : horizontalQuarterScreen - horizontalMargin;
-        float panelYPositionNew = mousePos.y < verticalHalfScreen ? verticalQuarterScreen * 3 : verticalQuarterScreen;
+        float panelXPositionNew = mousePos.x < horizontalHalfScreen ? Screen.width : regionPanelRectTransform.sizeDelta.x;
+        float panelYPositionNew = regionPanelRectTransform.sizeDelta.x / 2;
 
         Vector2 panelPositionNew = new Vector2(panelXPositionNew, panelYPositionNew);
         return panelPositionNew;

@@ -257,8 +257,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RegionFloatingPanel, Assembly-CSharp
-        m_MethodName: 
+        m_TargetAssemblyTypeName: EditorUICanvasController, Assembly-CSharp
+        m_MethodName: DeactivateRegionPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1382,7 +1382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3166194587687204377
 RectTransform:
   m_ObjectHideFlags: 0
