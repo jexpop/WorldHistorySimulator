@@ -109,6 +109,17 @@ public class PostItNote : MonoBehaviour
         //Assigns the texture
         parentImage3.texture = tex;
     }
+    public void SetPolicyImage(string symbolFilename)
+    {
+        // Get the symbol
+        Texture2D tex = MapController.Instance.GetSymbolTexture(symbolFilename);
+
+        // Transparence
+        policyImage.color = tex != null ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, 0);
+
+        //Assigns the texture
+        policyImage.texture = tex;
+    }
     /// ****                             ****///
 
 }

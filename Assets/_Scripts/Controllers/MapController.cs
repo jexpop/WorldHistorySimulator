@@ -48,7 +48,7 @@ public class MapController : Singleton<MapController>
 
         // Building map
         CreateMap();
-        CreateRegions(true);
+        CreateRegions();
 
         // Placement objects
         placementObjects = gameObject.GetComponentInParent<PlacementObjects>();
@@ -347,7 +347,7 @@ public class MapController : Singleton<MapController>
     /// 
     /// Get information from csv to colorize the regions
     ///
-    private void CreateRegions(bool isInitial)
+    private void CreateRegions()
     {
         ColorsList(); // Generate the list of colors for the polities                      
         int timeline = GameManager.Instance.UI_GetCurrentTimeline(false); // Get current timeline        

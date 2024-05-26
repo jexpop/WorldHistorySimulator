@@ -387,18 +387,18 @@ public class StageFloatingPanel : MonoBehaviour
                     // Refreshing UI stage
                     SetHistory(stage);
 
-                    if (isCopy == false)
-                    {
+                    //if (isCopy == false)
+                    //{
                         // Refreshing data                   
                         if (EditorUICanvasController.Instance.IsDateCurrent(Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0')), Int32.Parse(yToDate.text + mToDate.text.PadLeft(2, '0') + dToDate.text.PadLeft(2, '0'))))
                         {
-                            EditorUICanvasController.Instance.RefleshingHistory(regionNew, false, settlementNew);
+                            EditorUICanvasController.Instance.RefleshingHistory(regionNew, false, settlementNew, isCopy);
                         }
                         else
                         {
-                            EditorUICanvasController.Instance.RefleshingHistory(regionNew, false);
+                            EditorUICanvasController.Instance.RefleshingHistory(regionNew, false, 0, isCopy);
                         }
-                    }
+                    //}
                
                 }           
             }
@@ -474,7 +474,7 @@ public class StageFloatingPanel : MonoBehaviour
                     }
                     else
                     {
-                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false);
+                        EditorUICanvasController.Instance.RefleshingHistory(regionId, false, 0);
                     }
                 }
             }
@@ -500,7 +500,7 @@ public class StageFloatingPanel : MonoBehaviour
         }
         else
         {
-            EditorUICanvasController.Instance.RefleshingHistory(regionId, true);
+            EditorUICanvasController.Instance.RefleshingHistory(regionId, true, 0);
         }
     }
     /***                        ***/

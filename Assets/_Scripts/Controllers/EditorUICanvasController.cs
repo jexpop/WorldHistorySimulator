@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Rendering.Universal;
 
 
 public class EditorUICanvasController : Singleton<EditorUICanvasController>
@@ -102,6 +103,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
     private void Start()
     {
+        // Initial player preferences
+        LoadPlayerUIPreferences();
+
         // Initialise the post it note with polity information
         tmpPostItNote = Instantiate(postItElement);
         tmpPostItNote.transform.SetParent(this.transform.parent);
@@ -449,40 +453,43 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         }
 
     }
-    public void RefleshingHistory(int currentRegionId, bool delete, int settlementId = 0)
+    public void RefleshingHistory(int currentRegionId, bool delete, int settlementId, bool isCopy = false)
     {
         // Reload database
         GameManager.Instance.MAP_LoadHistoryRegionDictionaryFromDB(currentRegionId);
 
         // Load new stages
-        LoadStages(currentRegionId);
-        
+        if (!isCopy) { LoadStages(currentRegionId); }
+
         // Update region panel info
-        if(settlementId != 0)
+        if (settlementId != 0)
         {
             // Set settlement in the region panel
-            if (delete)
+            if (!isCopy)
             {
-                SetSettlementRegionPanel(false, null);
-            }
-            else
-            {
-                string settlementKey = GameManager.Instance.MAP_GetSettlementsLocaleKeyById(settlementId);
-                SetSettlementRegionPanel(false, settlementKey);
+                if (delete)
+                {
+                    SetSettlementRegionPanel(false, null);
+                }
+                else
+                {
+                    string settlementKey = GameManager.Instance.MAP_GetSettlementsLocaleKeyById(settlementId);
+                    SetSettlementRegionPanel(false, settlementKey);
+                }
             }
 
             // Get current stage info
             Region currentRegion = GameManager.Instance.MAP_GetRegionById(currentRegionId);
             HistoryRegionRelation history = GetCurrentStageByRegion(currentRegion);
             int polityId = 0;
-            if(history != null)
+            if (history != null)
             {
                 polityId = layersDropdown.value switch
                 {
                     0 => history.Stage.PolityParentId_L1,
                     1 => Utilities.EitherInt(history.Stage.PolityParentId_L2, history.Stage.PolityParentId_L1),
                     2 => Utilities.EitherInt(Utilities.EitherInt(history.Stage.PolityParentId_L3, history.Stage.PolityParentId_L2), history.Stage.PolityParentId_L1),
-                    3 => Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(history.Stage.PolityParentId_L4, history.Stage.PolityParentId_L3),history.Stage.PolityParentId_L2), history.Stage.PolityParentId_L1),
+                    3 => Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(history.Stage.PolityParentId_L4, history.Stage.PolityParentId_L3), history.Stage.PolityParentId_L2), history.Stage.PolityParentId_L1),
                     _ => 0
                 };
 
@@ -498,7 +505,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             }
 
         }
-        
+
     }
     private void LoadStages(int regionId)
     {
@@ -555,7 +562,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             Polity polityL3 = history.Stage.PolityParentId_L3 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L3);
             Polity polityL2 = history.Stage.PolityParentId_L2 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L2);
             Polity polityL1 = history.Stage.PolityParentId_L1 == 0 ? null : GameManager.Instance.MAP_GetPolityById(history.Stage.PolityParentId_L1);
-
+ 
             // Polity Owner L4
             if (polityL4 == region.Owner)
             {
@@ -725,7 +732,11 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             {
                 postItNote.SetPolicyVisibility(true);
                 Polity policy = GameManager.Instance.MAP_GetPolityById(history.Stage.PolicyId);
+                PolityType policyType = GameManager.Instance.MAP_GetPolityTypeById(history.Stage.PolicyTypeId);
                 postItNote.SetPolicy("LOC_TABLE_HIST_POLITIES", policy.Name);
+                // Image
+                string symbolFilenamePolicy = history.Stage.IsSymbolForDate == 0 ? policy.Name + "_" + policyType.Name : policy.Name + "_" + policyType.Name + "_" + startEra + history.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + history.Stage.EndDate.ToString().PadLeft(8, '0');
+                postItNote.SetPolicyImage(symbolFilenamePolicy);
             }
             else
             {
@@ -1273,6 +1284,43 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         int currentDate = GetCurrentTimeline(true);
 
         return currentDate >= start && currentDate <= end ? true : false;
+    }
+    private void LoadPlayerUIPreferences()
+    {
+        int optionLayer, era;
+        string day, month, year;
+
+        optionLayer = PlayerPrefs.GetInt("editorOptionLayer", 0);
+        era = PlayerPrefs.GetInt("editorEra", 0);
+        day = PlayerPrefs.GetString("editorDay", "1");
+        month = PlayerPrefs.GetString("editorMonth", "1");
+        year = PlayerPrefs.GetString("editorYear", "1000");
+
+        layersDropdown.value = optionLayer;
+        eraTimeline.value = era;
+        dayTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = day;
+        monthTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = month;
+        yearTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = year;
+
+    }
+    public void SavePlayerUIPreferences()
+    {
+        int optionLayer, era;
+        string day, month, year;
+
+        optionLayer = layersDropdown.value;
+        era = eraTimeline.value;
+        day = dayTimeline.text == "" ? dayTimeline.placeholder.GetComponent<TextMeshProUGUI>().text : dayTimeline.text;
+        month = monthTimeline.text == "" ? monthTimeline.placeholder.GetComponent<TextMeshProUGUI>().text : monthTimeline.text;
+        year = yearTimeline.text == "" ? yearTimeline.placeholder.GetComponent<TextMeshProUGUI>().text : yearTimeline.text;
+
+        PlayerPrefs.SetInt("editorOptionLayer", optionLayer);
+        PlayerPrefs.SetInt("editorEra", era);
+        PlayerPrefs.SetString("editorDay", day);
+        PlayerPrefs.SetString("editorMonth", month);
+        PlayerPrefs.SetString("editorYear", year);
+        PlayerPrefs.Save();
+
     }
     /***                        ***/
 
