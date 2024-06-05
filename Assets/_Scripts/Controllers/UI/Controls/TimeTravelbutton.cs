@@ -16,8 +16,6 @@ public class TimeTravelbutton : MonoBehaviour
         MapController.Instance.CreateRegions(optionLayer, true, rivers);
         MapController.Instance.ShowCapitalSymbols();
         MapController.Instance.ShowSettlementMarkers();
-
-        EditorUICanvasController.Instance.SavePlayerUIPreferences();
     }
 
 }

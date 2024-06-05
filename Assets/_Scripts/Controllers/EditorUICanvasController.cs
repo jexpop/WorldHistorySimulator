@@ -103,9 +103,6 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
     private void Start()
     {
-        // Initial player preferences
-        LoadPlayerUIPreferences();
-
         // Initialise the post it note with polity information
         tmpPostItNote = Instantiate(postItElement);
         tmpPostItNote.transform.SetParent(this.transform.parent);
@@ -1284,43 +1281,6 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         int currentDate = GetCurrentTimeline(true);
 
         return currentDate >= start && currentDate <= end ? true : false;
-    }
-    private void LoadPlayerUIPreferences()
-    {
-        int optionLayer, era;
-        string day, month, year;
-
-        optionLayer = PlayerPrefs.GetInt("editorOptionLayer", 0);
-        era = PlayerPrefs.GetInt("editorEra", 0);
-        day = PlayerPrefs.GetString("editorDay", "1");
-        month = PlayerPrefs.GetString("editorMonth", "1");
-        year = PlayerPrefs.GetString("editorYear", "1000");
-
-        layersDropdown.value = optionLayer;
-        eraTimeline.value = era;
-        dayTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = day;
-        monthTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = month;
-        yearTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = year;
-
-    }
-    public void SavePlayerUIPreferences()
-    {
-        int optionLayer, era;
-        string day, month, year;
-
-        optionLayer = layersDropdown.value;
-        era = eraTimeline.value;
-        day = dayTimeline.text == "" ? dayTimeline.placeholder.GetComponent<TextMeshProUGUI>().text : dayTimeline.text;
-        month = monthTimeline.text == "" ? monthTimeline.placeholder.GetComponent<TextMeshProUGUI>().text : monthTimeline.text;
-        year = yearTimeline.text == "" ? yearTimeline.placeholder.GetComponent<TextMeshProUGUI>().text : yearTimeline.text;
-
-        PlayerPrefs.SetInt("editorOptionLayer", optionLayer);
-        PlayerPrefs.SetInt("editorEra", era);
-        PlayerPrefs.SetString("editorDay", day);
-        PlayerPrefs.SetString("editorMonth", month);
-        PlayerPrefs.SetString("editorYear", year);
-        PlayerPrefs.Save();
-
     }
     /***                        ***/
 
