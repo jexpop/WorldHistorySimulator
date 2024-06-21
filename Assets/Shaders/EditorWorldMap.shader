@@ -39,6 +39,7 @@ Shader "Unlit/EditorWorldMap"
             sampler2D _RemapTex;
             sampler2D _PaletteTex;
             float _DrawRiver;
+            float _DrawSea;
             float4 _RegionTex_ST;
             CBUFFER_END
 
@@ -72,6 +73,10 @@ Shader "Unlit/EditorWorldMap"
                 {
                         if(river_index.r == 1 && river_index.g == 1 && river_index.b == 1)
                         {
+                            // Sea black borders 
+                            if(_DrawSea == 1 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
+                                    return float4 (0, 0, 0, 1);             
+                            }
                             // Land grey borders 
                             if (sea_index.r == 1 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
                                 return float4 (0.55, 0.55, 0.55, 1);                    
@@ -84,10 +89,14 @@ Shader "Unlit/EditorWorldMap"
                 }
                 else
                 {// There are not rivers
-                        // Land grey borders 
-                        if (sea_index.r == 1 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
-                            return float4 (0.55, 0.55, 0.55, 1);                    
-                        }  
+                    // Sea black borders 
+                    if(_DrawSea == 1 && sea_index.r == 0 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
+                            return float4 (0, 0, 0, 1);                    
+                     }
+                    // Land grey borders 
+                    if (sea_index.r == 1 && (any(c1 != col) || any(c2 != col) || any(c3 != col) || any(c4 != col)) ) {                             
+                        return float4 (0.55, 0.55, 0.55, 1);                    
+                    }  
                 }
 
                 float4 index = tex2D(_RemapTex, IN.uv);      
@@ -95,5 +104,6 @@ Shader "Unlit/EditorWorldMap"
             }
             ENDHLSL
         }
+
     }
 }

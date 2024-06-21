@@ -94,6 +94,10 @@ MonoBehaviour:
     m_Localized: "Recarregar s\xEDmbols"
     m_Metadata:
       m_Items: []
+  - m_Id: 252599154981781504
+    m_Localized: "Edici\xF3 marina"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

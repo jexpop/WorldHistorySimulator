@@ -20,6 +20,16 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b58908a6c6b4b346bad8091be947c3f
+    m_Address: Assets/Localisation/Historical/Historical Polities Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2bf76493e748fbc418febe9efe8b76ea
+    m_Address: Assets/ocalization/Historical/Historical Settlement Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 38f7df503fa50934884e6fa36abaf92a
     m_Address: Assets/Localisation/Editor Edit Panel Shared Data.asset
     m_ReadOnly: 1
@@ -30,8 +40,8 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0b58908a6c6b4b346bad8091be947c3f
-    m_Address: Assets/Localisation/Historical/Historical Polities Shared Data.asset
+  - m_GUID: 65687110b351420448b015353c294b14
+    m_Address: Assets/Localization/Global Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -42,16 +52,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c9d38d289f455b447b9cadab4c01711e
     m_Address: c9d38d289f455b447b9cadab4c01711e
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 65687110b351420448b015353c294b14
-    m_Address: Assets/Localization/Global Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2bf76493e748fbc418febe9efe8b76ea
-    m_Address: Assets/ocalization/Historical/Historical Settlement Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

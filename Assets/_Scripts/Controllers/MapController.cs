@@ -3,6 +3,7 @@ using UnityEngine;
 using Aron.Weiler;
 using System.Linq;
 using System.IO;
+using TMPro;
 
 
 public class MapController : Singleton<MapController>
@@ -60,11 +61,16 @@ public class MapController : Singleton<MapController>
     // Material, texture & properties inicialization
     private void InitParams()
     {
+        /* UI/MAP configuration */
+        EditorUICanvasController.Instance.eraTimeline.value = GameManager.Instance.playerEditorData.timeLineEra;
+        EditorUICanvasController.Instance.yearTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerEditorData.timeLineYear;
+        EditorUICanvasController.Instance.monthTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerEditorData.timeLineMonth;
+        EditorUICanvasController.Instance.dayTimeline.placeholder.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerEditorData.timeLineDay;
+
         /* Map textures init */
         _material = GetComponent<Renderer>().material;
         mainTex = _material.GetTexture("_RegionTex") as Texture2D;
         _material.SetFloat("_DrawRiver", 0f);
-
 
         /* Capital symbols preload */
         symbolStreamingPath = GameManager.Instance.STREAMING_FOLDER + ParamResources.SYMBOLS_FOLDER;
@@ -355,12 +361,13 @@ public class MapController : Singleton<MapController>
         regions = CsvConnection.Instance.GetInfoRegions(timeline, 0); // Initial regions
         ColorizeRegions(); // Colorize all regions of the worldmap
     }
-    public void CreateRegions(int optionLayer, bool timeTravelbutton = false, float drawRiver = 0f)
+    public void CreateRegions(int optionLayer, bool timeTravelbutton = false, float drawRiver = 0f, float drawSea = 0f)
     {
         ColorsList(); // Generate the list of colors for the polities        
         int timeline = GameManager.Instance.UI_GetCurrentTimeline(timeTravelbutton); // Get current timeline
         UpdateRegionsTimeline(timeline, optionLayer); // Update the regions dictionary to optimize memory used        
         _material.SetFloat("_DrawRiver", drawRiver); // Show rivers
+        _material.SetFloat("_DrawSea", drawSea); // Show sea
         ColorizeRegions(); // Colorize all regions of the worldmap
     }
     private void ColorsList()

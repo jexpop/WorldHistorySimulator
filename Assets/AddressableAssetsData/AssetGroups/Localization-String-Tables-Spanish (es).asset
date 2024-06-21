@@ -22,29 +22,14 @@ MonoBehaviour:
     - Locale-es
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bfdd915583455a9439485556ac63a67d
-    m_Address: Editor Edit Panel_es
+  - m_GUID: 30c19900d0ab86e49a97c0e6e1567dae
+    m_Address: Global_es
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-es
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9d861948537c82c4fb14a153f2d9d6be
-    m_Address: Historical Polities Type_es
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-es
-    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 39d7c039748a9954da5ddf219f15e744
     m_Address: Historical Polities_es
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-es
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f1e89a6e86390db4dae9386886d723d1
-    m_Address: Historical Policies_es
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-es
@@ -56,17 +41,32 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 30c19900d0ab86e49a97c0e6e1567dae
-    m_Address: Global_es
+  - m_GUID: 9d861948537c82c4fb14a153f2d9d6be
+    m_Address: Historical Polities Type_es
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-es
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfdd915583455a9439485556ac63a67d
+    m_Address: Editor Edit Panel_es
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-es
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d763463209a4f2849ad87f3837e8b1e1
     m_Address: Historical Settlements_es
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1e89a6e86390db4dae9386886d723d1
+    m_Address: Historical Policies_es
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-es
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: ee5959f594d47bb4c9179665bdeab644, type: 2}

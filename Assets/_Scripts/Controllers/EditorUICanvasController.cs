@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
-using UnityEngine.Rendering.Universal;
 
 
 public class EditorUICanvasController : Singleton<EditorUICanvasController>

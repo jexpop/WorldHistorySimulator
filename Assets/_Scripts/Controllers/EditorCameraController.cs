@@ -9,8 +9,17 @@ public class EditorCameraController : Singleton<EditorCameraController>
 	private bool isZooming;     // Is the camera zooming in?
 	private bool isZoomingEnabled = true;
 
+    private void Start()
+    {
+		int xCameraPosition = GameManager.Instance.playerEditorData.xCameraPosition;
+        int yCameraPosition = GameManager.Instance.playerEditorData.yCameraPosition;
+        int fieldOfView = GameManager.Instance.playerEditorData.fovCamera;
+		Camera.main.transform.position = new Vector3(xCameraPosition, yCameraPosition, Camera.main.transform.position.z);
+		Camera.main.fieldOfView = fieldOfView;
+    }
 
-	void Update()
+
+    void Update()
 	{
 
         // Deactivate the movement/zooming in when releasing the action
@@ -38,6 +47,8 @@ public class EditorCameraController : Singleton<EditorCameraController>
                   transform.position.z
             );
 
+			SaveCameraPosition();
+
         }
 
 		// Camera zoom
@@ -45,7 +56,9 @@ public class EditorCameraController : Singleton<EditorCameraController>
 		{
 			Camera.main.fieldOfView -= ParamMap.MAP_ZOOM_SPEED * Input.GetAxis(ParamMap.MAP_MOUSE_SCROLL);
 			Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, ParamMap.MAP_ZOOM_MIN, ParamMap.MAP_ZOOM_MAX);
-		}
+			SaveCameraPosition();
+
+        }
 
 	}
 
@@ -53,5 +66,13 @@ public class EditorCameraController : Singleton<EditorCameraController>
 	{
 		isZoomingEnabled = !isZoomingEnabled;
 	}
+
+	private void SaveCameraPosition()
+	{
+        GameManager.Instance.playerEditorData.xCameraPosition = (int)Camera.main.transform.position.x;
+        GameManager.Instance.playerEditorData.yCameraPosition = (int)Camera.main.transform.position.y;
+        GameManager.Instance.playerEditorData.fovCamera = (int)Camera.main.fieldOfView;
+        GameManager.Instance.SavePlayerEditorConfiguration();
+    }
 
 }

@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Components;
-using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
-using UnityEngine.UI;
+using System.IO;
 
 
 public enum GameScene{
@@ -24,18 +21,58 @@ public class GameManager : Singleton<GameManager>
 
     public string STREAMING_FOLDER;
 
+    // Player configuration
+    public PlayerEditorData playerEditorData;
+    string editorFilePath;
+
     void Start()
     {
         STREAMING_FOLDER = Application.streamingAssetsPath;
+        LoadPlayerEditorConfiguration();
         currentGameScene = GameScene.MapEditor;
         LoadScene(currentGameScene);
     }
+
+    private void LoadPlayerEditorConfiguration()
+    {
+        playerEditorData = new PlayerEditorData();
+
+        // Default
+        playerEditorData.xCameraPosition = -73;
+        playerEditorData.yCameraPosition = 589;
+        playerEditorData.fovCamera = 60;
+        playerEditorData.timeLineEra = 0;
+        playerEditorData.timeLineYear = "1000";
+        playerEditorData.timeLineMonth = "1";
+        playerEditorData.timeLineDay = "1";
+
+        // Load data
+        editorFilePath = Application.persistentDataPath + "/PlayerEditorData.json";
+        if (File.Exists(editorFilePath))
+        {
+            string loadPlayerData = File.ReadAllText(editorFilePath);
+            playerEditorData = JsonUtility.FromJson<PlayerEditorData>(loadPlayerData);
+        }
+    }
+
 
     public void LoadScene(GameScene gameScene)
     {
         // Dynamic load of the scene with the GameScene parameter
         SceneManager.LoadScene(gameScene.ToString() + "Scene");
     }
+
+    public void SavePlayerEditorConfiguration()
+    {
+        string savePlayerData = JsonUtility.ToJson(playerEditorData);
+        File.WriteAllText(editorFilePath, savePlayerData);
+    }
+
+
+
+    /*** 
+     * CONTROLLERS
+     */
 
     // UI Controller
     public UIStatus UI_GetUIStatus() { return EditorUICanvasController.Instance.uiStatus; }

@@ -13,18 +13,16 @@ MonoBehaviour:
   m_Name: Localization-Locales
   m_EditorClassIdentifier: 
   m_GroupName: Localization-Locales
-  m_Data:
-    m_SerializedData: []
   m_GUID: 95ed6f78db92352409111351fc109dc1
   m_SerializeEntries:
-  - m_GUID: a4d43967c1dee3c41ab29f18e4794a49
-    m_Address: Catalan (ca)
+  - m_GUID: 753befd3785a8034cacb95a314f7d115
+    m_Address: English (en)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 753befd3785a8034cacb95a314f7d115
-    m_Address: English (en)
+  - m_GUID: a4d43967c1dee3c41ab29f18e4794a49
+    m_Address: Catalan (ca)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale

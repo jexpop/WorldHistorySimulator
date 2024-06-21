@@ -15,22 +15,8 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Catalan (ca)
   m_GUID: 45c7bd0c3283a994aa94c56547009a31
   m_SerializeEntries:
-  - m_GUID: 4bd60d2e35677f940a02ea6492ce01d0
-    m_Address: Editor Top Menu_ca
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ca
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0ff927455f47e0f4a802fec98718a38e
     m_Address: Editor Edit Panel_ca
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ca
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 87908018a9c442a43a2a7caae4b3fde4
-    m_Address: Historical Polities Type_ca
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ca
@@ -42,6 +28,19 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ca
     - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4bd60d2e35677f940a02ea6492ce01d0
+    m_Address: Editor Top Menu_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5071cffffe2c0d54bb5729ace4a6304e
+    m_Address: Global_ca
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ca
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 59aaa61dcc875334b90ff7d4d7846c4d
     m_Address: Historical Policies_ca
@@ -56,11 +55,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ca
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5071cffffe2c0d54bb5729ace4a6304e
-    m_Address: Global_ca
+  - m_GUID: 87908018a9c442a43a2a7caae4b3fde4
+    m_Address: Historical Polities Type_ca
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ca
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8cb68872b1fd96e4285b628969b19362
     m_Address: Historical Settlements_ca

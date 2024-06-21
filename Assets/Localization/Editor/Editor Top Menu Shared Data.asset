@@ -91,6 +91,10 @@ MonoBehaviour:
     m_Key: Reload Symbols
     m_Metadata:
       m_Items: []
+  - m_Id: 252599154981781504
+    m_Key: Sea Edition
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

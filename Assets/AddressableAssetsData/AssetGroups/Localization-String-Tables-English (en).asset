@@ -15,27 +15,6 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-English (en)
   m_GUID: d525487f2b15f1f4bb62552df25e375d
   m_SerializeEntries:
-  - m_GUID: ceb97cc548721f94292cb230d11d3f87
-    m_Address: Editor Top Menu_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6fb4b7288b5ecca4fadfae5e0b938cfd
-    m_Address: Editor Edit Panel_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f7d248ee1cfbd2241b416c603a00c457
-    m_Address: Historical Polities Type_en
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1f10ccde8780e35489c0d975e1fdd5da
     m_Address: Historical Polities_en
     m_ReadOnly: 1
@@ -43,8 +22,14 @@ MonoBehaviour:
     - Locale-en
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9775e138423ac9e4cbfbb12ab8eebbd9
-    m_Address: Historical Policies_en
+  - m_GUID: 44ba5b7bc8b8f684482c1ae50828700b
+    m_Address: Historical Settlements_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6fb4b7288b5ecca4fadfae5e0b938cfd
+    m_Address: Editor Edit Panel_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
@@ -56,17 +41,32 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9775e138423ac9e4cbfbb12ab8eebbd9
+    m_Address: Historical Policies_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a3bc250d91b3ae349a14cba8d68b2d62
     m_Address: Global_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 44ba5b7bc8b8f684482c1ae50828700b
-    m_Address: Historical Settlements_en
+  - m_GUID: ceb97cc548721f94292cb230d11d3f87
+    m_Address: Editor Top Menu_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7d248ee1cfbd2241b416c603a00c457
+    m_Address: Historical Polities Type_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Preload
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: ee5959f594d47bb4c9179665bdeab644, type: 2}
