@@ -59,12 +59,24 @@ MonoBehaviour:
     m_Key: Of
     m_Metadata:
       m_Items: []
-  - m_Id: 8208540635582464
-    m_Key: SettlementName
-    m_Metadata:
-      m_Items: []
   - m_Id: 154680373320663040
     m_Key: Symbol
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187479524327424
+    m_Key: Coast
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187610764099584
+    m_Key: Lake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187680720896000
+    m_Key: Ocean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187770269286400
+    m_Key: Sea
     m_Metadata:
       m_Items: []
   m_Metadata:

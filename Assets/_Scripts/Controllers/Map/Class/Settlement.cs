@@ -7,10 +7,11 @@ public class Settlement
     private int _regionId;
     private Vector2Int _pixelCoordinates;
 
+    #region Get & Set
     public string Name { get { return _name; } }
     public int RegionId { get { return _regionId; } }
     public Vector2Int PixelCoordinates { get { return _pixelCoordinates; } }
-
+    #endregion
 
     public Settlement(string name, int regionId, Vector2Int pixelCoordinates)
     {

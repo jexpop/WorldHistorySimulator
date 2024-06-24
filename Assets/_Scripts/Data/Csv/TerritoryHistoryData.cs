@@ -8,6 +8,7 @@ public class TerritoryHistoryData
         _l1_PolityCapital, _l2_PolityCapital, _l3_PolityCapital, _l4_PolityCapital,
         _policyPolityId, _policyPolityTypeId, _policyCapital, _isSymbolForDate;
 
+    #region Get & Set
     public string StageId { get { return _stageId; } set { _stageId = value; } }
     public string RegionId { get { return _regionId; } set { _regionId = value; } }
     public string SettlementId { get { return _settlementId; } set { _settlementId = value; } }
@@ -29,7 +30,7 @@ public class TerritoryHistoryData
     public string PolicyPolityTypeId { get { return _policyPolityTypeId; } set { _policyPolityTypeId = value; } }
     public string PolicyCapital { get { return _policyCapital; } set { _policyCapital = value; } }
     public string IsSymbolForDate { get { return   _isSymbolForDate; } set { _isSymbolForDate = value; } }
-
+    #endregion
     public TerritoryHistoryData(string stageId, string regionId, string settlementId, int startDate, int endDate,
         string l1_PolityParentId, string l2_PolityParentId, string l3_PolityParentId, string l4_PolityParentId,
         string l1_PolityTypeIdParent, string l2_PolityTypeIdParent, string l3_PolityTypeIdParent, string l4_PolityTypeIdParent,

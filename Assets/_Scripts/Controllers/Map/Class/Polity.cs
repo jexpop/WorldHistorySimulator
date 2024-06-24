@@ -7,11 +7,11 @@ public class Polity
     private Color32 _rgb32;
     private bool _isCollective;
 
-
+    #region Get & Set
     public string Name { get { return _name; } }
     public Color32 Rgb32 { get { return _rgb32; } }
     public bool IsCollective { get { return _isCollective; } }
-
+    #endregion
 
     public Polity(string name, string rgb, bool isCollective)
     {
@@ -20,6 +20,7 @@ public class Polity
         this._isCollective = isCollective;
     }
 
+    #region Auxiliar Methods
     /// <summary>
     /// Mix color (random & predefined) for the political frontier
     /// </summary>
@@ -56,5 +57,6 @@ public class Polity
             this._rgb32 = PolityColorSelect("000.000.000");
         }
     }
+    #endregion
 
 }

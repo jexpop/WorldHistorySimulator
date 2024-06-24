@@ -20,6 +20,7 @@ public class ColorTest : MonoBehaviour
         colorList.Add(ParamColor.COLOR_REGION_LAKE);
         colorList.Add(ParamColor.COLOR_REGION_LAND);
         colorList.Add(ParamColor.COLOR_REGION_SEA);
+        colorList.Add(ParamColor.COLOR_REGION_WATER);
         colorList.Add(ParamColor.COLOR_WHITE);
 
         // Create the file

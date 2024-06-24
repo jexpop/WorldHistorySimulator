@@ -131,7 +131,6 @@ public class MouseController : Singleton<MouseController>
                     if (selectAny)
                     {
                         GameManager.Instance.MAP_ChangeColor(prevColor, region.Rgb32);
-
                     }
                     selectAny = true;
                     prevColor = remapColor;
@@ -139,7 +138,7 @@ public class MouseController : Singleton<MouseController>
 
                     // Define the color to the highlight to the land regions
                     Region regionHighlight = GameManager.Instance.MAP_GetRegionByPosition(x, y);
-                    if (regionHighlight.Type == ParamUI.REGION_NAME_LAND)
+                    if (regionHighlight.Type == ParamUI.REGION_NAME_LAND || GameManager.Instance.UI_GetSeaValue().isOn)
                     {
                         GameManager.Instance.MAP_ChangeColor(remapColor, ParamColor.COLOR_REGION_HIGHLIGHT);
                     }
@@ -181,9 +180,9 @@ public class MouseController : Singleton<MouseController>
 
                     // Activate Region Panel and move Region Panel in your correct position
                     Vector2 panelPositionNew = GameManager.Instance.UI_CalculateNewPositionPanel(currentMousePosition);
-                    if (region.Type == ParamUI.REGION_NAME_LAKE || region.Type == ParamUI.REGION_NAME_SEA) { GameManager.Instance.UI_DeactivateRegionPanel(); } else { GameManager.Instance.UI_ActivateRegionPanel(panelPositionNew.x, panelPositionNew.y); }
+                    if (region.Type == ParamUI.REGION_NAME_WATER & !GameManager.Instance.UI_GetSeaValue().isOn) { GameManager.Instance.UI_DeactivateRegionPanel(); } else { GameManager.Instance.UI_ActivateRegionPanel(panelPositionNew.x, panelPositionNew.y); }
 
-                    if (region.Type == ParamUI.REGION_NAME_LAND)
+                    if (region.Type == ParamUI.REGION_NAME_LAND || GameManager.Instance.UI_GetSeaValue().isOn)
                     {
 
                         // Name and Image Panel, only lands
@@ -196,7 +195,14 @@ public class MouseController : Singleton<MouseController>
                         // Info Panel
                         if (region.Settlement == null)
                         {
-                            GameManager.Instance.UI_SetSettlementRegionPanel(true); // Unknown settlement
+                            if(region.Type == ParamUI.REGION_NAME_WATER)
+                            {// Water region
+                                GameManager.Instance.UI_SetWaterRegionPanel(region.Terrain);
+                            }
+                            else
+                            {// Unknown land region
+                                GameManager.Instance.UI_SetSettlementRegionPanel(true);
+                            }                            
                         }
                         else
                         {

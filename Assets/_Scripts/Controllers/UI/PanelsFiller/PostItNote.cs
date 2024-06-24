@@ -17,17 +17,15 @@ public class PostItNote : MonoBehaviour
                          parentImage, parentImage2, parentImage3,
                          policyImage;
 
-
+    #region Names
     public void SetPolityType(string table, string value)
     {        
         LocalizationController.Instance.AddLocalizeString(polityTypeText, table, value);
     }
-
     public void SetPolity(string table, string value)
     {
         LocalizationController.Instance.AddLocalizeString(polityText, table, value);
     }
-
     public void SetParent(string table, string value)
     {
         LocalizationController.Instance.AddLocalizeString(parentText, table, value);
@@ -40,12 +38,13 @@ public class PostItNote : MonoBehaviour
     {
         LocalizationController.Instance.AddLocalizeString(parentText3, table, value);
     }
-
     public void SetPolicy(string table, string value)
     {
         LocalizationController.Instance.AddLocalizeString(policyText, table, value);
     }
+    #endregion
 
+    #region Visibility
     public void SetParentVisibility(bool show)
     {
         parentInfoBox.SetActive(show);
@@ -58,13 +57,13 @@ public class PostItNote : MonoBehaviour
     {
         parentInfoBox3.SetActive(show);
     }
-
     public void SetPolicyVisibility(bool show)
     {
         policyInfoBox.SetActive(show);
     }
+    #endregion
 
-    /// **** SET IMAGES WITH THE SYMBOLS ****///
+    #region Set images with the symbols
     public void SetPolityImage(string symbolFilename)
     {
         // Get the symbol
@@ -120,6 +119,6 @@ public class PostItNote : MonoBehaviour
         //Assigns the texture
         policyImage.texture = tex;
     }
-    /// ****                             ****///
+    #endregion
 
 }

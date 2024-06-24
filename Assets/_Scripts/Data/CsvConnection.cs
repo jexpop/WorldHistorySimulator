@@ -6,6 +6,7 @@ using System.Linq;
 using System.Globalization;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using System;
 
 
 public class CsvConnection : Singleton<CsvConnection>
@@ -43,6 +44,7 @@ public class CsvConnection : Singleton<CsvConnection>
         return table;
     }
 
+    #region Models
     private List<PolicyData> GetPolicyModel()
     {
         List<string[]> policyCsv = new List<string[]>();
@@ -58,7 +60,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return policyTable;
     }
-
     private List<PolityData> GetPolityModel() // Revisar, puede que no se necesite
     {
         List<string[]> polityCsv = new List<string[]>();
@@ -74,7 +75,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return polityTable;
     }
-
     private List<TerrainData> GetTerrainModel()
     {
         List<string[]> terrainCsv = new List<string[]>();
@@ -90,7 +90,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return terrainTable;
     }
-
     private List<TerrainTypeData> GetTerrainTypeModel()
     {
         List<string[]> terrainTypeCsv = new List<string[]>();
@@ -106,7 +105,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return terrainTypeTable;
     }
-
     private List<TerritoryHistoryData> GetTerritoryHistoryModel()
     {
         List<string[]> chronologyCsv = new List<string[]>();
@@ -126,16 +124,13 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return chronology;
     }
+#endregion
 
-    /**************************************************************************************************************************************************************************/
-    /******************************************************************************** METHODS PUBLICS ***********************************************************************/
-    /**************************************************************************************************************************************************************************/
-
+    #region Get Queries Methods
     public List<string[]> GetLanguageTable(string filename, string subpath, bool isTitle)
     {
         return GetCsvTable(filename, subpath, isTitle);
     }
-
     /// <summary>
     /// Gets information from the polities type to build a dictionary
     /// </summary>
@@ -160,7 +155,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return politiesType;
     }
-
     /// <summary>
     /// Gets information from the polity to build a dictionary of political frontiers
     /// </summary>
@@ -214,7 +208,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return polities;
     }
-
     /// <summary>
     /// Gets information from the settlement to build a dictionary of settlements
     /// </summary>
@@ -243,8 +236,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
          return settlements;
     }
-
-
     /// <summary>
     /// Generate a queue of colors for the polity's colors
     /// </summary>
@@ -270,7 +261,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
          return new Queue<Color32>(colors);
     }
-
     /// <summary>
     /// Gets information from the map regions to build a dictionary of regions using RGB colors/Id as the key and the Region class as the value
     /// </summary>
@@ -455,7 +445,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return history;
     }    
-
     /// <summary>
     /// Get the last ID inserted
     /// </summary>
@@ -492,7 +481,6 @@ public class CsvConnection : Singleton<CsvConnection>
 
         return lastId;
     }
-
     /// <summary>
     /// Get ID for collective text
     /// </summary>
@@ -503,7 +491,6 @@ public class CsvConnection : Singleton<CsvConnection>
         policies = GetPolicyModel();
         return int.Parse(policies.Where(p => p.PolicyName == ParamResources.DB_IS_COLLECTIVE).Select(p => p.PolicyId).FirstOrDefault(), CultureInfo.InvariantCulture);
     }
-
     /// <summary>
     /// Get ID for individual text
     /// </summary>
@@ -514,55 +501,30 @@ public class CsvConnection : Singleton<CsvConnection>
         policies = GetPolicyModel();
         return int.Parse(policies.Where(p => p.PolicyName == ParamResources.DB_IS_INDIVIDUAL).Select(p => p.PolicyId).FirstOrDefault(), CultureInfo.InvariantCulture);
     }
-
-    /************************************************
-     * HELPER METHODS OPERATIONS 
-    /************************************************/
-    private void WriteSingleLine(string path, bool append, string line)
+    /// <summary>
+    /// Get terrain by type
+    /// </summary>
+    /// <param name="type">Type of terrain</param>
+    /// <returns>list of terrain names</returns>
+    public List<TerrainData> GetTerrainsByType(string type)
     {
-        using (StreamWriter writer = new StreamWriter(path, append, System.Text.Encoding.UTF8))
+        // Get id of the type of the terrain
+        string typeId = "";
+        foreach(TerrainTypeData terrainType in GetTerrainTypeModel())
         {
-            writer.WriteLine(line);
-        }
-    }
-    private int GetLineIndex(string path, string file, string id)
-    {
-        List<string[]> table = new List<string[]>();
-        table = GetCsvTable(file, path, false);
-        int i = 1, index = 0;
-        foreach (string[] row in table)
-        {
-            if (row[0] == id)
+            if(terrainType.TerrainTypeName == type)
             {
-                index = i; break;
-            }
-            i++;
+                typeId = terrainType.TerrainTypeId;
+            }            
         }
-        return index;
-    }
-    private void LineChanger(string newText, string fileName, int line_to_edit)
-    {
-        string[] arrLine = File.ReadAllLines(fileName);
-        arrLine[line_to_edit - 1] = newText;
-        File.WriteAllLines(fileName, arrLine);
-    }
-    public void ExportLocalization(string table, Locale locale, StringTable tableCollection)
-    {
-        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + locale.Identifier + ".csv";
 
-        using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.UTF8))
-        {
-            foreach (var valuePair in tableCollection)
-            {
-                string line = valuePair.Value.Key.ToString() + ";" + valuePair.Value.Value.ToString();
-                writer.WriteLine(line);
-            }
-        }
+        List<TerrainData> terrains = new List<TerrainData>();
+        terrains = GetTerrainModel();
+        return terrains.Where(p => p.TerrainTypeId == typeId).Select(p => p).ToList();
     }
+    #endregion
 
-    /************************************************
-     * ADD OPERATIONS 
-    /************************************************/
+    #region Add Operations
     public void AddPolityType(string polityTypeName)
     {
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES_TYPE;
@@ -635,10 +597,9 @@ public class CsvConnection : Singleton<CsvConnection>
                             + qIsSymbolForDate;
         WriteSingleLine(path, true, line);
     }
+    #endregion
 
-    /************************************************
- * UPDATE OPERATIONS 
-/************************************************/
+    #region Update Operations
     public void UpdatePolity(int polityId, string polityName, bool isCollective)
     {
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES;
@@ -706,10 +667,15 @@ public class CsvConnection : Singleton<CsvConnection>
         int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_CHRONOLOGY, stageId.ToString());
         LineChanger(newLine, path, line);
     }
+    public void UpdateTerrain(int idRegion, string idTerrain)
+    {
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_REGIONS;
+        int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_REGIONS, idRegion.ToString());
+        FieldChanger(idTerrain, path, line, 5);
+    }
+    #endregion
 
-    /************************************************
- * REMOVE OPERATIONS 
-/************************************************/
+    #region Remove Operations
     public void RemovePolityType(int polityTypeId)
     {
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_POLITIES_TYPE;
@@ -723,8 +689,7 @@ public class CsvConnection : Singleton<CsvConnection>
         string item = polityId.ToString() + ";";
         var lines = File.ReadLines(path).Where(line => !line.StartsWith(item)).ToArray();
         File.WriteAllLines(path, lines);
-    }
-    public void RemoveSettlement(int settlementId)
+    }    public void RemoveSettlement(int settlementId)
     {
         string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_SETTLEMENTS;
         string item = settlementId.ToString() + ";";
@@ -738,5 +703,77 @@ public class CsvConnection : Singleton<CsvConnection>
         var lines = File.ReadLines(path).Where(line => !line.StartsWith(item)).ToArray();
         File.WriteAllLines(path, lines);
     }
+    #endregion
+
+    #region Helper Methods Operations
+    private void WriteSingleLine(string path, bool append, string line)
+    {
+        using (StreamWriter writer = new StreamWriter(path, append, System.Text.Encoding.UTF8))
+        {
+            writer.WriteLine(line);
+        }
+    }
+    private int GetLineIndex(string path, string file, string id)
+    {
+        List<string[]> table = new List<string[]>();
+        table = GetCsvTable(file, path, false);
+        int i = 1, index = 0;
+        foreach (string[] row in table)
+        {
+            if (row[0] == id)
+            {
+                index = i; break;
+            }
+            i++;
+        }
+        return index;
+    }
+    private void LineChanger(string newText, string fileName, int line_to_edit)
+    {
+        string[] arrLine = File.ReadAllLines(fileName);
+        arrLine[line_to_edit - 1] = newText;
+        File.WriteAllLines(fileName, arrLine);
+    }
+    private void FieldChanger(string newText, string fileName, int line_to_edit, int field)
+    {
+        // Read all file
+        string[] arrLine = File.ReadAllLines(fileName);
+
+        // Select the line to modify
+        string line = arrLine[line_to_edit - 1];
+
+        // Fields of this line ... and we change the field
+        string[] items = line.Split(';');
+        string newLine = "";
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (i == field)
+            {
+                items[i] = newText;
+            }
+            newLine += items[i] + ";";
+        }
+        newLine = newLine.TrimEnd(';');
+
+        // New line with the field changed
+        arrLine[line_to_edit - 1] = newLine;
+
+        // Write all lines
+        File.WriteAllLines(fileName, arrLine);
+    }
+    public void ExportLocalization(string table, Locale locale, StringTable tableCollection)
+    {
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.LOCALIZATION_PATH + "/" + table + "_" + locale.Identifier + ".csv";
+
+        using (StreamWriter writer = new StreamWriter(path, false, System.Text.Encoding.UTF8))
+        {
+            foreach (var valuePair in tableCollection)
+            {
+                string line = valuePair.Value.Key.ToString() + ";" + valuePair.Value.Value.ToString();
+                writer.WriteLine(line);
+            }
+        }
+    }
+    #endregion
 
 }

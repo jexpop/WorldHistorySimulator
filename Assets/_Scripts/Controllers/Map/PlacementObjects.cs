@@ -19,7 +19,7 @@ public class PlacementObjects : MonoBehaviour
         }
     }
 
-
+    #region Remove Methods
     /// <summary>
     /// Remove the object with the same tag
     /// </summary>
@@ -36,8 +36,9 @@ public class PlacementObjects : MonoBehaviour
     {
         RemoveObjects(tag);
     }
+    #endregion
 
-
+    #region Put Methods
     /// <summary>
     /// Put a new object in the map
     /// </summary>
@@ -73,5 +74,6 @@ public class PlacementObjects : MonoBehaviour
     {
         PutObjects(tag, coordinates, name, texture);
     }
+    #endregion
 
 }

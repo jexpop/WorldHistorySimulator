@@ -737,7 +737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3166194587687204377, guid: a584aa7985c6cd74f9e53566cd6d950a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 270
+      value: 230
       objectReference: {fileID: 0}
     - target: {fileID: 3166194587687204377, guid: a584aa7985c6cd74f9e53566cd6d950a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2573,8 +2573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5f86851d615114d9c68a4033b4984d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerCheckRivers: {fileID: 1883191989}
-  showSea: {fileID: 926777576}
 --- !u!1 &139195605
 GameObject:
   m_ObjectHideFlags: 0
@@ -28570,6 +28568,8 @@ MonoBehaviour:
   editorMenuSubbutton: {fileID: 1640601710401953585, guid: a2ac6b8f7de0bc4429a811346665028b, type: 3}
   editorHistoryButton: {fileID: 12522888388903480, guid: 2caa2a741940e154fb82fefa32a0a61c, type: 3}
   postItElement: {fileID: 9204123262431888887, guid: 640aa402f4306cf4f9a5f2c421dd4725, type: 3}
+  layerCheckRivers: {fileID: 1883191989}
+  showSea: {fileID: 926777576}
   layerCheckCollective: {fileID: 1429719547}
   layersDropdown: {fileID: 943637727}
   coordinateX: {fileID: 140404222}
@@ -28589,6 +28589,10 @@ MonoBehaviour:
   - {fileID: -998550328, guid: 85aa1a6ab62f5714da8403f0c8eb1fa3, type: 3}
   - {fileID: -1658428710, guid: 85aa1a6ab62f5714da8403f0c8eb1fa3, type: 3}
   - {fileID: 296220182, guid: 85aa1a6ab62f5714da8403f0c8eb1fa3, type: 3}
+  - {fileID: -736466949, guid: 02d28f10f24e3bb4a9a25dd0f469b91d, type: 3}
+  - {fileID: 919358489, guid: 02d28f10f24e3bb4a9a25dd0f469b91d, type: 3}
+  - {fileID: -487380409, guid: 85aa1a6ab62f5714da8403f0c8eb1fa3, type: 3}
+  - {fileID: 254073261, guid: 85aa1a6ab62f5714da8403f0c8eb1fa3, type: 3}
   editorRegionPanel: {fileID: 48408638}
   editorHistoryPanel: {fileID: 1535331394}
   eraTimeline: {fileID: 667072136}

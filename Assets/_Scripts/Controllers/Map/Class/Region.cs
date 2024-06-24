@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.HDROutputUtils;
 using static UnityEngine.UI.GridLayoutGroup;
 
 public class Region
@@ -18,9 +19,10 @@ public class Region
     private Vector2 _coordinatesCenter;
     private List<HistoryRegionRelation> _history;
 
+    #region Get & Set
     public string Name { get{ return _name; }}
     public string Type { get { return _type; } }
-    public string Terrain { get { return _terrain; } }
+    public string Terrain { get { return _terrain; } set { _terrain = value; } }
     public Color32 Rgb32 { get { return _rgb32; } }
     public Settlement Settlement { get { return _settlement; } set { _settlement = value; } }
     public Polity Owner { get { return _owner; } set { _owner = value; } }
@@ -39,7 +41,7 @@ public class Region
         } 
     }
     public List<HistoryRegionRelation> History { get { return _history; } set { _history = value; } }
-
+    #endregion
 
     public Region(string name, string type, string _terrain, int settlement, int owner, List<HistoryRegionRelation> history=null)
     {       
@@ -71,9 +73,10 @@ public class Region
 
     }
 
+    #region Auxiliar Methods
     public void ColorRecalculate()
     {
-        this._rgb32 = _owner == null ? ParamColor.COLOR_REGION_LAND : _owner.Rgb32;
+        this._rgb32 = RegionColorSelect(); // _owner == null ? ParamColor.COLOR_REGION_LAND : _owner.Rgb32;
     }
 
     private Settlement UpdateSettlement(int settlementId)
@@ -94,17 +97,29 @@ public class Region
     /// <returns>new region color</returns>
     private Color32 RegionColorSelect()
     {
+        // Default color
         Color32 color32 = ParamColor.COLOR_REGION_LAND;
+        
+        // Unknown region
         if (_owner == null)
         {
-            switch (this._type)
+            // Is a water region?
+            color32 = this._type == ParamUI.REGION_NAME_WATER ? ParamColor.COLOR_REGION_WATER : color32;
+
+            // Water colors to the sea editor
+            if (EditorUICanvasController.Instance.showSea.isOn)
             {
-                case "sea": color32 = ParamColor.COLOR_REGION_SEA; break;
-                case "lake": color32 = ParamColor.COLOR_REGION_LAKE; break;
+                switch (this._terrain){
+                    case var value when value == ParamUI.REGION_NAME_COAST: color32 = ParamColor.COLOR_REGION_COAST; break;
+                    case var value when value == ParamUI.REGION_NAME_LAKE: color32 = ParamColor.COLOR_REGION_LAKE; break;
+                    case var value when value == ParamUI.REGION_NAME_OCEAN: color32 = ParamColor.COLOR_REGION_OCEAN; break;
+                    case var value when value == ParamUI.REGION_NAME_SEA: color32 = ParamColor.COLOR_REGION_SEA; break;
+                }
             }
+
         }
         else
-        {
+        {// Region with owner
             color32.r = _owner.Rgb32.r;
             color32.g = _owner.Rgb32.g;
             color32.b = _owner.Rgb32.b;
@@ -117,5 +132,6 @@ public class Region
 
         return color32;
     }
+    #endregion
 
 }

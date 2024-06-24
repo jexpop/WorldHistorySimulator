@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine.UI;
 
 
 public enum GameScene{
@@ -55,7 +56,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-
     public void LoadScene(GameScene gameScene)
     {
         // Dynamic load of the scene with the GameScene parameter
@@ -68,13 +68,7 @@ public class GameManager : Singleton<GameManager>
         File.WriteAllText(editorFilePath, savePlayerData);
     }
 
-
-
-    /*** 
-     * CONTROLLERS
-     */
-
-    // UI Controller
+    #region UI Controller Calls
     public UIStatus UI_GetUIStatus() { return EditorUICanvasController.Instance.uiStatus; }
     public void UI_SetUIStatus(UIStatus status) { EditorUICanvasController.Instance.uiStatus = status; }
     public void UI_PostItPolityVisibility(Vector3 mousePos, bool showPostIt, Region region = null) { EditorUICanvasController.Instance.PostItPolityVisibility(mousePos, showPostIt, region); }
@@ -82,14 +76,17 @@ public class GameManager : Singleton<GameManager>
     public void UI_SetNameAndImageRegionPanel(string name, string terrain) { EditorUICanvasController.Instance.SetNameAndImageRegionPanel(name, terrain); }
     public void UI_ShowRgbOwner(string rgb) { EditorUICanvasController.Instance.ShowRgbOwner(rgb); }
     public void UI_SetSettlementRegionPanel(bool button, string setllement = null) { EditorUICanvasController.Instance.SetSettlementRegionPanel(button, setllement); }
+    public void UI_SetWaterRegionPanel(string terrain) { EditorUICanvasController.Instance.SetWaterRegionPanel(terrain); }
     public void UI_ActivateRegionPanel(float x, float y) { EditorUICanvasController.Instance.ActivateRegionPanel(x, y); }
     public void UI_DeactivateRegionPanel() { EditorUICanvasController.Instance.DeactivateRegionPanel(); }
     public int UI_GetCurrentTimeline(bool button) { return EditorUICanvasController.Instance.GetCurrentTimeline(button); }
     public int UI_GetLayerValue() { return EditorUICanvasController.Instance.layersDropdown.value; }
+    public Toggle UI_GetSeaValue() { return EditorUICanvasController.Instance.showSea; }
     public bool UI_IsDateCurrent(int start, int end) { return EditorUICanvasController.Instance.IsDateCurrent(start, end); }
     public void UI_SetCoordinates(string x, string y) { EditorUICanvasController.Instance.SetCoordinates(x, y); }
+    #endregion
 
-    // MAP Controller
+    #region Map Controller Calls
     public Dictionary<int, PolityType> MAP_GetPolitiesType() { return MapController.Instance.GetPolitiesType(); }
     public Dictionary<int, Polity> MAP_GetPolities(int policy = 0) { return MapController.Instance.GetPolities(policy); }
     public Dictionary<int, Settlement> MAP_GetSettlements() { return MapController.Instance.GetSettlements(); }
@@ -116,9 +113,10 @@ public class GameManager : Singleton<GameManager>
     public void MAP_ChangeColor(Color32 remapColor, Color32 showColor) { MapController.Instance.ChangeColor(remapColor, showColor); }
     public void MAP_ApplyPaletteTexture(bool updateMipmaps) { MapController.Instance.ApplyPaletteTexture(updateMipmaps); }
     public void MAP_CapitalSymbolLoad() { MapController.Instance.CapitalSymbolLoad(); }
-    
+    public void MAP_UpdateTerrainRegion(int regionId, string terrain, string terrainType) { MapController.Instance.UpdateTerrainRegion(regionId, terrain, terrainType); }
+    #endregion
 
-    // LOCALIZATION Controller
+    #region Localization Controller Calls
     public void LOC_AddLocalizeString(TextMeshProUGUI text, string table, string key) { LocalizationController.Instance.AddLocalizeString(text, table, key); }
     public void LOC_AddLocalizeString(GameObject button, string table, string key) { LocalizationController.Instance.AddLocalizeString(button, table, key); }
     public void LOC_AddLocalizeString(TMP_InputField input, string table, string key) { LocalizationController.Instance.AddLocalizeString(input, table, key); }
@@ -130,5 +128,11 @@ public class GameManager : Singleton<GameManager>
     public void LOC_DeleteEntry(string table, string key) { LocalizationController.Instance.DeleteEntry(table, key); }
     public bool LOC_KeyExist(string table, string key) { return LocalizationController.Instance.KeyExist(table, key); }
     public bool LOC_ValueExist(string table, string key, string value) { return LocalizationController.Instance.ValueExist(table, key, value); }
+    #endregion
+
+    #region CsvConnection Calls
+    public List<TerrainData> CSV_GetTerrainsByType(string terrainType) { return CsvConnection.Instance.GetTerrainsByType(terrainType); }
+    public void CSV_UpdateTerrain(int regionId, string terrainId) { CsvConnection.Instance.UpdateTerrain(regionId, terrainId); }
+    #endregion
 
 }

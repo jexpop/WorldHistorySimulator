@@ -20,6 +20,7 @@ public class HistoryStage
     private int _policyCapital;
     private int _isSymbolForDate;
 
+    #region Get & Set
     public int StartDate { get { return _startDate; } set { _startDate = value; } }
     public int EndDate { get { return _endDate; } set { _endDate = value; } }
     public int PolityParentId_L1 { get { return _polityParentId_L1; } set { _polityParentId_L1 = value; } }
@@ -38,7 +39,7 @@ public class HistoryStage
     public int PolicyTypeId { get { return _policyTypeId; } set { _policyTypeId = value; } }
     public int PolicyCapital { get { return _policyCapital; } set { _policyCapital = value; } }
     public int IsSymbolForDate { get { return _isSymbolForDate; } set { _isSymbolForDate = value; } }
-
+    #endregion
 
     public HistoryStage(
                                         int startDate, int endDate, 

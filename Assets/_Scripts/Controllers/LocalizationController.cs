@@ -70,7 +70,7 @@ public class LocalizationController : Singleton<LocalizationController>
 
     }
 
-    /*** Data validations ***/
+    #region Data validations
     public bool KeyExist(string table, string key)
     {
         var tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], LocalizationSettings.SelectedLocale);
@@ -93,10 +93,9 @@ public class LocalizationController : Singleton<LocalizationController>
 
         return valueExist;
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** Add Localize String to UI elements ***/
+    #region Add Localize String to UI elements
     // Function overloading: Button information
     public void AddLocalizeString(TextMeshProUGUI text, string table, string key)
     {
@@ -142,10 +141,9 @@ public class LocalizationController : Singleton<LocalizationController>
         localized.TableEntryReference = value;
         localizeDropdown.SetOptionsList(localized);
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** Modify the Table Collection ***/
+    # region Modify the Table Collection
     public void InsertNewEntry(string table, string key, string value, int locale=-1)
     {
             int start = 0;
@@ -238,10 +236,9 @@ public class LocalizationController : Singleton<LocalizationController>
 #endif
 
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** CSV convertion methods ***/
+    #region CSV convertion methods
     private void ExpostToCSV(string table, Locale locale)
     {
         StringTable tableCollection = LocalizationSettings.StringDatabase.GetTable(LocalizeParams.DIC_LOCATION_TABLES[table], locale);
@@ -282,6 +279,6 @@ public class LocalizationController : Singleton<LocalizationController>
         }
 
     }
-    /***                        ***/
+    #endregion
 
 }

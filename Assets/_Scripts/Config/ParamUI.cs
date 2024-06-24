@@ -16,9 +16,12 @@ public class ParamUI
     public static string POLITY_NAME = "PolityNameLabel";
     public static string REGION_HISTORY_BUTTON = "Stages of History";
     public static string REGION_NAME = "RegionNameValue";
-    public static string REGION_NAME_LAND = "land";
-    public static string REGION_NAME_LAKE = "lake";
-    public static string REGION_NAME_SEA = "sea";
+    public static string REGION_NAME_COAST = "Coast";
+    public static string REGION_NAME_LAKE = "Lake";
+    public static string REGION_NAME_LAND = "Land";
+    public static string REGION_NAME_OCEAN = "Ocean";
+    public static string REGION_NAME_SEA = "Sea";
+    public static string REGION_NAME_WATER = "Water";
     public static string REGION_OWNER_LABEL = "RegionOwnerValue";
     public static string REGION_OWNER_BUTTON = "RegionOwnerButton";
     public static string REGION_PANEL = "RegionPanel";

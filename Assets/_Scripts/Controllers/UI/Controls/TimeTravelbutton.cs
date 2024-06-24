@@ -3,18 +3,12 @@ using UnityEngine.UI;
 
 public class TimeTravelbutton : MonoBehaviour
 {
-
-    [Header("Custom map")]
-    public Toggle layerCheckRivers;
-    public Toggle showSea;
-
-
     public void OnTimeTravelEvent()
     {
         bool globalLayer = EditorUICanvasController.Instance.layerCheckCollective.isOn;
         int optionLayer = EditorUICanvasController.Instance.layersDropdown.value;
-        float rivers= layerCheckRivers.isOn ? 1f : 0f;
-        float sea = showSea.isOn ? 1f : 0f;
+        float rivers= EditorUICanvasController.Instance.layerCheckRivers.isOn ? 1f : 0f;
+        float sea = EditorUICanvasController.Instance.showSea.isOn ? 1f : 0f;
         MapController.Instance.CreateRegions(optionLayer, true, rivers, sea);
         MapController.Instance.ShowCapitalSymbols();
         MapController.Instance.ShowSettlementMarkers();

@@ -62,12 +62,24 @@ MonoBehaviour:
     m_Localized: ' de'
     m_Metadata:
       m_Items: []
-  - m_Id: 8208540635582464
-    m_Localized: Nom del assentament
-    m_Metadata:
-      m_Items: []
   - m_Id: 154680373320663040
     m_Localized: "S\xEDmbol"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187479524327424
+    m_Localized: Costa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187610764099584
+    m_Localized: Llac
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187680720896000
+    m_Localized: "Oce\xE0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 199187770269286400
+    m_Localized: Mar
     m_Metadata:
       m_Items: []
   references:

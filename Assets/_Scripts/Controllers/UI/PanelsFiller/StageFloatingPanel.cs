@@ -82,6 +82,34 @@ public class StageFloatingPanel : MonoBehaviour
         EditorUICanvasController.Instance.ChangeActive(UIgameobject);
     }
 
+    private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option, int filter = 0)
+    {
+
+        if (isForward)
+        {
+            return dropdown.GetOptionsIds(option, filter).Forward[id];
+        }
+        else
+        {
+            return dropdown.GetOptionsIds(option, filter).Reverse[id];
+        }
+
+    }
+
+    private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option, string filter)
+    {
+        if (isForward)
+        {
+            return dropdown.GetOptionsIds(option, filter).Forward[id];
+        }
+        else
+        {
+            return dropdown.GetOptionsIds(option, filter).Reverse[id];
+        }
+
+    }
+
+    #region Set Methods
     public void SetStageId(int stageId)
     {
         this.stageId = stageId;
@@ -98,35 +126,6 @@ public class StageFloatingPanel : MonoBehaviour
     {
         LocalizationController.Instance.AddLocalizeString(settlementNameLabel, table, key);
     }
-
-
-    private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option, int filter=0)
-    {
-
-        if (isForward)
-        {
-            return dropdown.GetOptionsIds(option, filter).Forward[id];
-        }
-        else
-        {
-            return dropdown.GetOptionsIds(option, filter).Reverse[id];
-        }
-        
-    }
-    private int GetDropdownValue(EditorDropdown dropdown, int id, bool isForward, bool option, string filter)
-    {       
-        if (isForward)
-        {
-            return dropdown.GetOptionsIds(option, filter).Forward[id];
-        }
-        else
-        {
-            return dropdown.GetOptionsIds(option, filter).Reverse[id];
-        }
-
-    }
-
-
     public void SetHistory(HistoryStage historyStage = null)
     {
         string fromDate, toDate;
@@ -235,9 +234,9 @@ public class StageFloatingPanel : MonoBehaviour
         }
 
     }
+    #endregion
 
-
-    /*** CHECKS ***/
+    #region Checks
     private bool DatesRangeOk()
     {
         int startDate = Int32.Parse(yFromDate.text + mFromDate.text.PadLeft(2, '0') + dFromDate.text.PadLeft(2, '0'));
@@ -271,11 +270,9 @@ public class StageFloatingPanel : MonoBehaviour
 
         return exist;
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** Action Button events ***/
-    // COPY BUTTON
+    #region Action Button events
     public void CopyActionButtonEvent()
     {
         // Clear other filters
@@ -294,7 +291,6 @@ public class StageFloatingPanel : MonoBehaviour
         int settlementId = GetDropdownValue(settlementEditorDropdown, settlementDropdown.value-1, true, false, regionId);
         SaveActionEvent(stageOkMessage, true, regionId, settlementId);
     }
-    // SAVE BUTTON
     public void SaveActionButtonEvent()
     {
         SaveActionEvent(stageOkMessage);
@@ -481,9 +477,6 @@ public class StageFloatingPanel : MonoBehaviour
         }
 
     } 
-
-
-    // DELETE BUTTON
     public void DeleteActionButtonEvent()
     {
         // Delete
@@ -503,6 +496,6 @@ public class StageFloatingPanel : MonoBehaviour
             EditorUICanvasController.Instance.RefleshingHistory(regionId, true, 0);
         }
     }
-    /***                        ***/
+    #endregion
 
 }

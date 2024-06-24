@@ -17,6 +17,8 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     public GameObject postItElement;
 
     [Header("Custom map")]
+    public Toggle layerCheckRivers;
+    public Toggle showSea;
     public Toggle layerCheckCollective;
     public TMP_Dropdown layersDropdown;
     public TextMeshProUGUI coordinateX;
@@ -137,8 +139,15 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         UIgameobject.SetActive(!UIgameobject.activeInHierarchy);
     }
 
+    #region Game Controller Connection
+    public Region GetRegionById(int regionId) { return GameManager.Instance.MAP_GetRegionById(regionId); }
+    public List<TerrainData> GetTerrainsByType(string terrainType) { return GameManager.Instance.CSV_GetTerrainsByType(terrainType); }
+    public void AddLocalizeString(TextMeshProUGUI text, string table, string key) { GameManager.Instance.LOC_AddLocalizeString(text, table, key);  }
+    public void UpdateTerrain(int regionId, string terrainId) { GameManager.Instance.CSV_UpdateTerrain(regionId, terrainId); }
+    public void UpdateTerrainRegion(int regionId, string terrain, string terrainType) { GameManager.Instance.MAP_UpdateTerrainRegion(regionId, terrain, terrainType); }
+    #endregion
 
-    /*** Filling scrolls ***/
+    #region Filling scrolls    
     /// <summary>
     /// Get information for a scrollview of the buttons
     /// </summary>
@@ -187,7 +196,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
                 break;
         }
 
-    }
+    }    
     private void FillScrollPolityType(Transform scrollViewButton, string elementKey = null)
     {
         // Building list of polities type
@@ -223,7 +232,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         {
             polityTypeButton.transform.SetParent(scrollViewButton.transform);
         }
-    }
+    }    
     private void FillScrollPolity(Transform scrollViewButton, EditorDataType editorType, string elementKey = null)
     {
         // Building list of polities
@@ -267,7 +276,7 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         {
             polityButton.transform.SetParent(scrollViewButton.transform);
         }
-    }
+    }    
     private void FillScrollSettlement(Transform scrollViewButton, string elementKey = null)
     {
         // Building list of settlements
@@ -304,10 +313,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             settlementButton.transform.SetParent(scrollViewButton.transform);
         }
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** Floating menus***/
+    #region Floating menus
     /// <summary>
     /// Activate the region panel
     /// </summary>
@@ -376,9 +384,19 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
         if (button)
         {
+            tmpRegionFloatingPanel.regionHistoryButton.SetActive(true);
             tmpRegionFloatingPanel.SetHistoryButtonText("LOC_TABLE_EDITOR_FLOATING", ParamUI.REGION_HISTORY_BUTTON);
             tmpRegionFloatingPanel.SetButtonClick();
         }
+    }
+    /// <summary>
+    /// For water region show the terrain of the region and hide button 'Stages of History'
+    /// </summary>
+    /// <param name="terrain">name of this terrain</param>
+    public void SetWaterRegionPanel(string terrain)
+    {
+        tmpRegionFloatingPanel.SetSettlementValue("LOC_TABLE_EDITOR_FLOATING", terrain);
+        tmpRegionFloatingPanel.regionHistoryButton.SetActive(false);
     }
     /// <summary>
     /// On/Off history panel
@@ -532,10 +550,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         Vector2 panelPositionNew = new Vector2(panelXPositionNew, panelYPositionNew);
         return panelPositionNew;
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** PostIt Note - Polity information***/
+    #region PostIt Note - Polity information
     public void PostItPolityVisibility(Vector3 mousePos, bool showPostIt, Region region = null)
     {
         if(showPostIt != tmpPostItNote.activeInHierarchy) { ChangeActive(tmpPostItNote); }
@@ -773,23 +790,20 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
         return currentHistory;
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** Message status functions ***/
+    #region Message status functions
     public void UpdateNewStatusMessage(SimpleMessage simpleMessage)
     {
         GameManager.Instance.LOC_AddLocalizeString(simpleMessage);
     }
-
     public void UpdateModStatusMessage(IdentificatorMessage identificatorMessage)
     {
         GameManager.Instance.LOC_AddLocalizeString(identificatorMessage);
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** List Button events ***/
+    #region List Button events
     private void ButtonEventToFillInfo(EditorDataType dataType, int labelId)
     {
         string currentName = "";
@@ -886,11 +900,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         }
 
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** Action Button events ***/
-    // SAVE EVENT
+    #region Savve Action Button events
     private void SaveActionButtonEvent(EditorDataType dataType, IdentificatorMessage identificatorMessage, List<SimpleMessage> okMessages, SimpleMessage emptyNameMessage, SimpleMessage duplicatedNameMessage, string loc_table, List<TMP_InputField> inputs, string idLabel, Toggle check = null)
     {
         // Remove old fields messages
@@ -1111,8 +1123,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         };
         SaveActionButtonEvent(EditorDataType.Settlement, settlementMessage, okMessages, settlementEmptyNameMessage, settlementDuplicatedNameMessage, "LOC_TABLE_HIST_SETTLEMENTS", inputs, settlementIdLabel.text);
     }
+    #endregion
 
-    // CLEAR EVENT
+    #region Clear Action Button events
     private void ClearMessages(GameObject status, SimpleMessage okNameMessage)
     {
 
@@ -1151,8 +1164,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
         ClearMessages(settlementStatus, settlementOkNameMessage);
         ClearMessages(settlementStatus, settlementOkRegionMessage);
     }
+    #endregion
 
-    // DELETE EVENT
+    #region Delete Action Button events
     public void PolityTypeDeleteActionButtonEvent()
     {
         if (polityTypeIdLabel.text == "0")
@@ -1240,10 +1254,9 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
             SettlementClearActionButtonEvent();
         }
     }
-    /***                        ***/
+    #endregion
 
-
-    /*** Timeline ***/
+    #region Timeline
     /// <summary>
     /// Get current timeline
     /// </summary>
@@ -1281,11 +1294,13 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
 
         return currentDate >= start && currentDate <= end ? true : false;
     }
-    /***                        ***/
+    #endregion
 
+    #region Symbols
     public void ReloadCapitalSymbols()
     {
         GameManager.Instance.MAP_CapitalSymbolLoad();
     }
+    #endregion
 
 }

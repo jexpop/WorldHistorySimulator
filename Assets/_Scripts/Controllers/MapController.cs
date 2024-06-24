@@ -4,6 +4,8 @@ using Aron.Weiler;
 using System.Linq;
 using System.IO;
 using TMPro;
+using UnityEngine.EventSystems;
+using System;
 
 
 public class MapController : Singleton<MapController>
@@ -15,7 +17,7 @@ public class MapController : Singleton<MapController>
     Color32[] remapArr;
     Color32[] waterArr;
     Texture2D remapTex;
-    Texture2D seaTex;
+    Texture2D waterTex;
     Texture2D paletteTex;
     Texture2D mainTex;
 
@@ -78,38 +80,6 @@ public class MapController : Singleton<MapController>
 
     }
 
-    private void AddCapitalSymobl(string symbolPpath, string symbolName)
-    {
-        //Converts desired path into byte array
-        byte[] pngBytes = File.ReadAllBytes(symbolPpath + symbolName);
-        //Creates texture and loads byte array data to create image
-        Texture2D symbolTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-        symbolTex.LoadImage(pngBytes);
-        // Add image to symbols dictioanry
-        SymbolTexture symbolTexture = new SymbolTexture(symbolName, symbolTex);
-        symbolsTexture.Add(symbolTexture);
-    }
-
-    public void CapitalSymbolLoad()
-    {        
-        // Subdirectories
-        string[] directories = Directory.GetDirectories(symbolStreamingPath);
-
-        symbolsTexture.Clear();
-        for (int i = 0; i < directories.Length; i++)
-        {
-
-            // Files in the subdirectory
-            DirectoryInfo symbolsDir = new DirectoryInfo(directories[i] + "/");
-            FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
-            foreach (FileInfo symbolFilename in symbolsInfo)
-            {
-                AddCapitalSymobl(directories[i] + "/", symbolFilename.Name);
-            }
-
-        }
-    }
-
     /// <summary>
     /// Black and white base on which the map is built
     /// </summary>
@@ -153,8 +123,8 @@ public class MapController : Singleton<MapController>
         _material.SetTexture("_RemapTex", remapTex);
 
         // Water texture update
-        seaTex = new Texture2D(width, height, TextureFormat.RGBA32, false);
-        seaTex.filterMode = FilterMode.Point;
+        waterTex = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        waterTex.filterMode = FilterMode.Point;
 
         // Palette texture update
         paletteTex = new Texture2D(256, 256, TextureFormat.RGBA32, false);
@@ -165,6 +135,13 @@ public class MapController : Singleton<MapController>
 
     }
 
+    // Apply changes in the map
+    public void ApplyPaletteTexture(bool updateMipmaps)
+    {
+        paletteTex.Apply(updateMipmaps);
+    }
+
+    #region Color Methods
     /// <summary>
     /// Color replacement
     /// </summary>
@@ -176,7 +153,6 @@ public class MapController : Singleton<MapController>
         int yp = remapColor[1];
         paletteTex.SetPixel(xp, yp, showColor);
     }
-
     /// <summary>
     /// Returns a vector with the RGB colors of an XY position without taking into account the Alpha
     /// </summary>
@@ -191,168 +167,14 @@ public class MapController : Singleton<MapController>
         int bluecolor = (int)Mathf.Round(color.b * ParamColor.COLOR32_MAX);
         return new Vector3Int(redColor, greenColor, bluecolor);
     }
-
-    /// <summary>
-    /// Returns a vector with the RGB colors of an RGBA color
-    /// </summary>
-    /// <param name="color">RGBA color</param>
-    /// <returns>RGB color</returns>
-    /*Vector3Int OnlyRGBColorByRGBA(Color color)
-    {
-        int redColor = (int)Mathf.Round(color.r * ParamColor.COLOR32_MAX);
-        int greenColor = (int)Mathf.Round(color.g * ParamColor.COLOR32_MAX);
-        int bluecolor = (int)Mathf.Round(color.b * ParamColor.COLOR32_MAX);
-        return new Vector3Int(redColor, greenColor, bluecolor);
-    }*/
-
     // Get pixel color by position from the map
     public Color32 GetRemapColorByPosition(int x, int y)
     {
         return remapArr[x + y * ParamMap.MAP_SIZE_WIDTH];
     }
+    #endregion
 
-    // Apply changes in the map
-    public void ApplyPaletteTexture(bool updateMipmaps)
-    {
-        paletteTex.Apply(updateMipmaps);
-    }
-
-
-    ///********************************************************************************************************************************************///
-    /// REGIONS METHODS 
-    ///********************************************************************************************************************************************///
-    
-    /// <summary>
-    /// Colorize the regions of the map
-    /// </summary>
-    /// <param name="singleRegion"></param>
-    private void ColorizeRegions(Region singleRegion = null)
-    {
-        // Initial values to colorize all regions or single region
-        int ix = 0, iy = 0;
-        int ex = width, ey = height;
-        if (singleRegion != null)
-        {
-            ix = singleRegion.XminCoordinates;
-            iy = singleRegion.YminCoordinates;
-            ex = singleRegion.XmaxCoordinates;
-            ey = singleRegion.YmaxCoordinates;
-        }
-
-        // Fill color of regions
-        for (int x = ix; x < ex; x++)
-        {
-            for (int y = iy; y < ey; y++)
-            {
-                bool mustBeColored = false;
-                Color32 regionColor;
-                if (singleRegion == null)
-                {// If region is null, we want to colorize all regions
-                    if(regions.ContainsKey(OnlyRGBColorByPosition(x, y)))
-                    {
-                        Region region = regions[OnlyRGBColorByPosition(x, y)];
-
-                        // Minimum, maximum coordinates of the region
-                         if (x <= region.XminCoordinates) { region.XminCoordinates = x; }
-                         if (x >= region.XmaxCoordinates) { region.XmaxCoordinates = x; }
-                         if (y <= region.YminCoordinates) { region.YminCoordinates = y; }
-                         if (y >= region.YmaxCoordinates) { region.YmaxCoordinates = y; }
-
-                        mustBeColored = true;
-                        regionColor = region.Rgb32;
-
-                        // Indicator water terrain white-water, black-land
-                        if (region.Type == ParamUI.REGION_NAME_LAND)
-                        {
-                            waterArr[x + y * width] = ParamColor.COLOR_WHITE;
-                        }
-                        else
-                        {
-                            waterArr[x + y * width] =  ParamColor.COLOR_BLACK;
-                        }
-
-                    }
-                    else
-                    {
-                        regionColor = ParamColor.COLOR_WHITE;
-                    }
-
-                }
-                else
-                {// Single region
-                    Region compareRegion = regions[OnlyRGBColorByPosition(x, y)];
-                    mustBeColored = compareRegion.Equals(singleRegion) ? true : false;
-                    regionColor = singleRegion.Rgb32;
-
-                    // Indicator water terrain white-water, black-land
-                    if (singleRegion.Type == ParamUI.REGION_NAME_LAND)
-                    {
-                        waterArr[x + y * width] = ParamColor.COLOR_WHITE;
-                    }
-                    else
-                    {
-                        waterArr[x + y * width] = ParamColor.COLOR_BLACK;
-                    }
-                }
-
-                if (mustBeColored)
-                {
-                    var remapColor = remapArr[x + y * width];
-                    ChangeColor(remapColor, regionColor);
-                }
-            }
-        }
-
-        // Water texture update
-        seaTex.SetPixels32(waterArr);
-        seaTex.Apply(false);
-        _material.SetTexture("_SeaTex", seaTex);
-
-        // Palette texture update
-        paletteTex.Apply(false);
-    }
-
-    private void UpdateRegionsTimeline(int timeline, int optionLayer)
-    {
-        foreach(int regionId in regionsIdList)
-        {
-            Region region = regions[regionId];
-            List<HistoryRegionRelation> historyList = region.History;
-            if (historyList.Count > 0) // This region has history
-            {
-                HistoryRegionRelation history = historyList.Where(h => h.Stage.StartDate <= timeline & h.Stage.EndDate >= timeline).Select(c => c).FirstOrDefault();
-                if (history != null) // This region has history in selected dates
-                {
-                    Settlement settlement = settlements[history.SettlementId];
-                    regions[regionId].Settlement = settlement;
-                    HistoryStage stage = history.Stage;
-                    int ownerId = optionLayer switch
-                    {
-                        0 => Utilities.EitherInt(stage.PolityParentId_L1, 0),
-                        1 => Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0)),
-                        2 => Utilities.EitherInt(stage.PolityParentId_L3, Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0))),
-                        3 => Utilities.EitherInt(stage.PolityParentId_L4, Utilities.EitherInt(stage.PolityParentId_L3, Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0)))),
-                        _ => 0
-                    };
-                    Polity polity = polities[ownerId];
-                    regions[regionId].Owner = polity;
-
-                    regions[regionId].ColorRecalculate();
-                }
-                else
-                {
-                    // Clear the region if not exist data history
-                    regions[regionId].Settlement = null;
-                    regions[regionId].Owner = null;
-                    regions[regionId].ColorRecalculate();
-                }
-            }            
-        }
-    }
-
-    /// 
-    /// Get information from csv to colorize the regions
-    ///
+    #region Get information from csv to colorize the regions
     private void CreateRegions()
     {
         ColorsList(); // Generate the list of colors for the polities                      
@@ -367,7 +189,7 @@ public class MapController : Singleton<MapController>
         int timeline = GameManager.Instance.UI_GetCurrentTimeline(timeTravelbutton); // Get current timeline
         UpdateRegionsTimeline(timeline, optionLayer); // Update the regions dictionary to optimize memory used        
         _material.SetFloat("_DrawRiver", drawRiver); // Show rivers
-        _material.SetFloat("_DrawSea", drawSea); // Show sea
+        _material.SetFloat("_DrawSea", drawSea); // Show sea/lakes areas
         ColorizeRegions(); // Colorize all regions of the worldmap
     }
     private void ColorsList()
@@ -376,7 +198,6 @@ public class MapController : Singleton<MapController>
         polityColorList.TrimExcess();
         polityColorList = CsvConnection.Instance.GetColors();
     }
-
     /// <summary>
     /// Modify new color region
     /// </summary>
@@ -391,7 +212,6 @@ public class MapController : Singleton<MapController>
         regions[regionId].ColorRecalculate();
         ColorizeRegions(regions[regionId]);
     }
-
     /// <summary>
     /// Get a region by a key
     /// </summary>
@@ -401,7 +221,6 @@ public class MapController : Singleton<MapController>
     {
         return regions[id];
     }
-
     /// <summary>
     /// Get a region by position
     /// </summary>
@@ -412,111 +231,9 @@ public class MapController : Singleton<MapController>
     {
         return regions[OnlyRGBColorByPosition(x, y)];
     }
+    #endregion
 
-    ///********************************************************************************************************************************************///
-    /// POLITIES TYPE METHODS 
-    ///********************************************************************************************************************************************///
-    public Dictionary<int, PolityType> GetPolitiesType()
-    {
-        return politiesType;
-    }
-    public PolityType GetPolityTypeById(int id)
-    {
-        return politiesType[id];
-    }
-    public string GetPolitiesTypeLocaleKeyById(int id)
-    {
-        string name = politiesType.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
-        return name;
-    }
-    public List<int> GetPolityTypesByPolity(int polityId)
-    {
-        List<int> polityTypes = new List<int>();
-
-        foreach (var region in regions)
-        {
-            List<HistoryRegionRelation> history = region.Value.History;         
-            if(history != null)
-            {
-                foreach (HistoryRegionRelation stage in history)
-                {
-                    if (stage.Stage.PolityParentId_L1 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L1); }
-                    if (stage.Stage.PolityParentId_L2 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L2); }
-                    if (stage.Stage.PolityParentId_L3 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L3); }
-                    if (stage.Stage.PolityParentId_L4 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L4); }
-                }
-            }
-        }
-        return polityTypes.Distinct().ToList();
-    }
-    public List<int> GetPolityTypesByPolicy(int policyId)
-    {
-        List<int> polityTypes = new List<int>();
-
-        foreach (var region in regions)
-        {
-            List<HistoryRegionRelation> history = region.Value.History;
-            if (history != null)
-            {
-                foreach (HistoryRegionRelation stage in history)
-                {
-                    if (stage.Stage.PolicyId == policyId) { polityTypes.Add(stage.Stage.PolicyTypeId); }
-                }
-            }
-        }
-        return polityTypes.Distinct().ToList();
-    }
-
-
-    ///********************************************************************************************************************************************///
-    /// POLITIES METHODS 
-    ///********************************************************************************************************************************************///
-    public Dictionary<int, Polity> GetPolities(int policy = 0)
-    {
-        if (policy == 0)
-        {
-            return polities;
-        }
-        else
-        {
-            bool policyValue = policy == CsvConnection.Instance.GetCollectiveId() ? true : false;
-            return polities.Where(x => x.Value.IsCollective.Equals(policyValue)).ToDictionary(x => x.Key, x => x.Value);
-        }
-    }
-    public Polity GetPolityById(int id)
-    {
-        return polities[id];
-    }
-    public string GetPolitiesLocaleKeyById(int id)
-    {
-        string name = polities.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
-        return name;
-    }
-   
-
-    ///********************************************************************************************************************************************///
-    /// SETTLEMENTS METHODS 
-    ///********************************************************************************************************************************************///
-    public Dictionary<int, Settlement> GetSettlements()
-    {
-        return settlements;
-    }
-    public Settlement GetSettlementById(int id)
-    {
-        return settlements[id];
-    }
-    public string GetSettlementsLocaleKeyById(int id)
-    {
-        string name = settlements.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
-        return name;
-    }
-    ///********************************************************************************************************************************************///
-    ///********************************************************************************************************************************************///
-    ///********************************************************************************************************************************************///
-    ///********************************************************************************************************************************************///
-
-
-    /// Load data from database to dictionaries
+    #region Load data from database to dictionaries
     public void LoadPolitiesTypeDictionaryFromDB()
     {
         politiesType = CsvConnection.Instance.GetInfoPolitiesType();
@@ -533,8 +250,9 @@ public class MapController : Singleton<MapController>
     {
         regions[regionId].History = CsvConnection.Instance.GetHistoryByRegionId(regionId);
     }
+    #endregion
 
-    /// CHECKS
+    #region Checks
     public bool PolityIsRelated(int polityId)
     {
         bool result = false;
@@ -571,74 +289,229 @@ public class MapController : Singleton<MapController>
 
         return result;
     }
+    #endregion
 
-    /// SYMBOLS
-    public Texture2D GetSymbolTexture(string symbolFilename)
+    #region Region Methods
+    /// <summary>
+    /// Colorize the regions of the map
+    /// </summary>
+    /// <param name="singleRegion"></param>
+    private void ColorizeRegions(Region singleRegion = null)
     {
-        string currentSymbolName = Utilities.PascalStrings(symbolFilename) + ".png";
-        return symbolsTexture.Where(s => s.Name == currentSymbolName).Select(s => s.Texture).FirstOrDefault();
-    }
-    public void ShowCapitalSymbols()
-    {
-        // Remove previous symbols
-        placementObjects.RemoveMapObjects(ParamMap.MAPTAG_CAPITAL_SYMBOL);
-        
-        // Current layer selected
-        int currentLevelLayer = GameManager.Instance.UI_GetLayerValue() + 1;
-
-        int isCapital;
-        string polityCapital;
-        string polityTypeCapital;
-        // Find regions with capital symbol
-        foreach(int id in regionsIdList)
+        // Initial values to colorize all regions or single region
+        int ix = 0, iy = 0;
+        int ex = width, ey = height;
+        if (singleRegion != null)
         {
-            Region region = regions[id];
-            List<HistoryRegionRelation> history = region.History;
-            if(history != null)
+            ix = singleRegion.XminCoordinates;
+            iy = singleRegion.YminCoordinates;
+            ex = singleRegion.XmaxCoordinates;
+            ey = singleRegion.YmaxCoordinates;
+        }
+
+        // Fill color of regions
+        for (int x = ix; x < ex; x++)
+        {
+            for (int y = iy; y < ey; y++)
             {
-                foreach (HistoryRegionRelation h in history)
+                bool mustBeColored = false;
+                Color32 regionColor;
+                if (singleRegion == null)
+                {// If region is null, we want to colorize all regions
+                    if (regions.ContainsKey(OnlyRGBColorByPosition(x, y)))
+                    {
+                        Region region = regions[OnlyRGBColorByPosition(x, y)];
+
+                        // Minimum, maximum coordinates of the region
+                        if (x <= region.XminCoordinates) { region.XminCoordinates = x; }
+                        if (x >= region.XmaxCoordinates) { region.XmaxCoordinates = x; }
+                        if (y <= region.YminCoordinates) { region.YminCoordinates = y; }
+                        if (y >= region.YmaxCoordinates) { region.YmaxCoordinates = y; }
+
+                        mustBeColored = true;
+                        regionColor = region.Rgb32;
+
+                        // Indicator water terrain white-water, black-land
+                        if (region.Type == ParamUI.REGION_NAME_LAND)
+                        {
+                            waterArr[x + y * width] = ParamColor.COLOR_WHITE;
+                        }
+                        else
+                        {
+                            waterArr[x + y * width] = ParamColor.COLOR_BLACK;
+                        }
+
+                    }
+                    else
+                    {
+                        regionColor = ParamColor.COLOR_WHITE;
+                    }
+
+                }
+                else
+                {// Single region
+                    Region compareRegion = regions[OnlyRGBColorByPosition(x, y)];
+                    mustBeColored = compareRegion.Equals(singleRegion) ? true : false;
+                    regionColor = singleRegion.Rgb32;
+
+                    // Indicator water terrain white-land, black-water
+                    if (singleRegion.Type == ParamUI.REGION_NAME_LAND)
+                    {
+                        waterArr[x + y * width] = ParamColor.COLOR_WHITE;
+                    }
+                    else
+                    {
+                        waterArr[x + y * width] = ParamColor.COLOR_BLACK;
+                    }
+                }
+
+                if (mustBeColored)
                 {
-                    switch (currentLevelLayer)
-                    {
-                        case 1:
-                            isCapital = h.Stage.Capital_L1; 
-                            polityCapital = GetPolityById(h.Stage.PolityParentId_L1).Name; 
-                            polityTypeCapital= GetPolityTypeById(h.Stage.PolityTypeIdParent_L1).Name;  
-                            break;
-                        case 2:
-                            isCapital = Utilities.EitherInt(h.Stage.Capital_L2, h.Stage.Capital_L1); 
-                            polityCapital = GetPolityById(Utilities.EitherInt(h.Stage.PolityParentId_L2, h.Stage.PolityParentId_L1)).Name; 
-                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L2, h.Stage.PolityTypeIdParent_L1)).Name; 
-                            break;
-                        case 3: 
-                            isCapital = Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L3, h.Stage.Capital_L2), h.Stage.Capital_L1); 
-                            polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L3, h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name; 
-                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L3, h.Stage.PolityTypeIdParent_L2), h.Stage.PolityTypeIdParent_L1)).Name; 
-                            break;
-                        case 4: 
-                            isCapital = Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L4, h.Stage.Capital_L3), h.Stage.Capital_L2), h.Stage.Capital_L1); 
-                            polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L4, h.Stage.PolityParentId_L3), h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name; 
-                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L4, h.Stage.PolityTypeIdParent_L3), h.Stage.PolityTypeIdParent_L2), h.Stage.PolityTypeIdParent_L1)).Name; 
-                            break;
-                        default: isCapital = 0; polityCapital = ""; polityTypeCapital = ""; break;
-                    }
-                    
-                    if (isCapital == 1 && GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
-                    {
-                        string startEra = h.Stage.StartDate > 0 ? "A" : "B";
-                        string endEra = h.Stage.EndDate > 0 ? "A" : "B";
-                        string symbolFilename = h.Stage.IsSymbolForDate == 0 ? polityCapital + "_" + polityTypeCapital : polityCapital + "_" + polityTypeCapital + "_" + startEra + h.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + h.Stage.EndDate.ToString().PadLeft(8, '0');
-                        Texture2D currentSymbol = GetSymbolTexture(symbolFilename);
-                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region.Settlement.PixelCoordinates, currentSymbol, region.Settlement.Name);                 
-                    }
-                
+                    var remapColor = remapArr[x + y * width];
+                    ChangeColor(remapColor, regionColor);
                 }
             }
         }
 
-    }
+        // Water texture update
+        waterTex.SetPixels32(waterArr);
+        waterTex.Apply(false);
+        _material.SetTexture("_SeaTex", waterTex);
 
-    /// SETTLEMENT MARKERS
+        // Palette texture update
+        paletteTex.Apply(false);
+    }
+    private void UpdateRegionsTimeline(int timeline, int optionLayer)
+    {
+        foreach (int regionId in regionsIdList)
+        {
+            Region region = regions[regionId];
+            List<HistoryRegionRelation> historyList = region.History;
+            if (historyList.Count > 0) // This region has history
+            {
+                HistoryRegionRelation history = historyList.Where(h => h.Stage.StartDate <= timeline & h.Stage.EndDate >= timeline).Select(c => c).FirstOrDefault();
+                if (history != null) // This region has history in selected dates
+                {
+                    Settlement settlement = settlements[history.SettlementId];
+                    regions[regionId].Settlement = settlement;
+                    HistoryStage stage = history.Stage;
+                    int ownerId = optionLayer switch
+                    {
+                        0 => Utilities.EitherInt(stage.PolityParentId_L1, 0),
+                        1 => Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0)),
+                        2 => Utilities.EitherInt(stage.PolityParentId_L3, Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0))),
+                        3 => Utilities.EitherInt(stage.PolityParentId_L4, Utilities.EitherInt(stage.PolityParentId_L3, Utilities.EitherInt(stage.PolityParentId_L2, Utilities.EitherInt(stage.PolityParentId_L1, 0)))),
+                        _ => 0
+                    };
+                    Polity polity = polities[ownerId];
+                    regions[regionId].Owner = polity;
+
+                    regions[regionId].ColorRecalculate();
+                }
+                else
+                {
+                    // Clear the region if not exist data history
+                    regions[regionId].Settlement = null;
+                    regions[regionId].Owner = null;
+                    regions[regionId].ColorRecalculate();
+                }
+            }
+            else
+            {
+                // Water regions
+                regions[regionId].ColorRecalculate();
+            }
+        }
+    }
+    public void UpdateTerrainRegion(int regionId, string terrain, string terrainType)
+    {
+        regions[regionId].Terrain = terrain;
+
+        if (terrainType == ParamUI.REGION_NAME_WATER)
+        {
+            ColorizeRegionsById(regionId, null);
+        }        
+    }
+    #endregion
+
+    #region Polities Type Methods
+    public Dictionary<int, PolityType> GetPolitiesType()
+    {
+        return politiesType;
+    }
+    public PolityType GetPolityTypeById(int id)
+    {
+        return politiesType[id];
+    }
+    public string GetPolitiesTypeLocaleKeyById(int id)
+    {
+        string name = politiesType.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
+        return name;
+    }
+    public List<int> GetPolityTypesByPolity(int polityId)
+    {
+        List<int> polityTypes = new List<int>();
+
+        foreach (var region in regions)
+        {
+            List<HistoryRegionRelation> history = region.Value.History;
+            if (history != null)
+            {
+                foreach (HistoryRegionRelation stage in history)
+                {
+                    if (stage.Stage.PolityParentId_L1 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L1); }
+                    if (stage.Stage.PolityParentId_L2 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L2); }
+                    if (stage.Stage.PolityParentId_L3 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L3); }
+                    if (stage.Stage.PolityParentId_L4 == polityId) { polityTypes.Add(stage.Stage.PolityTypeIdParent_L4); }
+                }
+            }
+        }
+        return polityTypes.Distinct().ToList();
+    }
+    public List<int> GetPolityTypesByPolicy(int policyId)
+    {
+        List<int> polityTypes = new List<int>();
+
+        foreach (var region in regions)
+        {
+            List<HistoryRegionRelation> history = region.Value.History;
+            if (history != null)
+            {
+                foreach (HistoryRegionRelation stage in history)
+                {
+                    if (stage.Stage.PolicyId == policyId) { polityTypes.Add(stage.Stage.PolicyTypeId); }
+                }
+            }
+        }
+        return polityTypes.Distinct().ToList();
+    }
+    #endregion
+
+    #region Polities Methods
+    public Dictionary<int, Polity> GetPolities(int policy = 0)
+    {
+        if (policy == 0)
+        {
+            return polities;
+        }
+        else
+        {
+            bool policyValue = policy == CsvConnection.Instance.GetCollectiveId() ? true : false;
+            return polities.Where(x => x.Value.IsCollective.Equals(policyValue)).ToDictionary(x => x.Key, x => x.Value);
+        }
+    }
+    public Polity GetPolityById(int id)
+    {
+        return polities[id];
+    }
+    public string GetPolitiesLocaleKeyById(int id)
+    {
+        string name = polities.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
+        return name;
+    }
+    #endregion
+
+    #region Settlement Methods
     public void ShowSettlementMarkers()
     {
         // Remove previous markers
@@ -685,8 +558,119 @@ public class MapController : Singleton<MapController>
         }
 
     }
+    public Dictionary<int, Settlement> GetSettlements()
+    {
+        return settlements;
+    }
+    public Settlement GetSettlementById(int id)
+    {
+        return settlements[id];
+    }
+    public string GetSettlementsLocaleKeyById(int id)
+    {
+        string name = settlements.Where(x => x.Key.Equals(id)).Select(x => x.Value.Name).FirstOrDefault();
+        return name;
+    }
+    #endregion
 
-    // GENERIC PLACEMENT OBJECTS
+    #region Symbols
+    public Texture2D GetSymbolTexture(string symbolFilename)
+    {
+        string currentSymbolName = Utilities.PascalStrings(symbolFilename) + ".png";
+        return symbolsTexture.Where(s => s.Name == currentSymbolName).Select(s => s.Texture).FirstOrDefault();
+    }
+    public void ShowCapitalSymbols()
+    {
+        // Remove previous symbols
+        placementObjects.RemoveMapObjects(ParamMap.MAPTAG_CAPITAL_SYMBOL);
+
+        // Current layer selected
+        int currentLevelLayer = GameManager.Instance.UI_GetLayerValue() + 1;
+
+        int isCapital;
+        string polityCapital;
+        string polityTypeCapital;
+        // Find regions with capital symbol
+        foreach (int id in regionsIdList)
+        {
+            Region region = regions[id];
+            List<HistoryRegionRelation> history = region.History;
+            if (history != null)
+            {
+                foreach (HistoryRegionRelation h in history)
+                {
+                    switch (currentLevelLayer)
+                    {
+                        case 1:
+                            isCapital = h.Stage.Capital_L1;
+                            polityCapital = GetPolityById(h.Stage.PolityParentId_L1).Name;
+                            polityTypeCapital = GetPolityTypeById(h.Stage.PolityTypeIdParent_L1).Name;
+                            break;
+                        case 2:
+                            isCapital = Utilities.EitherInt(h.Stage.Capital_L2, h.Stage.Capital_L1);
+                            polityCapital = GetPolityById(Utilities.EitherInt(h.Stage.PolityParentId_L2, h.Stage.PolityParentId_L1)).Name;
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L2, h.Stage.PolityTypeIdParent_L1)).Name;
+                            break;
+                        case 3:
+                            isCapital = Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L3, h.Stage.Capital_L2), h.Stage.Capital_L1);
+                            polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L3, h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name;
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L3, h.Stage.PolityTypeIdParent_L2), h.Stage.PolityTypeIdParent_L1)).Name;
+                            break;
+                        case 4:
+                            isCapital = Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.Capital_L4, h.Stage.Capital_L3), h.Stage.Capital_L2), h.Stage.Capital_L1);
+                            polityCapital = GetPolityById(Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityParentId_L4, h.Stage.PolityParentId_L3), h.Stage.PolityParentId_L2), h.Stage.PolityParentId_L1)).Name;
+                            polityTypeCapital = GetPolityTypeById(Utilities.EitherInt(Utilities.EitherInt(Utilities.EitherInt(h.Stage.PolityTypeIdParent_L4, h.Stage.PolityTypeIdParent_L3), h.Stage.PolityTypeIdParent_L2), h.Stage.PolityTypeIdParent_L1)).Name;
+                            break;
+                        default: isCapital = 0; polityCapital = ""; polityTypeCapital = ""; break;
+                    }
+
+                    if (isCapital == 1 && GameManager.Instance.UI_IsDateCurrent(h.Stage.StartDate, h.Stage.EndDate))
+                    {
+                        string startEra = h.Stage.StartDate > 0 ? "A" : "B";
+                        string endEra = h.Stage.EndDate > 0 ? "A" : "B";
+                        string symbolFilename = h.Stage.IsSymbolForDate == 0 ? polityCapital + "_" + polityTypeCapital : polityCapital + "_" + polityTypeCapital + "_" + startEra + h.Stage.StartDate.ToString().PadLeft(8, '0') + "_" + endEra + h.Stage.EndDate.ToString().PadLeft(8, '0');
+                        Texture2D currentSymbol = GetSymbolTexture(symbolFilename);
+                        placementObjects.PutMapObjectsCustomSprites(ParamMap.MAPTAG_CAPITAL_SYMBOL, region.Settlement.PixelCoordinates, currentSymbol, region.Settlement.Name);
+                    }
+
+                }
+            }
+        }
+
+    }
+    private void AddCapitalSymobl(string symbolPpath, string symbolName)
+    {
+        //Converts desired path into byte array
+        byte[] pngBytes = File.ReadAllBytes(symbolPpath + symbolName);
+        //Creates texture and loads byte array data to create image
+        Texture2D symbolTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+        symbolTex.LoadImage(pngBytes);
+        // Add image to symbols dictioanry
+        SymbolTexture symbolTexture = new SymbolTexture(symbolName, symbolTex);
+        symbolsTexture.Add(symbolTexture);
+    }
+    public void CapitalSymbolLoad()
+    {
+        // Subdirectories
+        string[] directories = Directory.GetDirectories(symbolStreamingPath);
+
+        symbolsTexture.Clear();
+        for (int i = 0; i < directories.Length; i++)
+        {
+
+            // Files in the subdirectory
+            DirectoryInfo symbolsDir = new DirectoryInfo(directories[i] + "/");
+            FileInfo[] symbolsInfo = symbolsDir.GetFiles("*.png");
+            foreach (FileInfo symbolFilename in symbolsInfo)
+            {
+                AddCapitalSymobl(directories[i] + "/", symbolFilename.Name);
+            }
+
+        }
+    }
+    #endregion
+
+    #region Generic Placement Objects
     public void RemoveMapObjects(string name)
     {
         placementObjects.RemoveMapObjects(name);
@@ -695,5 +679,6 @@ public class MapController : Singleton<MapController>
     {
         placementObjects.PutMapObjects(name, region);
     }
+    #endregion
 
 }
