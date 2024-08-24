@@ -66,13 +66,16 @@ public class RegionFloatingPanel : MonoBehaviour
     #region Terrain Panel
     public void EnableTerrainPanel()
     {
+        // TODO Check for all screens
+        terrainPanel.transform.position = new Vector2(1000, 500);
+
         terrainPanel.SetActive(true);
 
         // List of tiles
         int regionId = int.Parse(regionPanelValue.text);
         Region region = EditorUICanvasController.Instance.GetRegionById(regionId);
         List<TerrainData> terrains = EditorUICanvasController.Instance.GetTerrainsByType(region.Type);
-
+        
         if (terrains.Count > 0)
         {
 
@@ -84,12 +87,14 @@ public class RegionFloatingPanel : MonoBehaviour
 
             foreach (TerrainData terrain in terrains)
             {
+
                 // New terrain info
                 GameObject terrainPanel = Instantiate(terrainButtonPrefab);
 
                 // Button
                 Button terrainButton = terrainPanel.GetComponentInChildren<Button>();
                 Sprite terrainTile = EditorUICanvasController.Instance.terrainTiles.FirstOrDefault(o => o.name.Equals(terrain.TerrainName));
+
                 terrainButton.GetComponentInChildren<Image>().sprite = terrainTile;
                 terrainButton.onClick.AddListener(delegate { ChangeTerrain(regionId, region.Type, terrain, terrainTile); });
 
@@ -98,7 +103,7 @@ public class RegionFloatingPanel : MonoBehaviour
                 EditorUICanvasController.Instance.AddLocalizeString(terrainText, "LOC_TABLE_EDITOR_FLOATING", terrain.TerrainName);
 
                 // Parent
-                terrainPanel.transform.parent = terrainScrollView.transform;
+                terrainPanel.transform.SetParent(terrainScrollView.transform);
             }
         }
 

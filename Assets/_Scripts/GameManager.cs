@@ -79,6 +79,7 @@ public class GameManager : Singleton<GameManager>
     public void UI_SetWaterRegionPanel(string terrain) { EditorUICanvasController.Instance.SetWaterRegionPanel(terrain); }
     public void UI_ActivateRegionPanel(float x, float y) { EditorUICanvasController.Instance.ActivateRegionPanel(x, y); }
     public void UI_DeactivateRegionPanel() { EditorUICanvasController.Instance.DeactivateRegionPanel(); }
+    public void UI_DeactivateTerrainPanel() { EditorUICanvasController.Instance.DeactivateTerrainPanel(); }
     public int UI_GetCurrentTimeline(bool button) { return EditorUICanvasController.Instance.GetCurrentTimeline(button); }
     public int UI_GetLayerValue() { return EditorUICanvasController.Instance.layersDropdown.value; }
     public Toggle UI_GetSeaValue() { return EditorUICanvasController.Instance.showSea; }

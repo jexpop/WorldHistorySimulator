@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\config\\paramui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\config\\paramui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\config\\parammap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\config\\parammap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\controllers\\mapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\mapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\controllers\\editoruicanvascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\editoruicanvascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|d:\\programacion\\unity\\proyectos\\worldhistorysimulator\\assets\\_scripts\\controllers\\ui\\panelsfiller\\regionfloatingpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F02C1484-9C69-D723-52D3-B6FC845E3688}|Assembly-CSharp.csproj|solutionrelative:assets\\_scripts\\controllers\\ui\\panelsfiller\\regionfloatingpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,40 +27,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MapController.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MapController.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\MapController.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MapController.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\MapController.cs",
-              "ViewState": "AQIAAIoAAAAAAAAAAAA5wKoBAAAFAAAA",
+              "Title": "ParamUI.cs",
+              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Config\\ParamUI.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Config\\ParamUI.cs",
+              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Config\\ParamUI.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Config\\ParamUI.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAIA0wBAAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-24T15:42:07.264Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\GameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\GameManager.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\GameManager.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\GameManager.cs",
-              "ViewState": "AQIAAGsAAAAAAAAAAADwv3MAAACGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-24T15:41:46.19Z",
+              "WhenOpened": "2024-07-22T21:23:41.25Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "EditorUICanvasController.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\EditorUICanvasController.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\EditorUICanvasController.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\EditorUICanvasController.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\EditorUICanvasController.cs",
-              "ViewState": "AQIAAHcAAAAAAAAAAAAkwJIAAACEAAAA",
+              "Title": "MapController.cs",
+              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MapController.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\MapController.cs",
+              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\MapController.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\MapController.cs",
+              "ViewState": "AQIAAG4CAAAAAAAAAIA0wHgCAABDAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-24T15:41:36.8Z",
+              "WhenOpened": "2024-07-22T21:22:38.705Z",
               "EditorCaption": ""
             },
             {
@@ -73,15 +56,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RegionFloatingPanel.cs",
-              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\RegionFloatingPanel.cs",
-              "RelativeDocumentMoniker": "Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\RegionFloatingPanel.cs",
-              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\RegionFloatingPanel.cs",
-              "RelativeToolTip": "Assets\\_Scripts\\Controllers\\UI\\PanelsFiller\\RegionFloatingPanel.cs",
-              "ViewState": "AQIAAFgAAAAAAAAAAAAywG8AAAA9AAAA",
+              "DocumentIndex": 1,
+              "Title": "ParamMap.cs",
+              "DocumentMoniker": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Config\\ParamMap.cs",
+              "RelativeDocumentMoniker": "Assets\\_Scripts\\Config\\ParamMap.cs",
+              "ToolTip": "D:\\PROGRAMACION\\UNITY\\Proyectos\\WorldHistorySimulator\\Assets\\_Scripts\\Config\\ParamMap.cs",
+              "RelativeToolTip": "Assets\\_Scripts\\Config\\ParamMap.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAABsAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T15:50:00.606Z",
+              "WhenOpened": "2024-07-22T21:22:21.817Z",
               "EditorCaption": ""
             }
           ]

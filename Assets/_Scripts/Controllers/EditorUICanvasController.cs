@@ -138,6 +138,10 @@ public class EditorUICanvasController : Singleton<EditorUICanvasController>
     {
         UIgameobject.SetActive(!UIgameobject.activeInHierarchy);
     }
+    public void DeactivateTerrainPanel()
+    {
+        tmpRegionFloatingPanel.terrainPanel.gameObject.SetActive(false);
+    }
 
     #region Game Controller Connection
     public Region GetRegionById(int regionId) { return GameManager.Instance.MAP_GetRegionById(regionId); }

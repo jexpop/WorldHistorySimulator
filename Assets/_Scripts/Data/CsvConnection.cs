@@ -78,7 +78,7 @@ public class CsvConnection : Singleton<CsvConnection>
     private List<TerrainData> GetTerrainModel()
     {
         List<string[]> terrainCsv = new List<string[]>();
-        terrainCsv = GetCsvTable(ParamResources.CSV_HISTORY_TABLE_TERRAINS, ParamResources.CSV_HISTORY_PATH, true);
+        terrainCsv = GetCsvTable(ParamResources.CSV_GEOGRAPHIC_TABLE_TERRAINS, ParamResources.CSV_GEOGRAPHIC_PATH, true);
 
         List<TerrainData> terrainTable = new List<TerrainData>();
         foreach (string[] row in terrainCsv)
@@ -93,7 +93,7 @@ public class CsvConnection : Singleton<CsvConnection>
     private List<TerrainTypeData> GetTerrainTypeModel()
     {
         List<string[]> terrainTypeCsv = new List<string[]>();
-        terrainTypeCsv = GetCsvTable(ParamResources.CSV_HISTORY_TABLE_TERRAIN_TYPES, ParamResources.CSV_HISTORY_PATH, true);
+        terrainTypeCsv = GetCsvTable(ParamResources.CSV_GEOGRAPHIC_TABLE_TERRAIN_TYPES, ParamResources.CSV_GEOGRAPHIC_PATH, true);
 
         List<TerrainTypeData> terrainTypeTable = new List<TerrainTypeData>();
         foreach (string[] row in terrainTypeCsv)
@@ -271,7 +271,7 @@ public class CsvConnection : Singleton<CsvConnection>
 
         // Region table
         List<string[]> regionsTable = new List<string[]>();
-        regionsTable = GetCsvTable(ParamResources.CSV_HISTORY_TABLE_REGIONS, ParamResources.CSV_HISTORY_PATH, true);
+        regionsTable = GetCsvTable(ParamResources.CSV_GEOGRAPHIC_TABLE_REGIONS, ParamResources.CSV_GEOGRAPHIC_PATH, true);
 
         // Territory History table
         List<TerritoryHistoryData> chronologyTable = GetTerritoryHistoryModel();
@@ -669,8 +669,8 @@ public class CsvConnection : Singleton<CsvConnection>
     }
     public void UpdateTerrain(int idRegion, string idTerrain)
     {
-        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_HISTORY_PATH + "/" + ParamResources.CSV_HISTORY_TABLE_REGIONS;
-        int line = GetLineIndex(ParamResources.CSV_HISTORY_PATH, ParamResources.CSV_HISTORY_TABLE_REGIONS, idRegion.ToString());
+        string path = GameManager.Instance.STREAMING_FOLDER + ParamResources.CSV_GEOGRAPHIC_PATH + "/" + ParamResources.CSV_GEOGRAPHIC_TABLE_REGIONS;
+        int line = GetLineIndex(ParamResources.CSV_GEOGRAPHIC_PATH, ParamResources.CSV_GEOGRAPHIC_TABLE_REGIONS, idRegion.ToString());
         FieldChanger(idTerrain, path, line, 5);
     }
     #endregion

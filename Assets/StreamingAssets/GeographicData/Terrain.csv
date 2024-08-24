@@ -11,3 +11,9 @@ TerrainId;TerrainName;TerrainTypeId
 10;Jungle;1
 11;Sea;2
 12;Coast;2
+13;DesertRiver;1
+14;IceRiver;1
+15;DesertMountain;1
+16;Ice;1
+17;IceForest;1
+18;IceMountain;1

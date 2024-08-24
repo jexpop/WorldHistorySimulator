@@ -152,6 +152,11 @@ public class MouseController : Singleton<MouseController>
 
     private void MouseButtonLeft()
     {
+        if (GameManager.Instance.UI_GetUIStatus() != UIStatus.InfoRegion)
+        {
+            GameManager.Instance.UI_DeactivateTerrainPanel();
+        }        
+
         Vector3 currentMousePosition = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(currentMousePosition);
         RaycastHit hitInfo;
@@ -219,6 +224,7 @@ public class MouseController : Singleton<MouseController>
     private void MouseButtonRight()
     {
             GameManager.Instance.UI_DeactivateRegionPanel();
+            GameManager.Instance.UI_DeactivateTerrainPanel();
     }
 
 }
